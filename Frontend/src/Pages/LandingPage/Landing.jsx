@@ -2,6 +2,7 @@ import React from "react";
 import Home from "./Comps/Home";
 import About from "./Comps/About";
 import Features from "./Comps/Features";
+import Faq from "./Comps/Faq";
 
 const Landing = () => {
   return (
@@ -15,6 +16,9 @@ const Landing = () => {
 
       {/* Features section start */}
       <Features />
+
+      {/* Landing section start */}
+      <Faq />
     </div>
     // landing page end
   );

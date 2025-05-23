@@ -82,7 +82,7 @@ const Home = () => {
               ease: "easeOut",
               delay: 4 * motionDelay,
             }}
-            className="flex w-full h-[100px] flex-wrap text-[#7273827e] text-2xl font-bold mt-15"
+            className="flex w-full h-[100px] flex-wrap text-[#7273827e] text-2xl font-bold mt-16"
           >
             <span className="w-[50%] flex justify-center items-center md:justify-start">
               SuPaPP

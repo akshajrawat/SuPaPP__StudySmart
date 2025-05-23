@@ -66,7 +66,7 @@ const About = () => {
                 </motion.li>
               );
             })}
-            <motion.div
+            <motion.li
               initial={{ opacity: 0, y: 100 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{
@@ -81,7 +81,7 @@ const About = () => {
               >
                 About Us
               </Link>
-            </motion.div>
+            </motion.li>
           </ul>
         </div>
       </div>
