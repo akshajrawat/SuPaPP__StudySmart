@@ -61,9 +61,104 @@ const registerUser = asyncHandler(async (req, res) => {
 // title: Login user
 // Path: /SuPaPP/auth/login
 // Access: @PUBLIC
-const loginUser = asyncHandler(async () => {});
+const loginUser = asyncHandler(async (req, res) => {
+  console.log("Received body :-", req.body);
+
+  // Destructuring
+  const { email, password } = req.body;
+
+  // check whether all the info is present or not
+  if (!email || !password) {
+    res.status(400);
+    throw new Error("All fields are mandatory");
+  }
+
+  // User Exist???
+  const user = await User.findOne({ email });
+  if (!user) {
+    res.status(400);
+    throw new Error("No account exist from this email");
+  }
+
+  // Check whether the password is vaild
+  const hashedPass = user.password;
+  const isMatch = await bcrypt.compare(password, hashedPass);
+  if (!isMatch) {
+    res.status(401);
+    throw new Error("Email or Password is incorrect");
+  }
+
+  // Generation of token
+  const secret = process.env.JWT_SECERET;
+  const payload = {
+    username: user.username,
+    email,
+    role: user.role,
+  };
+  const Token = jwt.sign(payload, secret, {
+    expiresIn: "1h",
+  });
+
+  // send response
+  res.status(200).json({
+    message: "Login Sucessfull",
+    Token,
+    user: {
+      username: user.username,
+      email,
+      role: user.role,
+    },
+  });
+});
+
+// title: Verify Otp
+// Path: /SuPaPP/auth/verify-otp
+// Access: @PUBLIC
+const verifyOtp = asyncHandler(async (req, res) => {
+  console.log("Received body:", req.body);
+
+  // Destructure
+  const { email, otp } = req.body;
+
+  // check whether all the info is present or not
+  if (!email || !otp) {
+    res.status(400);
+    throw new Error("All fields are mandatory");
+  }
+
+  // User Exist???
+  const user = await User.findOne({ email });
+  if (!user) {
+    res.status(400);
+    throw new Error("No account exist from this email");
+  }
+
+  // Extracting otp info from user
+  const otpInfo = user.otp;
+
+  // Check if the otp is expired
+  if (Date.now() > otpInfo.expiresAt) {
+    res.status(400);
+    throw new Error("Otp has been expired.");
+  }
+
+  // Check whether otp is correct or not
+  const isOtpMatch = await bcrypt.compare(otp, otpInfo.code);
+  if (!isOtpMatch) {
+    res.status(401);
+    throw new Error("OTP is incorrect");
+  }
+
+  // sending final msg and modifying user
+  user.otp = null;
+  user.isVerified = true;
+  await user.save();
+
+  res.status(200).json({ message: "OTP verified sucessfully" });
+});
 
 module.exports = {
   registerUser,
   loginUser,
+  verifyOtp,
 };

@@ -26,6 +26,11 @@ const userModel = new Schema({
     default: false,
   },
 
+  role: {
+    type: String,
+    default: "User",
+  },
+
   // This way you can set otp and expire both
   otp: {
     code: String,

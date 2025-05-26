@@ -4,7 +4,11 @@ const express = require("express");
 const router = express.Router();
 
 // Controllers
-const { registerUser, loginUser } = require("../Controllers/authControllers");
+const {
+  registerUser,
+  loginUser,
+  verifyOtp,
+} = require("../Controllers/authControllers");
 
 // routes
 
@@ -14,7 +18,8 @@ router.post("/register", registerUser);
 // Path :- /SuPaPP/auth/register
 router.post("/login", loginUser);
 
-router.post("/verify-otp", () => {});
+// Path :- /SuPaPP/auth/verify-otp
+router.post("/verify-otp", verifyOtp);
 
 router.post("/resend-otp", () => {});
 
