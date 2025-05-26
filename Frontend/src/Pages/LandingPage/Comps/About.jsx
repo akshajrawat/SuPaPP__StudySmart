@@ -16,16 +16,13 @@ const motionDelay = 0.2;
 const About = () => {
   return (
     <>
-      <div
-        id="About"
-        className=" flex md:justify-around lg:justify-between pt-40 h-[80vh]"
-      >
+      <div id="About" className=" flex md:justify-between pt-40 h-[80vh]">
         {/* picture start  */}
         <motion.div
           initial={{ opacity: 0, x: -300 }}
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5, ease: easeOut }}
-          className=" lg:flex justify-center items-center aspect-square h-[400px]  min-w-[400px] hidden"
+          className=" md:flex justify-center items-center aspect-square md:h-[300px] lg:h-[500px] hidden"
         >
           <DotLottieReact
             src="https://lottie.host/2e6a3613-3959-4b27-b59d-a3b1f2f39fcc/MFXRv2NDJt.lottie"
@@ -39,12 +36,12 @@ const About = () => {
             initial={{ opacity: 0, scale: 0 }}
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5, ease: easeOut, delay: motionDelay }}
-            className="flex justify-center items-center text-4xl font-bold gap-2 whitespace-nowrap"
+            className="flex justify-center items-center text-4xl lg:text-5xl md:text-3xl font-bold gap-2 whitespace-nowrap"
           >
             <span className="dark:text-white"> Made with </span>
             <span className="text-[#4fd1d9]">Excellence</span>
           </motion.h3>
-          <span className="text-lg font-semibold text-[#727382] md:max-w-[450px]">
+          <span className="text-lg font-semibold text-[#727382] md:w-[350px] lg:w-[450px]">
             Your SuPaPP isnt just an app — its your all-in-one digital
             companion. Designed to run seamlessly across Android, iOS, and the
             web, it brings together all your essential features in one place.

@@ -1,4 +1,5 @@
 import React from "react";
+import { Outlet } from "react-router-dom";
 import Navbar from "../../Components/Navbar/Navbar";
 import Footer from "../../Components/Footer/Footer";
 import Landing from "../../Pages/LandingPage/Landing";
@@ -11,7 +12,7 @@ const MainLayout = () => {
     >
       <Navbar />
       <main className="xl:px-5 overflow-hidden">
-        <Landing />
+        <Outlet />
       </main>
       <Footer />
     </div>

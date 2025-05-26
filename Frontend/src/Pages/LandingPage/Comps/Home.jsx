@@ -12,7 +12,7 @@ const Home = () => {
       <div className="flex md:justify-around lg:justify-between h-[70vh] mt-15">
         {/* heading start */}
         <div className="flex flex-col gap-5 ">
-          <h2 className="flex flex-col text-5xl xl:text-7xl font-semibold">
+          <h2 className="flex flex-col text-5xl md:text-4xl xl:text-7xl font-semibold">
             <motion.span
               initial={{ opacity: 0, scale: 0 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -44,7 +44,7 @@ const Home = () => {
               ease: "easeOut",
               delay: 2 * motionDelay,
             }}
-            className="text-lg font-semibold text-[#727382] md:w-[400px] sm:w-[550px]"
+            className="text-lg  font-semibold text-[#727382] lg:w-[450px] md:w-[350px] sm:w-[550px]"
           >
             This Hyper-Versatile SuPaPP Concept Brings All Your Daily Apps
             Together — Making Life Far More Seamless and Efficient.
@@ -61,7 +61,7 @@ const Home = () => {
             className=" flex gap-6 mt-7"
           >
             <Link
-              to={"./"}
+              to={"/auth/register"}
               className=" w-[111px] h-[38px] bg-[#4fd1d9] dark:text-black font-semibold text-white px-3 py-1 rounded-sm flex justify-center items-center"
             >
               Get Started
@@ -103,13 +103,13 @@ const Home = () => {
         {/* picture start  */}
         <motion.div
           initial={{ opacity: 0, x: 300 }}
-          animate={{ opacity: 1, x: 80 }}
+          animate={{ opacity: 1, x: 30 }}
           transition={{
             duration: 0.3,
             ease: "easeOut",
             delay: 1 * motionDelay,
           }}
-          className=" lg:flex justify-center items-start h-[400px] hidden "
+          className=" md:flex justify-center items-start lg:h-[400px] md:h-[350px] hidden lg:ml-25 "
         >
           <DotLottieReact
             src="https://lottie.host/bed1ff33-08f1-42f3-873e-a495ce6c80a6/Qf2fPCXn8g.lottie"
