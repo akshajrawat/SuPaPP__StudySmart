@@ -3,6 +3,7 @@ import Home from "./Comps/Home";
 import About from "./Comps/About";
 import Features from "./Comps/Features";
 import Faq from "./Comps/Faq";
+import ContactMe from "./Comps/ContactMe";
 
 const Landing = () => {
   return (
@@ -19,6 +20,9 @@ const Landing = () => {
 
       {/* Landing section start */}
       <Faq />
+
+      {/* Contact me */}
+      <ContactMe />
     </div>
     // landing page end
   );

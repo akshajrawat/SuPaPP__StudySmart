@@ -8,6 +8,7 @@ const {
   registerUser,
   loginUser,
   verifyOtp,
+  contactMe,
 } = require("../Controllers/authControllers");
 
 // routes
@@ -20,6 +21,9 @@ router.post("/login", loginUser);
 
 // Path :- /SuPaPP/auth/verify-otp
 router.post("/verify-otp", verifyOtp);
+
+// Path :- /SuPaPP/auth/contact
+router.post("/contact", contactMe);
 
 router.post("/resend-otp", () => {});
 

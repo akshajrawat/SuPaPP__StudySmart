@@ -4,6 +4,7 @@ const User = require("../Models/userModel");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const sendOtp = require("../Utils/sendOtp");
+const sendEmail = require("../Utils/sendEmail");
 
 // Controllers
 
@@ -157,8 +158,34 @@ const verifyOtp = asyncHandler(async (req, res) => {
   res.status(200).json({ message: "OTP verified sucessfully" });
 });
 
+// title: Contact Me
+// Path: /SuPaPP/auth/contact
+// Access: @PUBLIC
+const contactMe = asyncHandler(async (req, res) => {
+  console.log("Received body:", req.body);
+
+  const { name, email, message } = req.body;
+
+  // check whether all the info is present or not
+  if (!email || !name || !message) {
+    res.status(400);
+    throw new Error("All fields are mandatory");
+  }
+
+  await sendEmail({
+    from: email,
+    subject: `New contact message from ${name}`,
+    text: message,
+    contact: true,
+  });
+
+  // send response
+  res.status(200).json({ message: "Your message has been sent succesfully" });
+});
+
 module.exports = {
   registerUser,
   loginUser,
   verifyOtp,
+  contactMe,
 };
