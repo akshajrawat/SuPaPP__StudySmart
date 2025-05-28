@@ -34,7 +34,7 @@ const ContactMe = () => {
 
   // handling the submition of the form
 
-  const handleSubit = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setSuccess({
@@ -44,6 +44,7 @@ const ContactMe = () => {
 
     // throws error if any of the field is missing
     if (!user.name || !user.email || !user.message) {
+      setLoading(false);
       setError({
         error: "All fields are mandatory",
         status: true,
@@ -97,7 +98,7 @@ const ContactMe = () => {
       {/* Contact form start */}
       <div className="bg-[#dfdfdf44] dark:bg-[#151630] w-full rounded-2xl border-2 border-[#7273825e] px-3 pt-10 pb-6 mt-5">
         <form
-          onSubmit={handleSubit}
+          onSubmit={handleSubmit}
           className="w-full flex flex-col gap-4 text-[#707070] dark:text-[#b9b9ba] px-2"
         >
           <div className="flex flex-col gap-2">

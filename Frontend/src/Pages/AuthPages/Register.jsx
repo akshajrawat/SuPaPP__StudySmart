@@ -1,7 +1,79 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { ErrorMessage, LoadingSpinner } from "../../Components/Ui/Messages";
 
 const Register = () => {
+  // defining
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+
+  const [error, setError] = useState({
+    error: "",
+    status: false,
+  });
+  const [user, setUser] = useState({
+    username: "",
+    email: "",
+    password: "",
+  });
+
+  // funtion which handle change of input
+  const handleChange = (e) => {
+    setUser((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+    console.log(user);
+  };
+
+  // handling the submition of the form
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError({
+      error: "",
+      status: false,
+    });
+
+    // throws error if any of the field is missing
+    if (!user.username || !user.email || !user.password) {
+      setLoading(false);
+      setError({
+        error: "All fields are mandatory",
+        status: true,
+      });
+    }
+
+    // sending post request
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/SuPaPP/auth/register",
+        user
+      );
+      setLoading(false);
+      localStorage.setItem("email", email);
+      setUser({ username: "", email: "", password: "" });
+      if (response.status === 201) {
+        navigate("/auth/otp");
+      } else {
+        setError({
+          error: response.data.message || "Failed to send message",
+          status: true,
+        });
+        throw new Error(response.data.message);
+      }
+    } catch (error) {
+      setLoading(false);
+      setError({
+        error: error.response?.data?.message || "Something went wrong!",
+        status: true,
+      });
+    }
+  };
+
   return (
     <div className="min-h-[90vh] flex items-center justify-center bg-gray-100 dark:bg-[#0a081f] px-4">
       <div className="w-full max-w-md bg-white dark:bg-[#1a1a2e] p-8 rounded-2xl shadow-xl">
@@ -9,7 +81,7 @@ const Register = () => {
           Create an Account
         </h2>
 
-        <form className="space-y-5">
+        <form onSubmit={handleSubmit} className="space-y-5">
           {/* Username */}
           <div>
             <label
@@ -20,8 +92,10 @@ const Register = () => {
             </label>
             <input
               type="text"
-              id="username"
+              name="username"
               placeholder="Enter username"
+              value={user.username}
+              onChange={handleChange}
               className="w-full px-4 py-2 rounded-lg border dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-[#0f0f1c] dark:text-white"
             />
           </div>
@@ -36,8 +110,10 @@ const Register = () => {
             </label>
             <input
               type="email"
-              id="email"
+              name="email"
               placeholder="Enter email"
+              value={user.email}
+              onChange={handleChange}
               className="w-full px-4 py-2 rounded-lg border dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-[#0f0f1c] dark:text-white"
             />
           </div>
@@ -52,8 +128,10 @@ const Register = () => {
             </label>
             <input
               type="password"
-              id="password"
+              name="password"
               placeholder="Enter password"
+              value={user.password}
+              onChange={handleChange}
               className="w-full px-4 py-2 rounded-lg border dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-[#0f0f1c] dark:text-white"
             />
           </div>
@@ -65,6 +143,8 @@ const Register = () => {
           >
             Register
           </button>
+          {error.status && <ErrorMessage message={error.error} />}
+          {loading && <LoadingSpinner />}
         </form>
 
         {/* Optional link */}

@@ -8,7 +8,7 @@ const MainLayout = () => {
   return (
     <div
       id="Home"
-      className="relative min-h-[100vh] max-w-[100vw] dark:bg-[#0a081f] md:px-7 xl:px-40 "
+      className="relative min-h-[100vh] max-w-* dark:bg-[#0a081f] md:px-7 xl:px-40 "
     >
       <Navbar />
       <main className="xl:px-5 overflow-hidden">
