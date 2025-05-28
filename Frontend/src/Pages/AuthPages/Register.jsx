@@ -45,6 +45,16 @@ const Register = () => {
         error: "All fields are mandatory",
         status: true,
       });
+      return;
+    }
+
+    // email validation
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(user.email)) {
+      setLoading(false);
+      setError({ error: "Invalid email format", status: true });
+      return;
     }
 
     // sending post request
@@ -54,7 +64,7 @@ const Register = () => {
         user
       );
       setLoading(false);
-      localStorage.setItem("email", email);
+      localStorage.setItem("email", user.email);
       setUser({ username: "", email: "", password: "" });
       if (response.status === 201) {
         navigate("/auth/otp");
