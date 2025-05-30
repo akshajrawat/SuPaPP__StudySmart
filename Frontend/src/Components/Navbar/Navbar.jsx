@@ -3,6 +3,7 @@ import Logo from "../../Assets/Icon/Logo.svg";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { MdOutlineDarkMode } from "react-icons/md";
 import { IoClose } from "react-icons/io5";
+import toast from "react-hot-toast";
 
 const navLinks = [
   { name: "Home", link: "#Home" },
@@ -27,6 +28,7 @@ const Navbar = () => {
   const toggleDark = () => {
     const newDark = !isDark;
     setIsDark(newDark);
+    toast.success("Togelled");
     const elem = document.documentElement;
 
     if (newDark) {

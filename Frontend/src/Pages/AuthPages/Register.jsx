@@ -1,18 +1,17 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { ErrorMessage, LoadingSpinner } from "../../Components/Ui/Messages";
+import { LoadingSpinner } from "../../Components/Ui/Messages";
+import { axiosInstance } from "../../Lib/axios";
+import { useDispatch, useSelector } from "react-redux";
+import { loaderStop, start, success } from "../../Store/authSlice/authSlice";
+import toast from "react-hot-toast";
 
 const Register = () => {
   // defining
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
-
-  const [error, setError] = useState({
-    error: "",
-    status: false,
-  });
+  const dispatch = useDispatch();
+  const auth = useSelector((state) => state.auth);
   const [user, setUser] = useState({
     username: "",
     email: "",
@@ -32,19 +31,11 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    setError({
-      error: "",
-      status: false,
-    });
-
+    dispatch(start());
     // throws error if any of the field is missing
     if (!user.username || !user.email || !user.password) {
-      setLoading(false);
-      setError({
-        error: "All fields are mandatory",
-        status: true,
-      });
+      dispatch(loaderStop());
+      toast.error("All fields are mandatory");
       return;
     }
 
@@ -52,35 +43,24 @@ const Register = () => {
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(user.email)) {
-      setLoading(false);
-      setError({ error: "Invalid email format", status: true });
+      dispatch(loaderStop());
+      toast.error("Email is not valid");
       return;
     }
 
     // sending post request
     try {
-      const response = await axios.post(
-        "http://localhost:3000/SuPaPP/auth/register",
-        user
-      );
-      setLoading(false);
-      localStorage.setItem("email", user.email);
+      const response = await axiosInstance.post("/auth/register", user);
       setUser({ username: "", email: "", password: "" });
       if (response.status === 201) {
+        dispatch(success({ user: response.data.user }));
+        toast.success(response.data.message);
         navigate("/auth/otp");
-      } else {
-        setError({
-          error: response.data.message || "Failed to send message",
-          status: true,
-        });
-        throw new Error(response.data.message);
       }
     } catch (error) {
-      setLoading(false);
-      setError({
-        error: error.response?.data?.message || "Something went wrong!",
-        status: true,
-      });
+      dispatch(loaderStop());
+      toast.error(error.response.data.message);
+      throw new Error("Error at handle change | REGISTER");
     }
   };
 
@@ -119,7 +99,7 @@ const Register = () => {
               Email
             </label>
             <input
-              type="email"
+              type="text"
               name="email"
               placeholder="Enter email"
               value={user.email}
@@ -153,8 +133,7 @@ const Register = () => {
           >
             Register
           </button>
-          {error.status && <ErrorMessage message={error.error} />}
-          {loading && <LoadingSpinner />}
+          {auth.loading && <LoadingSpinner />}
         </form>
 
         {/* Optional link */}

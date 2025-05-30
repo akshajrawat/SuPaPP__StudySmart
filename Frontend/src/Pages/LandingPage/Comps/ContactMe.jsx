@@ -1,23 +1,12 @@
 import axios from "axios";
 import React, { useState } from "react";
-import {
-  ErrorMessage,
-  LoadingSpinner,
-  SuccessMessage,
-} from "../../../Components/Ui/Messages";
+import { LoadingSpinner } from "../../../Components/Ui/Messages";
+import toast from "react-hot-toast";
 
 const ContactMe = () => {
   // defining user
   const [loading, setLoading] = useState(false);
 
-  const [error, setError] = useState({
-    error: "",
-    status: false,
-  });
-  const [success, setSuccess] = useState({
-    success: "",
-    status: false,
-  });
   const [user, setUser] = useState({
     name: "",
     email: "",
@@ -37,19 +26,12 @@ const ContactMe = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setSuccess({
-      success: "",
-      status: false,
-    });
 
     // throws error if any of the field is missing
     if (!user.name || !user.email || !user.message) {
       setLoading(false);
-      setError({
-        error: "All fields are mandatory",
-        status: true,
-      });
-      throw new Error("All fields are mandatory");
+      toast.error("All fields are mandatory");
+      return;
     }
 
     // sending post request
@@ -60,23 +42,16 @@ const ContactMe = () => {
       );
       setLoading(false);
       if (response.status === 200) {
-        setSuccess({
-          success: response.data.message,
-          status: true,
-        });
         setUser({ name: "", email: "", message: "" });
+        toast.success(response.data.message);
+        return;
       } else {
-        setError({
-          error: response.data.message || "Failed to send message",
-          status: true,
-        });
-        throw new Error(response.data.message);
+        toast.error(response.data.message);
+        return;
       }
     } catch (error) {
-      setError({
-        error: error.response?.data?.message || "Something went wrong!",
-        status: true,
-      });
+      setLoading(false);
+      toast.error(error.message);
     }
   };
 
@@ -86,7 +61,7 @@ const ContactMe = () => {
       className="flex flex-col justify-start gap-2 p-5 mt-10 lg:pt-20 xl:pt-20"
     >
       {/* Head start */}
-      <h1 className="text-black dark:text-white text-4xl xl:text-5xl xl:flex-row font-bold flex flex-col gap-2 ml-1">
+      <h1 className="text-black dark:text-white text-4xl xl:text-5xl xl:flex-row font-bold flex gap-2 ml-1">
         <span>Get in</span>
         <span className="text-[#4fd1d9]">Touch</span>
       </h1>
@@ -155,8 +130,6 @@ const ContactMe = () => {
           >
             Send Message
           </button>
-          {success.status && <SuccessMessage message={success.success} />}
-          {error.status && <ErrorMessage message={error.error} />}
           {loading && <LoadingSpinner />}
         </form>
       </div>

@@ -54,8 +54,11 @@ const registerUser = asyncHandler(async (req, res) => {
 
   // Send the details
   res.status(201).json({
-    username: newUser.username,
-    email: newUser.email,
+    message: "OTP sent successfully",
+    user: {
+      username: newUser.username,
+      email: newUser.email,
+    },
   });
 });
 
@@ -128,7 +131,7 @@ const verifyOtp = asyncHandler(async (req, res) => {
   }
 
   // User Exist???
-  const user = await User.findOne({ email });
+  const user = await User.findOne({ email }).select("-password");
   if (!user) {
     res.status(400);
     throw new Error("No account exist from this email");
@@ -155,7 +158,7 @@ const verifyOtp = asyncHandler(async (req, res) => {
   user.isVerified = true;
   await user.save();
 
-  res.status(200).json({ message: "OTP verified sucessfully" });
+  res.status(200).json({ message: "OTP verified sucessfully", user: user });
 });
 
 // title: Contact Me

@@ -1,26 +1,28 @@
 import React, { useEffect, useRef } from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
-import { ErrorMessage } from "../../Components/Ui/Messages";
+import { axiosInstance } from "../../Lib/axios";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  loaderStart,
+  loaderStop,
+  success,
+} from "../../Store/authSlice/authSlice";
+import toast from "react-hot-toast";
+import { LoadingSpinner } from "../../Components/Ui/Messages";
 
 const Otp = () => {
+  const dispatch = useDispatch();
+  const auth = useSelector((state) => state.auth);
   const [otp, setOtp] = useState(Array(6).fill(""));
 
-  const [error, setError] = useState({
-    error: "",
-    status: false,
-  });
-
   const inputRef = useRef([]);
-
+  console.log(auth);
   useEffect(() => {
     if (inputRef.current[0]) {
       inputRef.current[0].focus();
     }
   }, []);
-
-  console.log(inputRef);
 
   // Handle the value of each otp input field
   const handleChange = (e, index) => {
@@ -59,16 +61,22 @@ const Otp = () => {
     console.log(otp);
   };
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    dispatch(loaderStart());
     // joins the otp on submit cand create a 6 length string
     const finalOtp = otp.join("");
-    const email = localStorage.getItem("email");
+    const email = auth.user.email;
+
+    if (!finalOtp || !email) {
+      dispatch(loaderStop());
+      toast.error("Error! Try Again Later");
+      throw new Error("Error at handle submit || OTP");
+    }
+
     if (finalOtp.length < 6) {
-      setError({
-        error: "Otp should be 6 digit ",
-        status: true,
-      });
+      dispatch(loaderStop());
+      toast.error("Otp must be 6-digit");
       return;
     }
     const submit = {
@@ -77,25 +85,15 @@ const Otp = () => {
     };
     // handles api
     try {
-      const res = await axios.post(
-        "http://localhost:3000/SuPaPP/auth/verify-otp",
-        submit
-      );
-      if (res.status === 200) {
-       console.log("done")
-      } else {
-        setError({
-          error: res.data.message || "Some error occured in response",
-          status: true,
-        });
-        throw new Error(response.data.message);
+      const response = await axiosInstance.post("/auth/verify-otp", submit);
+      if (response.status === 200) {
+        dispatch(success({ user: response.data.user }));
+        toast.success(response.data.message);
       }
     } catch (error) {
-      setError({
-        error:
-          error.response?.data?.message || "Some error occured in try block",
-        status: true,
-      });
+      dispatch(loaderStop());
+      toast.error(error.response.data.message);
+      throw new Error("Error at handle change | OTP");
     }
   };
 
@@ -135,7 +133,7 @@ const Otp = () => {
             Resend
           </Link>
         </div>
-        {error.status && <ErrorMessage message={error.error} />}
+        {auth.loading && <LoadingSpinner />}
       </form>
     </div>
   );
