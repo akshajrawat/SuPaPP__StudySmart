@@ -90,8 +90,9 @@ const loginUser = asyncHandler(async (req, res) => {
   }
 
   // Generation of token
-  const secret = process.env.JWT_SECERET;
+  const secret = process.env.JWT_SECRET;
   const payload = {
+    _id: IdleDeadline,
     username: user.username,
     email,
     role: user.role,
@@ -100,15 +101,14 @@ const loginUser = asyncHandler(async (req, res) => {
     expiresIn: "1h",
   });
 
+  // set token to cookie
+  res.cookie("token", Token, {
+    httpOnly: true,
+  });
+
   // send response
   res.status(200).json({
     message: "Login Sucessfull",
-    Token,
-    user: {
-      username: user.username,
-      email,
-      role: user.role,
-    },
   });
 });
 
