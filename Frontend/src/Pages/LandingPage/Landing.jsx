@@ -8,7 +8,7 @@ import ContactMe from "./Comps/ContactMe";
 const Landing = () => {
   return (
     // Landing page start
-    <div className="p-4 pb-20 mt-4 cursor-pointer select-none">
+    <div className="p-4 pb-20 mt-4 cursor-pointer ">
       {/* Home section start */}
       <Home />
 

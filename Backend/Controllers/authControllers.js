@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const sendOtp = require("../Utils/sendOtp");
 const sendEmail = require("../Utils/sendEmail");
+const { generateToken } = require("../Utils/tokenGenerator");
 
 // Controllers
 
@@ -93,20 +94,11 @@ const loginUser = asyncHandler(async (req, res) => {
   }
 
   // Generation of token
-  const secret = process.env.JWT_SECRET;
-  const payload = {
-    _id: IdleDeadline,
+  generateToken({
+    id: user._id,
     username: user.username,
-    email,
+    email: email,
     role: user.role,
-  };
-  const Token = jwt.sign(payload, secret, {
-    expiresIn: "1h",
-  });
-
-  // set token to cookie
-  res.cookie("token", Token, {
-    httpOnly: true,
   });
 
   // send response
@@ -158,6 +150,14 @@ const verifyOtp = asyncHandler(async (req, res) => {
   user.isVerified = true;
   await user.save();
 
+  // generate token
+  generateToken({
+    id: user._id,
+    username: user.username,
+    email: email,
+    role: user.role,
+  });
+
   res.status(200).json({ message: "OTP verified sucessfully", user: user });
 });
 
@@ -186,9 +186,17 @@ const contactMe = asyncHandler(async (req, res) => {
   res.status(200).json({ message: "Your message has been sent succesfully" });
 });
 
+// title: Verify Token
+// Path: /SuPaPP/verify-token
+// Access: @PRIVATE
+const verifyToken = asyncHandler(async (req, res) => {
+  res.status(200).json(req.user);
+});
+
 module.exports = {
   registerUser,
   loginUser,
   verifyOtp,
   contactMe,
+  verifyToken,
 };

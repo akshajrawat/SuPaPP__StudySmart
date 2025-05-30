@@ -4,6 +4,7 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { MdOutlineDarkMode } from "react-icons/md";
 import { IoClose } from "react-icons/io5";
 import toast from "react-hot-toast";
+import { Link } from "react-router-dom";
 
 const navLinks = [
   { name: "Home", link: "#Home" },
@@ -13,9 +14,11 @@ const navLinks = [
   { name: "Contact", link: "#Contact" },
 ];
 
-const Navbar = () => {
+const Navbar = ({ links }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isDark, setIsDark] = useState(false);
+
+  const displayLinks = links ? links : navLinks;
 
   useEffect(() => {
     const theme = localStorage.getItem("theme");
@@ -28,7 +31,7 @@ const Navbar = () => {
   const toggleDark = () => {
     const newDark = !isDark;
     setIsDark(newDark);
-    toast.success("Togelled");
+    toast.success("Mode Changed");
     const elem = document.documentElement;
 
     if (newDark) {
@@ -45,26 +48,34 @@ const Navbar = () => {
       {/* This is the navbar start*/}
       <nav className="w-full h-[56px] flex justify-between items-center px-7 py-8 md:p-4 lg:p-10 bg-white dark:bg-[#0a081f] z-10 sticky top-0">
         {/* Logo section start */}
-        <h1 className="flex items-end gap-2">
-          <img className="h-[30px] relative top-[-4px]" src={Logo} alt="" />
-          <p className="font-bold text-lg md:text-3xl dark:text-white">
-            {" "}
-            SuPaPP{" "}
-          </p>
-        </h1>
+        <Link to={"/"}>
+          <h1 className="flex items-end gap-2">
+            <img className="h-[30px] relative top-[-4px]" src={Logo} alt="" />
+            <p className="font-bold text-lg md:text-3xl dark:text-white">
+              {" "}
+              SuPaPP{" "}
+            </p>
+          </h1>
+        </Link>
         {/* Logo section end */}
 
         {/* Navbar main start */}
 
         <div className="hidden lg:flex w-[50%] h-[100%] font-bold text-lg text-[#727382]">
           <ul className="w-full h-full flex justify-between items-center ">
-            {navLinks.map((item, index) => {
+            {displayLinks.map((item, index) => {
               return (
                 <li
+                  onClick={(e) => {
+                    e.preventDefault();
+                    const id = item.link.replace("#", "");
+                    const el = document.getElementById(id);
+                    if (el) el.scrollIntoView({ behavior: "smooth" });
+                  }}
                   key={index}
                   className="w-full flex justify-center items-center h-9 p-3 hover:text-black dark:hover:text-white"
                 >
-                  <a href={item.link}>{item.name}</a>
+                  <Link to={item.link}>{item.name}</Link>
                 </li>
               );
             })}

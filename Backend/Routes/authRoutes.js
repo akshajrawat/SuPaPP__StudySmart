@@ -9,7 +9,9 @@ const {
   loginUser,
   verifyOtp,
   contactMe,
+  verifyToken,
 } = require("../Controllers/authControllers");
+const tokenHandler = require("../Middleware/tokenHandler");
 
 // routes
 
@@ -25,7 +27,8 @@ router.post("/verify-otp", verifyOtp);
 // Path :- /SuPaPP/auth/contact
 router.post("/contact", contactMe);
 
-router.post("/resend-otp", () => {});
+// Path :- /SuPaPP/auth/verify-token
+router.get("/verify-token", tokenHandler, verifyToken);
 
 router.post("/profile", () => {});
 

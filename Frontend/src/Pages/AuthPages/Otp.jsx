@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { axiosInstance } from "../../Lib/axios";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -12,6 +12,7 @@ import toast from "react-hot-toast";
 import { LoadingSpinner } from "../../Components/Ui/Messages";
 
 const Otp = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
   const [otp, setOtp] = useState(Array(6).fill(""));
@@ -89,6 +90,7 @@ const Otp = () => {
       if (response.status === 200) {
         dispatch(success({ user: response.data.user }));
         toast.success(response.data.message);
+        navigate("/SuPaPP");
       }
     } catch (error) {
       dispatch(loaderStop());
