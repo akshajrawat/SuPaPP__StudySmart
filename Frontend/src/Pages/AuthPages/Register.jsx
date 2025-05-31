@@ -24,7 +24,6 @@ const Register = () => {
       ...prev,
       [e.target.name]: e.target.value,
     }));
-    console.log(user);
   };
 
   // handling the submition of the form

@@ -13,9 +13,7 @@ const generateToken = ({ id, username, email, role }) => {
   });
 
   // set token to cookie
-  res.cookie("token", Token, {
-    httpOnly: true,
-  });
+  return Token;
 };
 
-module.exports = generateToken;
+module.exports = { generateToken };

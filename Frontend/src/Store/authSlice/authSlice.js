@@ -25,12 +25,15 @@ export const authSlice = createSlice({
       state.loading = false;
       state.error = null;
       state.user = action.payload.user;
+      state.isAuthenticated = false;
+    },
+    authenticate: (state) => {
       state.isAuthenticated = true;
     },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { start, success, loaderStop, loaderStart } = authSlice.actions;
+export const { start, success, loaderStop, loaderStart, authenticate } = authSlice.actions;
 
 export default authSlice.reducer;

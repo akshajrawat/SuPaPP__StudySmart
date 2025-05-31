@@ -13,12 +13,9 @@ const tokenHandler = async (req, res, next) => {
   try {
     const verified = jwt.verify(token, process.env.JWT_SECRET);
 
-    if (!verified) {
-      res.status(401);
-      throw new Error("Token has been expired");
-    }
-
-    const userInfo = await User.findOne({ email: verified.email });
+    const userInfo = await User.findOne({ email: verified.email }).select(
+      "-password"
+    );
 
     if (!userInfo) {
       res.status(401);

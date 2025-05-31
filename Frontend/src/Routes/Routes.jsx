@@ -8,21 +8,23 @@ import Login from "../Pages/AuthPages/Login";
 import Otp from "../Pages/AuthPages/Otp";
 import Chat from "../Pages/ChatPages/Chat";
 import ProtectedRoutes from "./ProtectedRoutes";
+import ChatLayout from "../Layout/Chat/ChatLayout";
 
 const AppRoutes = () => {
   return (
     <Routes>
       {/* Render main layout when in "/" path */}
+      <Route element={<ProtectedRoutes />}>
+        <Route element={<MainLayout />}>
+          <Route path="/" element={<Landing />}></Route>
+        </Route>
 
-      <Route element={<MainLayout />}>
-        <Route path="/" element={<Landing />}></Route>
-        <Route element={<ProtectedRoutes />}>
+        {/* Render chat layout when in "/auth" path */}
+        <Route element={<ChatLayout />}>
           <Route path="/SuPaPP" element={<Chat />}></Route>
         </Route>
-      </Route>
 
-      {/* Render auth layout when in "/auth" path */}
-      <Route element={<ProtectedRoutes />}>
+        {/* Render auth layout when in "/auth" path */}
         <Route path="/auth" element={<AuthLayout />}>
           <Route path="register" element={<Register />}></Route>
           <Route path="login" element={<Login />}></Route>

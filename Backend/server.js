@@ -5,6 +5,7 @@ require("dotenv").config();
 const app = express();
 const port = process.env.PORT || 3000;
 const connectDb = require("./Config/connectDb");
+const cookieParser = require("cookie-parser");
 
 // Connecting to database
 connectDb();
@@ -21,6 +22,7 @@ app.use(
     credentials: true,
   })
 );
+app.use(cookieParser());
 app.use(express.json());
 app.use("/SuPaPP/auth", authRoute);
 app.use(errorHandler);

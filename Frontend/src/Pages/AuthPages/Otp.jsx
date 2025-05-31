@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { axiosInstance } from "../../Lib/axios";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  authenticate,
   loaderStart,
   loaderStop,
   success,
@@ -40,7 +41,6 @@ const Otp = () => {
     if (value && index < 5 && inputRef.current[index + 1]) {
       inputRef.current[index + 1].focus();
     }
-    console.log(otp);
   };
 
   const handleClick = (index) => {
@@ -86,9 +86,12 @@ const Otp = () => {
     };
     // handles api
     try {
-      const response = await axiosInstance.post("/auth/verify-otp", submit);
+      const response = await axiosInstance.post("/auth/verify-otp", submit, {
+        withCredentials: true,
+      });
       if (response.status === 200) {
         dispatch(success({ user: response.data.user }));
+        dispatch(authenticate());
         toast.success(response.data.message);
         navigate("/SuPaPP");
       }

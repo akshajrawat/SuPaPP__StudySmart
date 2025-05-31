@@ -94,16 +94,26 @@ const loginUser = asyncHandler(async (req, res) => {
   }
 
   // Generation of token
-  generateToken({
+  const token = generateToken({
     id: user._id,
     username: user.username,
     email: email,
     role: user.role,
   });
 
+  res.cookie("token", token, {
+    httpOnly: true,
+  });
+
   // send response
   res.status(200).json({
     message: "Login Sucessfull",
+    user: {
+      id: user._id,
+      username: user.username,
+      email: email,
+      role: user.role,
+    },
   });
 });
 
@@ -151,13 +161,15 @@ const verifyOtp = asyncHandler(async (req, res) => {
   await user.save();
 
   // generate token
-  generateToken({
+  const token = generateToken({
     id: user._id,
     username: user.username,
     email: email,
     role: user.role,
   });
-
+  res.cookie("token", token, {
+    httpOnly: true,
+  });
   res.status(200).json({ message: "OTP verified sucessfully", user: user });
 });
 
