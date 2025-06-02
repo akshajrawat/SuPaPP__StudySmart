@@ -122,7 +122,7 @@ const Navbar = ({ links }) => {
           <IoClose className="text-2xl mr-3 text-[#727382]" />
         </div>
         <ul className=" flex flex-col h-[252px] w-full px-9 mt-5 text-[#727382]  font-semibold gap-4 ">
-          {navLinks.map((item, index) => {
+          {displayLinks.map((item, index) => {
             return (
               <li
                 key={index}

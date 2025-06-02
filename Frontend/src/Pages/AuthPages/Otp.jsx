@@ -1,14 +1,8 @@
 import React, { useEffect, useRef } from "react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { axiosInstance } from "../../Lib/axios";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  authenticate,
-  loaderStart,
-  loaderStop,
-  success,
-} from "../../Store/authSlice/authSlice";
+import { loaderStop, verifyOtp } from "../../Store/authSlice/authSlice";
 import toast from "react-hot-toast";
 import { LoadingSpinner } from "../../Components/Ui/Messages";
 
@@ -25,6 +19,13 @@ const Otp = () => {
       inputRef.current[0].focus();
     }
   }, []);
+
+  // useeffect
+  useEffect(() => {
+    if (auth.isAuthenticated) {
+      navigate("/SuPaPP");
+    }
+  }, [auth.isAuthenticated, navigate]);
 
   // Handle the value of each otp input field
   const handleChange = (e, index) => {
@@ -64,7 +65,7 @@ const Otp = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(loaderStart());
+
     // joins the otp on submit cand create a 6 length string
     const finalOtp = otp.join("");
     const email = auth.user.email;
@@ -84,22 +85,13 @@ const Otp = () => {
       email: email,
       otp: finalOtp,
     };
-    // handles api
-    try {
-      const response = await axiosInstance.post("/auth/verify-otp", submit, {
-        withCredentials: true,
-      });
-      if (response.status === 200) {
-        dispatch(success({ user: response.data.user }));
-        dispatch(authenticate());
-        toast.success(response.data.message);
-        navigate("/SuPaPP");
-      }
-    } catch (error) {
-      dispatch(loaderStop());
-      toast.error(error.response.data.message);
-      throw new Error("Error at handle change | OTP");
-    }
+
+    // verifyotp
+    dispatch(verifyOtp(submit));
+
+    otp.forEach((index) => {
+      otp[index] = "";
+    });
   };
 
   return (
@@ -127,7 +119,10 @@ const Otp = () => {
             );
           })}
         </div>
-        <button className="bg-[#00f7ff] hover:bg-[#6fcacd] active:bg-[#29888b] w-[100%] mt-3 py-2 rounded-xl font-bold text-lg">
+        <button
+          disabled={auth.loading}
+          className="bg-[#00f7ff] hover:bg-[#6fcacd] active:bg-[#29888b] w-[100%] mt-3 py-2 rounded-xl font-bold text-lg"
+        >
           Verify Otp
         </button>
         <div>

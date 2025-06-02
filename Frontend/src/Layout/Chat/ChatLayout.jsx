@@ -9,7 +9,6 @@ const ChatLayout = () => {
       <main className="">
         <Outlet />
       </main>
-      <Footer />
     </div>
   );
 };

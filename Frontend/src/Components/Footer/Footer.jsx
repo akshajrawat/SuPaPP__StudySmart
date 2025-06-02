@@ -48,7 +48,7 @@ const Footer = () => {
 
       {/* copyright column */}
       <div className="flex justify-center items-center text-sm font-semibold text-[#727382]  border-t border-[#727382] p-3">
-        Copyright 2024 Playstation - All Rights Reserved
+        Copyright 202 - All Rights Reserved
       </div>
     </footer>
     // footer end

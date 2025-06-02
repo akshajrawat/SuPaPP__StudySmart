@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { LoadingSpinner } from "../../Components/Ui/Messages";
-import { axiosInstance } from "../../Lib/axios";
 import { useDispatch, useSelector } from "react-redux";
-import { loaderStop, start, success } from "../../Store/authSlice/authSlice";
+import {
+  loaderStop,
+  registerUser,
+} from "../../Store/authSlice/authSlice";
 import toast from "react-hot-toast";
 
 const Register = () => {
@@ -18,6 +20,13 @@ const Register = () => {
     password: "",
   });
 
+  // useeffect
+  useEffect(() => {
+    if (auth.isRegistering) {
+      navigate("/auth/otp");
+    }
+  }, [auth.isRegistering, navigate]);
+
   // funtion which handle change of input
   const handleChange = (e) => {
     setUser((prev) => ({
@@ -30,7 +39,7 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(start());
+
     // throws error if any of the field is missing
     if (!user.username || !user.email || !user.password) {
       dispatch(loaderStop());
@@ -48,19 +57,10 @@ const Register = () => {
     }
 
     // sending post request
-    try {
-      const response = await axiosInstance.post("/auth/register", user);
-      setUser({ username: "", email: "", password: "" });
-      if (response.status === 201) {
-        dispatch(success({ user: response.data.user }));
-        toast.success(response.data.message);
-        navigate("/auth/otp");
-      }
-    } catch (error) {
-      dispatch(loaderStop());
-      toast.error(error.response.data.message);
-      throw new Error("Error at handle change | REGISTER");
-    }
+    dispatch(registerUser(user));
+
+    // end
+    setUser({ username: "", email: "", password: "" });
   };
 
   return (

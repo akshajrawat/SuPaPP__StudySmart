@@ -4,12 +4,16 @@ import ChatBox from "./Comp/ChatBox";
 
 const Chat = () => {
   return (
-    <div className="chat-container min-h-screen max-w-screen">
+    <div className="chat-container min-h-screen max-w-screen flex ">
       {/* Side Section for user display */}
-      <SideChat />
-
+      <aside className="hidden min-h-screen w-[35vw] bg-red-700 sm:block  ">
+        <SideChat />
+      </aside>
       {/* Chat box */}
-      <ChatBox />
+      <div className="min-h-screen  max-w-screen sm:w-[65vw]">
+        {" "}
+        <ChatBox />
+      </div>
     </div>
   );
 };

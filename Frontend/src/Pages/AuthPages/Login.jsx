@@ -1,13 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import {
-  authenticate,
-  loaderStop,
-  start,
-  success,
-} from "../../Store/authSlice/authSlice";
-import { axiosInstance } from "../../Lib/axios";
+import { loaderStop, loginUser } from "../../Store/authSlice/authSlice";
 import toast from "react-hot-toast";
 import { LoadingSpinner } from "../../Components/Ui/Messages";
 
@@ -27,9 +21,15 @@ const Login = () => {
     }));
   };
 
+  // useeffect
+  useEffect(() => {
+    if (auth.isAuthenticate) {
+      navigate("/SuPaPP");
+    }
+  }, [auth.isAuthenticate]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(start());
     // throws error if any of the field is missing
     if (!user.email || !user.password) {
       dispatch(loaderStop());
@@ -47,20 +47,8 @@ const Login = () => {
     }
 
     // sending post request
-    try {
-      const response = await axiosInstance.post("/auth/login", user);
-      setUser({ email: "", password: "" });
-      if (response.status === 200) {
-        dispatch(success({ user: response.data.user }));
-        dispatch(authenticate());
-        toast.success(response.data.message);
-        navigate("/SuPaPP");
-      }
-    } catch (error) {
-      dispatch(loaderStop());
-      toast.error(error.response.data.message);
-      throw new Error("Error at handle change | LOGIN");
-    }
+    dispatch(loginUser(user));
+    setUser({ email: "", password: "" });
   };
 
   return (
