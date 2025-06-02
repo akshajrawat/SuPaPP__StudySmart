@@ -2,8 +2,10 @@ import React from "react";
 import { FaArrowLeft } from "react-icons/fa";
 import { IoIosCall } from "react-icons/io";
 import { FaVideo } from "react-icons/fa";
+import { useSelector } from "react-redux";
 
 const ChatTop = () => {
+  const auth = useSelector((state) => state.auth);
   return (
     <>
       {/* top section start */}
@@ -18,14 +20,20 @@ const ChatTop = () => {
         {/* Info section */}
         <div className="w-[45%] pl-3 flex items-center">
           {/* profile photo */}
-          <span className="bg-red-600 w-[40px] h-[40px] rounded-full "></span>
+          <span className="w-[40px] h-[40px] rounded-full ">
+            <img
+              src={auth.user.profilePhoto}
+              className="w-full h-full object-cover rounded-full"
+              alt="user"
+            />
+          </span>
           {/* name */}
           <span className=" inline-flex flex-col w-[80%] pl-5">
             <p className="text-black dark:text-white font-bold text-lg">
-              {" "}
-              John Doe
+            
+              {auth.user.username}
             </p>
-            <p className="text-[#8d8ea1] text-sm">@John_doe</p>
+            <p className="text-[#8d8ea1] text-sm">@{auth.user.username}</p>
           </span>
         </div>
         {/* info section end */}

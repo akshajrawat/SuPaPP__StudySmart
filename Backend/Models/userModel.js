@@ -31,7 +31,11 @@ const userModel = new Schema({
     default: "User",
   },
 
-  // This way you can set otp and expire both
+  profilePhoto: {
+    type: String,
+    default: "https://api.dicebear.com/7.x/thumbs/svg?seed=defaultUser",
+  },
+
   otp: {
     code: String,
     expiresAt: Date,

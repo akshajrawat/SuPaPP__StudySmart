@@ -113,6 +113,7 @@ const loginUser = asyncHandler(async (req, res) => {
       username: user.username,
       email: email,
       role: user.role,
+      profilePhoto: user.profilePhoto,
     },
   });
 });
@@ -205,10 +206,26 @@ const verifyToken = asyncHandler(async (req, res) => {
   res.status(200).json(req.user);
 });
 
+// title: GET USERS
+// Path: /SuPaPP/users
+// Access: @PRIVATE
+const getUsers = asyncHandler(async (req, res) => {
+  console.log("received body is :-", req.body);
+
+  const currUserId = req.user.id;
+
+  const filteredUsers = await User.find({ _id: { $ne: currUserId } }).select(
+    "-password"
+  );
+
+  res.status(200).json({ filteredUsers });
+});
+
 module.exports = {
   registerUser,
   loginUser,
   verifyOtp,
   contactMe,
   verifyToken,
+  getUsers,
 };

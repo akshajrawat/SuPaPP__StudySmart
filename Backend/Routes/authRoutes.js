@@ -10,6 +10,7 @@ const {
   verifyOtp,
   contactMe,
   verifyToken,
+  getUsers,
 } = require("../Controllers/authControllers");
 const tokenHandler = require("../Middleware/tokenHandler");
 
@@ -30,6 +31,7 @@ router.post("/contact", contactMe);
 // Path :- /SuPaPP/auth/verify-token
 router.get("/verify-token", tokenHandler, verifyToken);
 
-router.post("/profile", () => {});
+// Path :- /SuPaPP/auth/users
+router.get("/users", tokenHandler, getUsers);
 
 module.exports = router;

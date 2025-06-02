@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { loaderStop, loginUser } from "../../Store/authSlice/authSlice";
+
 import toast from "react-hot-toast";
 import { LoadingSpinner } from "../../Components/Ui/Messages";
+import { loginUser } from "../../Store/authSlice/authSlice";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -32,7 +33,6 @@ const Login = () => {
     e.preventDefault();
     // throws error if any of the field is missing
     if (!user.email || !user.password) {
-      dispatch(loaderStop());
       toast.error("All fields are mandatory");
       return;
     }
@@ -41,7 +41,6 @@ const Login = () => {
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(user.email)) {
-      dispatch(loaderStop());
       toast.error("Email is not valid");
       return;
     }

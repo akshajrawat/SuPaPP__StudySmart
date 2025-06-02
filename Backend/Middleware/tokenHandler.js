@@ -27,6 +27,7 @@ const tokenHandler = async (req, res, next) => {
       username: userInfo.username,
       email: userInfo.email,
       role: userInfo.role,
+      profilePhoto: userInfo.profilePhoto,
     };
     next();
   } catch (error) {
