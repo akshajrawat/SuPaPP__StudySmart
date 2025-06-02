@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 
 export const registerUser = createAsyncThunk(
   "auth/registerUser",
-  async (user) => {
+  async (user, thunkAPI) => {
     try {
       const response = await axiosInstance.post("/auth/register", user);
       if (response.status === 201) {
@@ -14,52 +14,66 @@ export const registerUser = createAsyncThunk(
         return response.data;
       }
     } catch (error) {
-      toast.error(error.response.data.message || error.message);
-      throw new Error(error.response.data.message || error.message);
+      const message = error.response?.data?.message || error.message;
+      toast.error(message);
+      return thunkAPI.rejectWithValue(message);
     }
   }
 );
 
-export const verifyOtp = createAsyncThunk("auth/verifyOtp", async (submit) => {
-  try {
-    const response = await axiosInstance.post("/auth/verify-otp", submit);
-    if (response.status === 200) {
-      toast.success(response.data.message);
-      return response.data;
+export const verifyOtp = createAsyncThunk(
+  "auth/verifyOtp",
+  async (submit, thunkAPI) => {
+    try {
+      const response = await axiosInstance.post("/auth/verify-otp", submit);
+      if (response.status === 200) {
+        toast.success(response.data.message);
+        return response.data;
+      }
+    } catch (error) {
+      const message = error.response?.data?.message || error.message;
+      toast.error(message);
+      return thunkAPI.rejectWithValue(message);
     }
-  } catch (error) {
-    toast.error(error.response.data.message || error.message);
-    throw new Error(error.response.data.message || error.message);
   }
-});
+);
 
-export const authChecking = createAsyncThunk("auth/authChecking", async () => {
-  try {
-    const response = await axiosInstance.get("/auth/verify-token");
-    if (response.status === 200) {
-      toast.success("Data recovered");
-      return response.data;
+export const authChecking = createAsyncThunk(
+  "auth/authChecking",
+  async (thunkAPI) => {
+    try {
+      const response = await axiosInstance.get("/auth/verify-token");
+      if (response.status === 200) {
+        toast.success("Data recovered");
+        return response.data;
+      }
+    } catch (error) {
+      const message = error.response?.data?.message || error.message;
+      toast.error(message);
+      return thunkAPI.rejectWithValue(message);
     }
-  } catch (error) {
-    toast.error(error.response.data.message || error.message);
-    throw new Error(error.response.data.message || error.message);
   }
-});
+);
 
-export const loginUser = createAsyncThunk("auth/loginUser", async (user) => {
-  try {
-    const response = await axiosInstance.post("/auth/login", user);
-    if (response.status === 200) {
-      toast.success(response.data.message);
-      return response.data.user;
-    } else {
-      toast.error("Failed");
+export const loginUser = createAsyncThunk(
+  "auth/loginUser",
+  async (user, thunkAPI) => {
+    try {
+      const response = await axiosInstance.post("/auth/login", user);
+      if (response.status === 200) {
+        toast.success(response.data.message);
+        return response.data.user;
+      } else {
+        toast.error("Failed");
+      }
+    } catch (error) {
+      const message = error.response?.data?.message || error.message;
+      toast.error(message);
+      return thunkAPI.rejectWithValue(message);
     }
-  } catch (error) {
-    toast.error(error.response.data.message || error.message);
-    throw new Error(error.response.data.message || error.message);
   }
-});
+);
+
 const initialState = {
   user: null,
   isAuthenticated: false,
@@ -116,6 +130,7 @@ export const authSlice = createSlice({
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.loading = false;
+        state.isAuthenticated = true;
         state.user = action.payload;
       })
       .addCase(loginUser.rejected, (state) => {
