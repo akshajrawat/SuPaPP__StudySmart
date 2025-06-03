@@ -13,6 +13,7 @@ connectDb();
 // Routes for using in middleware
 const cors = require("cors");
 const authRoute = require("./Routes/authRoutes");
+const chatRoute = require("./Routes/chatRoutes");
 const errorHandler = require("./Middleware/errorHandler");
 
 // middlewares
@@ -25,6 +26,7 @@ app.use(
 app.use(cookieParser());
 app.use(express.json());
 app.use("/SuPaPP/auth", authRoute);
+app.use("/SuPaPP/chat", chatRoute);
 app.use(errorHandler);
 
 // Running port

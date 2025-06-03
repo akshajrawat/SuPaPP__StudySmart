@@ -6,50 +6,45 @@ import { useSelector } from "react-redux";
 
 const ChatTop = () => {
   const auth = useSelector((state) => state.auth);
+
   return (
-    <>
-      {/* top section start */}
-      <div className="w-full h-[10vh] py-5 flex border-b-2 justify-between border-[#7273825a]">
-        {/* back button */}
-        <div className="w-[15%] flex justify-start items-center text-3xl text-black dark:text-white sm:hidden">
-          <span className="ml-6">
-            <FaArrowLeft />
-          </span>
-        </div>
-        {/* back button end */}
-        {/* Info section */}
-        <div className="w-[45%] pl-3 flex items-center">
-          {/* profile photo */}
-          <span className="w-[40px] h-[40px] rounded-full ">
-            <img
-              src={auth.user.profilePhoto}
-              className="w-full h-full object-cover rounded-full"
-              alt="user"
-            />
-          </span>
-          {/* name */}
-          <span className=" inline-flex flex-col w-[80%] pl-5">
-            <p className="text-black dark:text-white font-bold text-lg">
-            
-              {auth.user.username}
-            </p>
-            <p className="text-[#8d8ea1] text-sm">@{auth.user.username}</p>
-          </span>
-        </div>
-        {/* info section end */}
-        {/* Call section */}
-        <div className="w-[30%] sm:w-[30%] lg:w-[18%]  flex text-3xl text-black dark:text-white justify-around items-center">
-          <span>
-            <IoIosCall />
-          </span>
-          <span>
-            <FaVideo />
-          </span>
-        </div>
-        {/* call section end */}
+    <div className="w-full h-[10vh] px-4 flex items-center justify-between border-b border-gray-300 dark:border-[#29274a] bg-white dark:bg-[#0a081f] text-black dark:text-white transition-colors duration-300">
+      {/* Back Button */}
+      <div className="w-[15%] flex items-center sm:hidden">
+        <button className="text-xl p-2 hover:bg-gray-200 dark:hover:bg-[#19173a] rounded-full transition">
+          <FaArrowLeft />
+        </button>
       </div>
-      {/* top section start */}
-    </>
+
+      {/* User Info */}
+      <div className="flex items-center gap-4 w-[45%]">
+        <div className="w-10 h-10 rounded-full overflow-hidden border border-gray-400 dark:border-[#3d3b63] shadow-md">
+          <img
+            src={auth.user.profilePhoto}
+            className="w-full h-full object-cover"
+            alt="user"
+          />
+        </div>
+        <div className="flex flex-col">
+          <p className="font-semibold text-base leading-tight">
+            {auth.user.username}
+          </p>
+          <span className="text-sm text-gray-500 dark:text-[#8d8ea1] leading-tight">
+            @{auth.user.username}
+          </span>
+        </div>
+      </div>
+
+      {/* Call Buttons */}
+      <div className="w-[30%] sm:w-[30%] lg:w-[18%] flex justify-end items-center gap-4 text-2xl">
+        <button className="hover:bg-gray-200 dark:hover:bg-[#19173a] p-2 rounded-full transition">
+          <IoIosCall />
+        </button>
+        <button className="hover:bg-gray-200 dark:hover:bg-[#19173a] p-2 rounded-full transition">
+          <FaVideo />
+        </button>
+      </div>
+    </div>
   );
 };
 

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { LoadingSpinner } from "../../Components/Ui/Messages";
 import { useDispatch, useSelector } from "react-redux";
-import { loaderStop, registerUser } from "../../Store/authSlice/authSlice";
+import { loaderStop, registerUser } from "../../Store/Slice/authSlice";
 import toast from "react-hot-toast";
 
 const Register = () => {

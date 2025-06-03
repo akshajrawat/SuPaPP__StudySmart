@@ -1,9 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Outlet, useLocation, Navigate } from "react-router-dom";
-import { axiosInstance } from "../Lib/axios";
-import { authChecking, authenticate } from "../Store/authSlice/authSlice";
-import toast from "react-hot-toast";
+import { authChecking, authenticate } from "../Store/Slice/authSlice";
 import { useEffect } from "react";
 
 const ProtectedRoutes = () => {

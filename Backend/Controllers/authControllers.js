@@ -1,7 +1,6 @@
 // Basic imports
 const asyncHandler = require("express-async-handler");
 const User = require("../Models/userModel");
-const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const sendOtp = require("../Utils/sendOtp");
 const sendEmail = require("../Utils/sendEmail");

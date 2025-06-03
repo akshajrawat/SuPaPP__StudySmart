@@ -1,9 +1,9 @@
 // Import constatnts
-const  constants  = require("../Utils/constants");
+const constants = require("../Utils/constants");
 
 // Middleware logic
 const errorHandler = (err, req, res, next) => {
-  const statusCode = res.statusCode ? res.statusCode : 500;
+  const statusCode = err.statusCode || res.statusCode || 500;
   switch (statusCode) {
     case constants.SUCCESS:
       res.json({

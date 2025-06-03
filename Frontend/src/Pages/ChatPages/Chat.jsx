@@ -1,18 +1,22 @@
 import React from "react";
 import SideChat from "./Comp/SideChat";
 import ChatBox from "./Comp/ChatBox";
+import { useSelector } from "react-redux";
+import NoChatSelected from "./Comp/NoChatSelected";
 
 const Chat = () => {
+  const chat = useSelector((state) => state.chat);
   return (
-    <div className="chat-container min-h-screen max-w-screen flex ">
-      {/* Side Section for user display */}
-      <aside className="hidden sm:min-h-screen sm:w-[35vw]  sm:block  ">
+    <div className="flex min-h-screen w-full bg-white dark:bg-[#0a081f] text-black dark:text-white transition-colors duration-300">
+      {/* Sidebar for users */}
+      <aside className="hidden sm:block sm:w-[35vw] border-r border-gray-300 dark:border-[#29274a]">
         <SideChat />
       </aside>
-      {/* Chat box */}
-      <div className="min-h-screen  max-w-screen w-[100vw] sm:w-[65vw] sm:px-3 sm:border-l sm:border-[#8d8ea17c]">
-        <ChatBox />
-      </div>
+
+      {/* Chatbox section */}
+      <main className="w-full sm:w-[65vw] flex flex-col">
+        {chat.selected ? <ChatBox /> : <NoChatSelected />}
+      </main>
     </div>
   );
 };

@@ -1,6 +1,5 @@
 import { Route, Routes } from "react-router-dom";
 import React from "react";
-import MainLayout from "../Layout/Main/MainLayout";
 import Landing from "../Pages/LandingPage/Landing";
 import AuthLayout from "../Layout/Auth/AuthLayout";
 import Register from "../Pages/AuthPages/Register";
@@ -8,19 +7,22 @@ import Login from "../Pages/AuthPages/Login";
 import Otp from "../Pages/AuthPages/Otp";
 import Chat from "../Pages/ChatPages/Chat";
 import ProtectedRoutes from "./ProtectedRoutes";
-import ChatLayout from "../Layout/Chat/ChatLayout";
+import LandingLayout from "../Layout/Landing/LandingLayout";
+import MainLayout from "../Layout/Main/MainLayout";
 
 const AppRoutes = () => {
   return (
     <Routes>
       {/* Render main layout when in "/" path */}
-      <Route element={<ProtectedRoutes />}>
-        <Route element={<MainLayout />}>
-          <Route path="/" element={<Landing />}></Route>
-        </Route>
 
+      <Route element={<LandingLayout />}>
+        <Route path="/" element={<Landing />}></Route>
+      </Route>
+
+      {/* protected Routes */}
+      <Route element={<ProtectedRoutes />}>
         {/* Render chat layout when in "/auth" path */}
-        <Route element={<ChatLayout />}>
+        <Route element={<MainLayout />}>
           <Route path="/SuPaPP" element={<Chat />}></Route>
         </Route>
 

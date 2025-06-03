@@ -1,61 +1,58 @@
 import React, { useEffect } from "react";
 import { FaSearch } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { getUsers } from "../../../Store/authSlice/chatSlice";
+import { getUsers } from "../../../Store/Slice/chatSlice";
 
 const SideChat = () => {
   const dispatch = useDispatch();
   const chat = useSelector((state) => state.chat);
 
-  // fetching all the users
   useEffect(() => {
     dispatch(getUsers());
   }, []);
-  console.log(chat.users);
 
   const auth = useSelector((state) => state.auth);
+
   return (
-    <>
-      {/* side section serchbar */}
-      <div className=" flex justify-center items-center h-[13%] p-3 border-b-2 border-[#7273825a]">
-        <div className="flex h-[60%]  w-full border border-[#ffffff7c] rounded-xl mt-2 p-3">
-          <div className="h-full w-[12%] lg:w-[10%] text-xl flex justify-center items-center text-black dark:text-white">
-            <FaSearch className="mr-2" />
-          </div>
+    <div className="h-full w-full bg-white dark:bg-[#0a081f] text-black dark:text-white transition-colors duration-300">
+      {/* Search bar */}
+      <div className="flex items-center justify-center h-[13%] px-4 py-3 border-b border-gray-300 dark:border-[#29274a]">
+        <div className="flex items-center w-full bg-gray-100 dark:bg-[#19173a] rounded-full px-4 py-2 shadow-inner">
+          <FaSearch className="text-gray-500 dark:text-[#8d8ea1] text-lg mr-2" />
           <input
-            className="h-full  w-[88%] lg:w-[90%] text-[#727382] border-none outline-none pl-2"
             type="text"
-            placeholder="Search..."
+            placeholder="Search users..."
+            className="bg-transparent w-full text-sm text-black dark:text-white placeholder:text-gray-500 dark:placeholder:text-[#8d8ea1] outline-none"
           />
         </div>
       </div>
 
-      {/* Side section userContainer */}
-      <div className="">
-        {chat.users?.filteredUsers?.map((item, index) => {
-          return (
-            <div
-              key={index}
-              className="w-full flex items-center border-b-2 border-[#7273825a] px-8 py-4"
-            >
-              <span className="w-[40px] h-[40px] rounded-full ">
-                <img
-                  src={item.profilePhoto}
-                  className="w-full h-full object-cover rounded-full"
-                  alt="user"
-                />
-              </span>
-              <span className=" inline-flex flex-col w-[70%] lg:w-[75%] pl-5">
-                <p className="text-black dark:text-white font-bold text-lg">
-                  {item.username}
-                </p>
-                <p className="text-[#8d8ea1] text-sm">@{item.username}</p>
-              </span>
+      {/* User list */}
+      <div className="h-[87%] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 dark:scrollbar-thumb-[#3d3b63] scrollbar-track-transparent">
+        {chat.users?.filteredUsers?.map((item, index) => (
+          <div
+            key={index}
+            className="flex items-center px-6 py-4 hover:bg-gray-100 dark:hover:bg-[#19173a] transition-colors border-b border-gray-200 dark:border-[#29274a] cursor-pointer"
+          >
+            <div className="w-12 h-12 rounded-full overflow-hidden flex-shrink-0 shadow-md border border-gray-300 dark:border-[#3d3b63]">
+              <img
+                src={item.profilePhoto}
+                alt="user"
+                className="w-full h-full object-cover"
+              />
             </div>
-          );
-        })}
+            <div className="flex flex-col ml-4">
+              <p className="text-black dark:text-white font-medium text-base">
+                {item.username}
+              </p>
+              <p className="text-gray-500 dark:text-[#8d8ea1] text-sm">
+                @{item.username}
+              </p>
+            </div>
+          </div>
+        ))}
       </div>
-    </>
+    </div>
   );
 };
 

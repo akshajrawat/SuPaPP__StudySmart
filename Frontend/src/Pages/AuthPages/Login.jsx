@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 import toast from "react-hot-toast";
 import { LoadingSpinner } from "../../Components/Ui/Messages";
-import { loginUser } from "../../Store/authSlice/authSlice";
+import { loginUser } from "../../Store/Slice/authSlice";
 
 const Login = () => {
   const navigate = useNavigate();
