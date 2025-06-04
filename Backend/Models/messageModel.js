@@ -16,6 +16,11 @@ const messageModel = new Schema(
       required: true,
     },
 
+    groupId: {
+      type: mongoose.Schema.ObjectId,
+      ref: "Group",
+    },
+
     text: {
       type: String,
     },

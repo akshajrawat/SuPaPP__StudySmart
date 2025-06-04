@@ -5,7 +5,7 @@ import { FaVideo } from "react-icons/fa";
 import { useSelector } from "react-redux";
 
 const ChatTop = () => {
-  const auth = useSelector((state) => state.auth);
+  const chat = useSelector((state) => state.chat);
 
   return (
     <div className="w-full h-[10vh] px-4 flex items-center justify-between border-b border-gray-300 dark:border-[#29274a] bg-white dark:bg-[#0a081f] text-black dark:text-white transition-colors duration-300">
@@ -20,17 +20,17 @@ const ChatTop = () => {
       <div className="flex items-center gap-4 w-[45%]">
         <div className="w-10 h-10 rounded-full overflow-hidden border border-gray-400 dark:border-[#3d3b63] shadow-md">
           <img
-            src={auth.user.profilePhoto}
+            src={chat.selected.profilePhoto}
             className="w-full h-full object-cover"
             alt="user"
           />
         </div>
         <div className="flex flex-col">
           <p className="font-semibold text-base leading-tight">
-            {auth.user.username}
+            {chat.selected.username}
           </p>
           <span className="text-sm text-gray-500 dark:text-[#8d8ea1] leading-tight">
-            @{auth.user.username}
+            @{chat.selected.username}
           </span>
         </div>
       </div>
