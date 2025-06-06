@@ -4,7 +4,7 @@ import { FaLink } from "react-icons/fa";
 import { IoSend } from "react-icons/io5";
 import { RxCross1 } from "react-icons/rx";
 import { useDispatch, useSelector } from "react-redux";
-import { sendMessage } from "../../../Store/Slice/chatSlice";
+import { getMessage, sendMessage } from "../../../Store/Slice/chatSlice";
 
 const ChatBox = () => {
   const dispatch = useDispatch();
@@ -16,6 +16,11 @@ const ChatBox = () => {
     media: "",
   });
 
+  // getting message
+  useEffect(() => {
+    dispatch(getMessage());
+  }, []);
+
   // refrence to the file input
   const fileInputRef = useRef(null);
 
@@ -23,14 +28,17 @@ const ChatBox = () => {
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (!file) return;
+    e.target.value = null;
 
+    console.log(file);
     // converting image to Base64 string
     const reader = new FileReader();
 
     reader.readAsDataURL(file);
 
-    reader.onloadend = () => {
+    reader.onload = () => {
       const base64String = reader.result;
+      console.log(base64String);
       setMessage((prev) => ({
         ...prev,
         media: base64String,
@@ -49,6 +57,11 @@ const ChatBox = () => {
   // handle the submition of the message
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (!message.text.trim() && !message.media) {
+      return;
+    }
+
     dispatch(sendMessage(message));
     setMessage({
       text: "",
@@ -63,11 +76,60 @@ const ChatBox = () => {
 
       {/* Chat container */}
       <div className="flex flex-col h-[81vh] px-4 py-3 overflow-y-auto scrollbar-thin scrollbar-thumb-[#cfcfcf] dark:scrollbar-thumb-[#3d3b63] scrollbar-track-transparent text-gray-200">
-
-        <p className="bg-[#5C6AC4] mt-3 px-3 py-2 rounded-2xl self-start max-w-[40%]"> Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis natus incidunt nemo nesciunt vel quam distinctio. Illum numquam minima dignissimos vel rem fuga vitae similique voluptate error, quidem doloremque ex.</p>
-
-        <p className="bg-[#3E3B5B] mt-3  px-3 py-2 rounded-2xl self-end max-w-[40%]">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloribus fugiat culpa quidem alias tempora veniam, ullam atque enim aliquam expedita debitis itaque tenetur sed ex eos? Voluptas perspiciatis saepe odit.
-        Unde, placeat voluptas excepturi sed veritatis ex, nostrum cumque quasi asperiores voluptate dolores eum laboriosam, ad repellendus explicabo at atque voluptatibus aspernatur natus perspiciatis sit? Magni nobis ipsam facere ad.</p>
+        {chat.message?.map((item, index) => {
+          if (item.senderId === chat.selected._id) {
+            return (
+              <div
+                key={index}
+                className="self-start max-w-[70%] lg:max-w-[50%]"
+              >
+                {item.media && (
+                  <div className="w-[200px] h-[200px] overflow-hidden rounded-xl mt-2">
+                    <img
+                      src={item.media}
+                      alt="Chat media"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                )}
+                {item.text && (
+                  <p
+                    className="bg-[#5C6AC4] mt-4 px-3 py-2 rounded-2xl relative
+            after:h-0 after:w-0 after:border-b-[8px] after:border-r-[10px] after:border-t-[8px]
+            after:border-b-transparent after:border-r-[#5C6AC4] after:border-t-transparent
+            after:absolute after:left-0 after:-translate-x-2 after:translate-y-1"
+                  >
+                    {item.text}
+                  </p>
+                )}
+              </div>
+            );
+          } else {
+            return (
+              <div key={index} className="self-end max-w-[70%] lg:max-w-[50%]">
+                {item.media && (
+                  <div className="w-[200px] h-[200px] overflow-hidden rounded-xl mt-2">
+                    <img
+                      src={item.media}
+                      alt="Chat media"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                )}
+                {item.text && (
+                  <p
+                    className="bg-[#3E3B5B] mt-4 px-3 py-2 rounded-2xl relative
+            after:h-0 after:w-0 after:border-b-[8px] after:border-l-[10px] after:border-t-[8px]
+            after:border-b-transparent after:border-l-[#3E3B5B] after:border-t-transparent
+            after:absolute after:right-0 after:translate-x-2 after:translate-y-1"
+                  >
+                    {item.text}
+                  </p>
+                )}
+              </div>
+            );
+          }
+        })}
       </div>
 
       {/* Message input area */}

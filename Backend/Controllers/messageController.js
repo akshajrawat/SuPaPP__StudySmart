@@ -68,5 +68,5 @@ const createGroup = asyncHandler(async (req, res) => {});
 module.exports = {
   sendMessage,
   getMessages,
-  createGroup
+  createGroup,
 };

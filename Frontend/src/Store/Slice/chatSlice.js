@@ -29,7 +29,7 @@ export const sendMessage = createAsyncThunk(
         message
       );
       if (response.status === 201) {
-        return response.data;
+        return response.data.message;
       }
     } catch (error) {
       const message = error.response?.data?.message || error.message;
@@ -41,14 +41,11 @@ export const sendMessage = createAsyncThunk(
 
 export const getMessage = createAsyncThunk(
   "chat/getMessage",
-  async (thunkAPI) => {
+  async (_, thunkAPI) => {
     try {
       const state = thunkAPI.getState();
       const receiver = state.chat.selected._id;
-      const response = await axiosInstance.get(
-        `/chat/getMessages/${receiver}`,
-        message
-      );
+      const response = await axiosInstance.get(`/chat/getMessages/${receiver}`);
       if (response.status === 200) {
         return response.data;
       }
@@ -91,10 +88,20 @@ const chatSlice = createSlice({
         state.error = action.payload;
       })
       .addCase(sendMessage.fulfilled, (state, action) => {
-        state.message = [...state.message, action.payload.message];
+        state.message = [...state.message, action.payload];
       })
       .addCase(sendMessage.rejected, () => {
         toast.error("Unable to send message");
+      })
+      .addCase(getMessage.pending, (state) => {
+        state.isMessagesLoading = true;
+      })
+      .addCase(getMessage.fulfilled, (state, action) => {
+        state.isMessagesLoading = false;
+        state.message = action.payload;
+      })
+      .addCase(getMessage.rejected, (state) => {
+        state.isMessagesLoading = false;
       });
   },
 });

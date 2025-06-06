@@ -2,7 +2,8 @@
 const express = require("express");
 const router = express.Router();
 
-// controllers
+// controllers & middleware
+const upload = require("../Middleware/multer");
 const tokenHandler = require("../Middleware/tokenHandler");
 const {
   sendMessage,
@@ -13,7 +14,12 @@ const {
 // routes
 
 // Path :- /SuPaPP/chat/sendMessage
-router.post("/sendMessage/:receiverId", tokenHandler, sendMessage);
+router.post(
+  "/sendMessage/:receiverId",
+  upload.single("image"),
+  tokenHandler,
+  sendMessage
+);
 
 // Path: /SuPaPP/chat/getMessages
 router.get("/getMessages/:receiverId", tokenHandler, getMessages);

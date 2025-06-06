@@ -33,7 +33,6 @@ const SideChat = () => {
         {chat.users?.filteredUsers?.map((item, index) => (
           <div
             onClick={() => {
-              localStorage.setItem("selectedUser", JSON.stringify(item));
               dispatch(setSelectedUser(item));
             }}
             key={index}
