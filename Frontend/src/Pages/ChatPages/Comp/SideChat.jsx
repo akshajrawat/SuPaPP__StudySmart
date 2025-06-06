@@ -9,7 +9,6 @@ import { IoPersonAdd } from "react-icons/io5";
 const SideChat = () => {
   const dispatch = useDispatch();
   const chat = useSelector((state) => state.chat);
-
   useEffect(() => {
     dispatch(getUsers());
   }, []);
@@ -38,12 +37,19 @@ const SideChat = () => {
             key={index}
             className="flex items-center px-6 py-4 hover:bg-gray-100 dark:hover:bg-[#19173a] transition-colors border-b border-gray-200 dark:border-[#29274a] cursor-pointer"
           >
-            <div className="w-12 h-12 rounded-full overflow-hidden flex-shrink-0 shadow-md border border-gray-300 dark:border-[#3d3b63]">
+            {/* profile photo */}
+            <div className="w-12 h-12 rounded-full flex-shrink-0 shadow-md border border-gray-300 dark:border-[#3d3b63] relative">
               <img
                 src={item.profilePhoto}
                 alt="user"
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover rounded-full"
               />
+              {chat.onlineUsers.includes(item._id) && (
+                <span
+                  className="absolute bottom-0 right-0 block w-3 h-3 bg-green-500 rounded-full border-2 border-white dark:border-[#3d3b63]"
+                  title="Online"
+                />
+              )}
             </div>
             <div className="flex flex-col ml-4">
               <p className="text-black dark:text-white font-medium text-base">

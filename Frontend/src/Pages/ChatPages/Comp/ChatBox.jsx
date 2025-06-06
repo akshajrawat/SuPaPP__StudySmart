@@ -29,21 +29,11 @@ const ChatBox = () => {
     const file = e.target.files[0];
     if (!file) return;
     e.target.value = null;
-
-    console.log(file);
-    // converting image to Base64 string
-    const reader = new FileReader();
-
-    reader.readAsDataURL(file);
-
-    reader.onload = () => {
-      const base64String = reader.result;
-      console.log(base64String);
-      setMessage((prev) => ({
-        ...prev,
-        media: base64String,
-      }));
-    };
+    
+    setMessage((prev) => ({
+      ...prev,
+      media: file,
+    }));
   };
 
   // Handle the text change

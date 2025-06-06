@@ -1,6 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { axiosInstance } from "../../Lib/axios";
 import toast from "react-hot-toast";
+import { socketConnect } from "../../Lib/socket";
+import { setOnlineUsers } from "./chatSlice";
 
 // Thunk
 
@@ -28,6 +30,7 @@ export const verifyOtp = createAsyncThunk(
       const response = await axiosInstance.post("/auth/verify-otp", submit);
       if (response.status === 200) {
         toast.success(response.data.message);
+        thunkAPI.dispatch(connectSocket());
         return response.data;
       }
     } catch (error) {
@@ -40,11 +43,12 @@ export const verifyOtp = createAsyncThunk(
 
 export const authChecking = createAsyncThunk(
   "auth/authChecking",
-  async (thunkAPI) => {
+  async (_, thunkAPI) => {
     try {
       const response = await axiosInstance.get("/auth/verify-token");
       if (response.status === 200) {
         toast.success("Data recovered");
+        thunkAPI.dispatch(connectSocket());
         return response.data;
       }
     } catch (error) {
@@ -62,6 +66,7 @@ export const loginUser = createAsyncThunk(
       const response = await axiosInstance.post("/auth/login", user);
       if (response.status === 200) {
         toast.success(response.data.message);
+        thunkAPI.dispatch(connectSocket());
         return response.data.user;
       } else {
         toast.error("Failed");
@@ -74,11 +79,29 @@ export const loginUser = createAsyncThunk(
   }
 );
 
+export const connectSocket = createAsyncThunk(
+  "auth/connectSocket",
+  async (user, thunkAPI) => {
+    try {
+      socketConnect(thunkAPI.getState().auth.user.id, (userIds) => {
+        thunkAPI.dispatch(setOnlineUsers(userIds));
+      });
+    } catch (error) {
+      const message = error.response?.data?.message || error.message;
+      toast.error(message);
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+// initial state
+
 const initialState = {
   user: null,
   isAuthenticated: false,
   isRegistering: false,
   loading: false,
+  socket: false,
 };
 
 export const authSlice = createSlice({

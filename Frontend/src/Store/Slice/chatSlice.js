@@ -1,32 +1,46 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { axiosInstance } from "../../Lib/axios";
 import toast from "react-hot-toast";
-import reducer from "./authSlice";
 
 // thunks
 
-export const getUsers = createAsyncThunk("chat/getUsers", async (thunkAPI) => {
-  try {
-    const response = await axiosInstance.get("/auth/users");
-    if (response.status === 200) {
-      return response.data;
+// get all the users for side bar
+export const getUsers = createAsyncThunk(
+  "chat/getUsers",
+  async (_, thunkAPI) => {
+    try {
+      const response = await axiosInstance.get("/auth/users");
+      if (response.status === 200) {
+        return response.data;
+      }
+    } catch (error) {
+      const message = error.response?.data?.message || error.message;
+      toast.error(message);
+      return thunkAPI.rejectWithValue(message);
     }
-  } catch (error) {
-    const message = error.response?.data?.message || error.message;
-    toast.error(message);
-    return thunkAPI.rejectWithValue(message);
   }
-});
+);
 
+// send message to user
 export const sendMessage = createAsyncThunk(
   "chat/sendMessage",
   async (message, thunkAPI) => {
     try {
       const state = thunkAPI.getState();
       const receiver = state.chat.selected._id;
+
+      const form = new FormData();
+      if (message.text) form.append("text", message.text);
+      if (message.media) form.append("image", message.media);
+
       const response = await axiosInstance.post(
         `/chat/sendMessage/${receiver}`,
-        message
+        form,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
       );
       if (response.status === 201) {
         return response.data.message;
@@ -39,6 +53,7 @@ export const sendMessage = createAsyncThunk(
   }
 );
 
+// get the message from selected user
 export const getMessage = createAsyncThunk(
   "chat/getMessage",
   async (_, thunkAPI) => {
@@ -60,6 +75,7 @@ export const getMessage = createAsyncThunk(
 const initialState = {
   message: [],
   users: [],
+  onlineUsers: [],
   selected: null,
   isUsersLoading: false,
   isMessagesLoading: false,
@@ -72,6 +88,9 @@ const chatSlice = createSlice({
   reducers: {
     setSelectedUser: (state, action) => {
       state.selected = action.payload;
+    },
+    setOnlineUsers: (state, action) => {
+      state.onlineUsers = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -106,5 +125,5 @@ const chatSlice = createSlice({
   },
 });
 
-export const { setSelectedUser } = chatSlice.actions;
+export const { setSelectedUser, setOnlineUsers } = chatSlice.actions;
 export default chatSlice.reducer;

@@ -2,19 +2,21 @@
 
 const express = require("express");
 require("dotenv").config();
-const app = express();
-const port = process.env.PORT || 3000;
 const connectDb = require("./Config/connectDb");
 const cookieParser = require("cookie-parser");
-
-// Connecting to database
-connectDb();
 
 // Routes for using in middleware
 const cors = require("cors");
 const authRoute = require("./Routes/authRoutes");
 const chatRoute = require("./Routes/chatRoutes");
 const errorHandler = require("./Middleware/errorHandler");
+const { app, server } = require("./lib/socket");
+
+// Connecting to database
+connectDb();
+
+// setting up app
+const port = process.env.PORT || 3000;
 
 // middlewares
 app.use(
@@ -31,6 +33,6 @@ app.use(errorHandler);
 
 // Running port
 
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
