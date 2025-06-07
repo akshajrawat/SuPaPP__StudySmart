@@ -1,8 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { axiosInstance } from "../../Lib/axios";
 import toast from "react-hot-toast";
-import { socketConnect } from "../../Lib/socket";
-import { setOnlineUsers } from "./chatSlice";
 
 // Thunk
 
@@ -76,14 +74,6 @@ export const loginUser = createAsyncThunk(
   }
 );
 
-export const connectSocket = createAsyncThunk(
-  "auth/connectSocket",
-  async (_, thunkAPI) => {
-    socketConnect(thunkAPI.getState().auth?.user?.id, (userIds) => {
-      thunkAPI.dispatch(setOnlineUsers(userIds));
-    });
-  }
-);
 
 // initial state
 

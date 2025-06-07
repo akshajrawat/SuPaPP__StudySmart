@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getUsers, setSelectedUser } from "../../../Store/Slice/chatSlice";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { MdGroupAdd } from "react-icons/md";
-import { IoPersonAdd } from "react-icons/io5";
+import { IoSettings } from "react-icons/io5";
 
 const SideChat = () => {
   const dispatch = useDispatch();
@@ -72,8 +72,8 @@ const SideChat = () => {
           <li className="relative  border-l border-[#29274a] w-[33%] h-full flex justify-center items-center hover:text-white before:content-['Add_Group'] before:absolute before:text-lg before:font-bold before:bg-white before:text-black before:px-5 before:rounded-full before:opacity-0 hover:before:-translate-y-9 hover:before:opacity-100 before:transition-all before:ease-in-out after:h-0 after:w-0 after:border-l-[8px] after:border-r-[8px] after:border-t-[10px] after:border-white after:border-r-transparent after:border-l-transparent hover:after:-translate-y-5 after:absolute after:opacity-0 hover:after:opacity-100 after:transition-all after:ease-in-out">
             <MdGroupAdd className="hover:text-white" />
           </li>
-          <li className="relative border-l border-[#29274a]  w-[33%] h-full flex justify-center items-center hover:text-white  before:content-['Follow'] before:absolute before:text-lg before:font-bold before:bg-white before:text-black before:px-5 before:rounded-full before:opacity-0 hover:before:-translate-y-9 hover:before:opacity-100 before:transition-all before:ease-in-out after:h-0 after:w-0 after:border-l-[8px] after:border-r-[8px] after:border-t-[10px] after:border-white after:border-r-transparent after:border-l-transparent hover:after:-translate-y-5 after:absolute after:opacity-0 hover:after:opacity-100 after:transition-all after:ease-in-out">
-            <IoPersonAdd className="hover:text-white" />
+          <li className="relative border-l border-[#29274a]  w-[33%] h-full flex justify-center items-center hover:text-white  before:content-['Settings'] before:absolute before:text-lg before:font-bold before:bg-white before:text-black before:px-5 before:rounded-full before:opacity-0 hover:before:-translate-y-9 hover:before:opacity-100 before:transition-all before:ease-in-out after:h-0 after:w-0 after:border-l-[8px] after:border-r-[8px] after:border-t-[10px] after:border-white after:border-r-transparent after:border-l-transparent hover:after:-translate-y-5 after:absolute after:opacity-0 hover:after:opacity-100 after:transition-all after:ease-in-out">
+            <IoSettings className="hover:text-white" />
           </li>
         </ul>
       </div>

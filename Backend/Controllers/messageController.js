@@ -3,6 +3,7 @@ const asyncHandler = require("express-async-handler");
 const Message = require("../Models/messageModel");
 const User = require("../Models/userModel");
 const { cloudinary } = require("../Config/cloudinary");
+const { io, getSocketId } = require("../lib/socket");
 
 // controller logic
 
@@ -44,6 +45,13 @@ const sendMessage = asyncHandler(async (req, res) => {
     text,
     media: imageUrl,
   });
+
+  // handling realtime messaging
+
+  const receiverSocketId = getSocketId(receiverId);
+  if (receiverSocketId) {
+    io.to(receiverSocketId).emit("sendUserMessage", newMessage);
+  }
 
   res.status(201).json({ success: true, message: newMessage });
 });

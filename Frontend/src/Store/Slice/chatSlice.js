@@ -24,14 +24,10 @@ export const getUsers = createAsyncThunk(
 // send message to user
 export const sendMessage = createAsyncThunk(
   "chat/sendMessage",
-  async (message, thunkAPI) => {
+  async (form, thunkAPI) => {
     try {
       const state = thunkAPI.getState();
       const receiver = state.chat.selected._id;
-
-      const form = new FormData();
-      if (message.text) form.append("text", message.text);
-      if (message.media) form.append("image", message.media);
 
       const response = await axiosInstance.post(
         `/chat/sendMessage/${receiver}`,
@@ -43,6 +39,7 @@ export const sendMessage = createAsyncThunk(
         }
       );
       if (response.status === 201) {
+        console.log(response.data.message);
         return response.data.message;
       }
     } catch (error) {
@@ -92,6 +89,9 @@ const chatSlice = createSlice({
     setOnlineUsers: (state, action) => {
       state.onlineUsers = action.payload;
     },
+    setMesasges: (state, action) => {
+      state.message = [...state.message, action.payload];
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -125,5 +125,6 @@ const chatSlice = createSlice({
   },
 });
 
-export const { setSelectedUser, setOnlineUsers } = chatSlice.actions;
+export const { setSelectedUser, setOnlineUsers, setMesasges } =
+  chatSlice.actions;
 export default chatSlice.reducer;

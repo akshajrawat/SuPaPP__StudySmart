@@ -18,6 +18,12 @@ const io = new Server(server, {
 
 const onlineUsers = {}; //userId: SocketId
 
+// get socket id of the online user
+
+const getSocketId = (userId) => {
+  return onlineUsers[userId];
+};
+
 // watching for connection and disconnection
 
 io.on("connection", (socket) => {
@@ -36,4 +42,4 @@ io.on("connection", (socket) => {
   });
 });
 
-module.exports = { io, app, server };
+module.exports = { io, app, server, getSocketId };

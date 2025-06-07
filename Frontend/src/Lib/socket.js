@@ -14,12 +14,28 @@ export const socketConnect = (userId, onlineUserHandler) => {
     socket.connect();
   }
 
-  socket.on("getOnlineUsers", (userIds) => {
+  const handler = (userIds) => {
     console.log(userIds);
     onlineUserHandler(userIds);
-  });
+  };
 
-  return socket;
+  socket.on("getOnlineUsers", handler);
+
+  return () => {
+    socket.off("getOnlineUsers", handler);
+  };
 };
 
 export const getSocket = () => socket;
+
+export const getSocketMessage = (callback) => {
+  const handler = (message) => {
+    callback(message);
+  };
+
+  socket.on("sendUserMessage", handler);
+
+  return () => {
+    socket.off("sendUserMessage", handler);
+  };
+};
