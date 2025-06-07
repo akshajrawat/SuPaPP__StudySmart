@@ -84,12 +84,12 @@ const ChatBox = () => {
   };
 
   return (
-    <div className="flex flex-col h-full w-full bg-white text-black dark:bg-[#0a081f] dark:text-white transition-colors duration-300">
+    <div className="flex flex-col h-screen w-full bg-white text-black dark:bg-[#0a081f] dark:text-white transition-colors duration-300">
       {/* Top bar */}
       <ChatTop />
 
       {/* Chat container */}
-      <div className="flex-1 px-4 py-3 overflow-y-auto scrollbar-thin scrollbar-thumb-[#cfcfcf] dark:scrollbar-thumb-[#3d3b63] scrollbar-track-transparent">
+      <div className="flex-1 px-4 py-3 overflow-y-scroll scrollbar-thin scrollbar-thumb-[#cfcfcf] dark:scrollbar-thumb-[#3d3b63] scrollbar-track-transparent">
         <div className="flex flex-col gap-3">
           {chat.message?.map((item, index) => {
             if (!item) return null;
