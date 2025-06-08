@@ -16,6 +16,10 @@ const ProtectedRoutes = () => {
 
   const isAuth = auth.isAuthenticated;
 
+  if(auth.loading){
+    return <div> loading..... </div>
+  }
+
   if (location.pathname.startsWith("/auth")) {
     return isAuth ? <Navigate to={"/SuPaPP"} replace /> : <Outlet />;
   } else {

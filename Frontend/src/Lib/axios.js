@@ -1,6 +1,6 @@
 import axios from "axios";
 
 export const axiosInstance = axios.create({
-  baseURL: "https://supapp-ou6l.onrender.com/SuPaPP",
+  baseURL: "http://localhost:3000/SuPaPP",
   withCredentials: true,
 });

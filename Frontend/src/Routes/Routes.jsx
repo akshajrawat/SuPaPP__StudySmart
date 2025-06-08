@@ -9,6 +9,7 @@ import Chat from "../Pages/ChatPages/Chat";
 import ProtectedRoutes from "./ProtectedRoutes";
 import LandingLayout from "../Layout/Landing/LandingLayout";
 import MainLayout from "../Layout/Main/MainLayout";
+import HomePage from "../Pages/HomePage/HomePage";
 
 const AppRoutes = () => {
   return (
@@ -21,9 +22,11 @@ const AppRoutes = () => {
 
       {/* protected Routes */}
       <Route element={<ProtectedRoutes />}>
+      
         {/* Render chat layout when in "/auth" path */}
-        <Route element={<MainLayout />}>
-          <Route path="/SuPaPP" element={<Chat />}></Route>
+        <Route path="/SuPaPP" element={<MainLayout />}>
+          <Route index element={<HomePage />}></Route>
+          <Route path="chat" element={<Chat />}></Route>
         </Route>
 
         {/* Render auth layout when in "/auth" path */}

@@ -102,6 +102,8 @@ const loginUser = asyncHandler(async (req, res) => {
 
   res.cookie("token", token, {
     httpOnly: true,
+    secure: process.env.NODE_ENV === "production", // only true in production
+    sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
   });
 
   // send response
@@ -169,6 +171,8 @@ const verifyOtp = asyncHandler(async (req, res) => {
   });
   res.cookie("token", token, {
     httpOnly: true,
+    secure: process.env.NODE_ENV === "production", // only true in production
+    sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
   });
   res.status(200).json({ message: "OTP verified sucessfully", user: user });
 });
@@ -199,14 +203,14 @@ const contactMe = asyncHandler(async (req, res) => {
 });
 
 // title: Verify Token
-// Path: /SuPaPP/verify-token
+// Path: /SuPaPP/auth/verify-token
 // Access: @PRIVATE
 const verifyToken = asyncHandler(async (req, res) => {
   res.status(200).json(req.user);
 });
 
 // title: GET USERS
-// Path: /SuPaPP/users
+// Path: /SuPaPP/auth/users
 // Access: @PRIVATE
 const getUsers = asyncHandler(async (req, res) => {
   console.log("received body is :-", req.body);

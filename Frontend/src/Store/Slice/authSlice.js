@@ -80,7 +80,7 @@ const initialState = {
   user: null,
   isAuthenticated: false,
   isRegistering: false,
-  loading: false,
+  loading: true,
   socket: false,
 };
 
@@ -124,9 +124,16 @@ export const authSlice = createSlice({
       .addCase(verifyOtp.rejected, (state) => {
         state.loading = false;
       })
+      .addCase(authChecking.pending, (state) => {
+        state.loading = true;
+      })
       .addCase(authChecking.fulfilled, (state, action) => {
+        state.loading = false;
         state.isAuthenticated = true;
         state.user = action.payload;
+      })
+      .addCase(authChecking.rejected, (state) => {
+        state.loading = false;
       })
       .addCase(loginUser.pending, (state) => {
         state.loading = true;

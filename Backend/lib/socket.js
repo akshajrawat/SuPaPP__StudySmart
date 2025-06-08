@@ -9,7 +9,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: ["https://supapp-all-purpose-app.onrender.com/SuPaPP"],
+    origin: ["http://localhost:5173"],
     credentials: true,
   },
 });

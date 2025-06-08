@@ -12,7 +12,7 @@ const generateToken = ({ id, username, email, role }) => {
     expiresIn: "1h",
   });
 
-  // set token to cookie
+  //return token
   return Token;
 };
 

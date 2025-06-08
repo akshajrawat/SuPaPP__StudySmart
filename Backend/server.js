@@ -21,7 +21,7 @@ const port = process.env.PORT || 3000;
 // middlewares
 app.use(
   cors({
-    origin: "https://supapp-all-purpose-app.onrender.com",
+    origin: "http://localhost:5173",
     credentials: true,
   })
 );
