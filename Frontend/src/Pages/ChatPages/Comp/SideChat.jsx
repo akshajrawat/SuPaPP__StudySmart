@@ -46,7 +46,7 @@ const SideChat = () => {
               />
               {chat.onlineUsers.includes(item._id) && (
                 <span
-                  className="absolute bottom-0 right-0 block w-3 h-3 bg-green-500 rounded-full border-2 border-white dark:border-[#3d3b63]"
+                  className="absolute bottom-0 right-0 block w-3 h-3 bg-green-500 rounded-full border-2 border-white dark:border-[#0a081f]"
                   title="Online"
                 />
               )}
@@ -64,16 +64,16 @@ const SideChat = () => {
       </div>
 
       {/* Options section */}
-      <div className="h-[8%] text-black border-t border-[#29274a]">
-        <ul className="w-full h-full flex text-[#89888d] text-3xl justify-evenly">
-          <li className="border-l border-[#29274a]  w-[33%] h-full flex justify-center items-center hover:text-white before:content-['Exit'] before:absolute before:text-lg before:font-bold before:bg-white before:text-black before:px-5 before:rounded-full before:opacity-0 hover:before:-translate-y-9 hover:before:opacity-100 before:transition-all before:ease-in-out after:h-0 after:w-0 after:border-l-[8px] after:border-r-[8px] after:border-t-[10px] after:border-white after:border-r-transparent after:border-l-transparent hover:after:-translate-y-5 after:absolute after:opacity-0 hover:after:opacity-100 after:transition-all after:ease-in-out">
+      <div className="h-[8%] text-black dark:text-white border-t border-gray-300 dark:border-[#29274a]">
+        <ul className="w-full h-full flex text-[#89888d] dark:text-[#8d8ea1] text-3xl justify-evenly">
+          <li className="relative border-l border-gray-300 dark:border-[#29274a] w-[33%] h-full flex justify-center items-center hover:text-black dark:hover:text-white before:content-['Exit'] before:absolute before:text-lg before:font-bold before:bg-white dark:before:bg-[#29274a] before:text-black dark:before:text-white before:px-5 before:rounded-full before:opacity-0 hover:before:-translate-y-9 hover:before:opacity-100 before:transition-all before:ease-in-out after:h-0 after:w-0 after:border-l-[8px] after:border-r-[8px] after:border-t-[10px] after:border-white dark:after:border-[#29274a] after:border-r-transparent after:border-l-transparent hover:after:-translate-y-5 after:absolute after:opacity-0 hover:after:opacity-100 after:transition-all after:ease-in-out">
             <FaArrowLeftLong />
           </li>
-          <li className="relative  border-l border-[#29274a] w-[33%] h-full flex justify-center items-center hover:text-white before:content-['Add_Group'] before:absolute before:text-lg before:font-bold before:bg-white before:text-black before:px-5 before:rounded-full before:opacity-0 hover:before:-translate-y-9 hover:before:opacity-100 before:transition-all before:ease-in-out after:h-0 after:w-0 after:border-l-[8px] after:border-r-[8px] after:border-t-[10px] after:border-white after:border-r-transparent after:border-l-transparent hover:after:-translate-y-5 after:absolute after:opacity-0 hover:after:opacity-100 after:transition-all after:ease-in-out">
-            <MdGroupAdd className="hover:text-white" />
+          <li className="relative border-l border-gray-300 dark:border-[#29274a] w-[33%] h-full flex justify-center items-center hover:text-black dark:hover:text-white before:content-['Add_Group'] before:absolute before:text-lg before:font-bold before:bg-white dark:before:bg-[#29274a] before:text-black dark:before:text-white before:px-5 before:rounded-full before:opacity-0 hover:before:-translate-y-9 hover:before:opacity-100 before:transition-all before:ease-in-out after:h-0 after:w-0 after:border-l-[8px] after:border-r-[8px] after:border-t-[10px] after:border-white dark:after:border-[#29274a] after:border-r-transparent after:border-l-transparent hover:after:-translate-y-5 after:absolute after:opacity-0 hover:after:opacity-100 after:transition-all after:ease-in-out">
+            <MdGroupAdd />
           </li>
-          <li className="relative border-l border-[#29274a]  w-[33%] h-full flex justify-center items-center hover:text-white  before:content-['Settings'] before:absolute before:text-lg before:font-bold before:bg-white before:text-black before:px-5 before:rounded-full before:opacity-0 hover:before:-translate-y-9 hover:before:opacity-100 before:transition-all before:ease-in-out after:h-0 after:w-0 after:border-l-[8px] after:border-r-[8px] after:border-t-[10px] after:border-white after:border-r-transparent after:border-l-transparent hover:after:-translate-y-5 after:absolute after:opacity-0 hover:after:opacity-100 after:transition-all after:ease-in-out">
-            <IoSettings className="hover:text-white" />
+          <li className="relative border-l border-gray-300 dark:border-[#29274a] w-[33%] h-full flex justify-center items-center hover:text-black dark:hover:text-white before:content-['Settings'] before:absolute before:text-lg before:font-bold before:bg-white dark:before:bg-[#29274a] before:text-black dark:before:text-white before:px-5 before:rounded-full before:opacity-0 hover:before:-translate-y-9 hover:before:opacity-100 before:transition-all before:ease-in-out after:h-0 after:w-0 after:border-l-[8px] after:border-r-[8px] after:border-t-[10px] after:border-white dark:after:border-[#29274a] after:border-r-transparent after:border-l-transparent hover:after:-translate-y-5 after:absolute after:opacity-0 hover:after:opacity-100 after:transition-all after:ease-in-out">
+            <IoSettings />
           </li>
         </ul>
       </div>

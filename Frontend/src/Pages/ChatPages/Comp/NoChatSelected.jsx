@@ -3,13 +3,10 @@ import { FaArrowLeft } from "react-icons/fa";
 import messagePng from "../../../Assets/Icon/message.png";
 
 const NoChatSelected = () => {
-
   return (
     <div className="min-h-full flex flex-col justify-center items-center text-center px-4 bg-white dark:bg-[#0a081f] text-black dark:text-white transition-colors duration-300 relative">
       {/* Back button for small screens */}
-      <button
-        className="absolute top-4 left-4 sm:hidden text-xl text-black dark:text-white p-2 hover:bg-gray-200 dark:hover:bg-[#19173a] rounded-full transition"
-      >
+      <button className="absolute top-4 left-4 sm:hidden text-xl text-black dark:text-white p-2 hover:bg-gray-200 dark:hover:bg-[#19173a] rounded-full transition">
         <FaArrowLeft />
       </button>
 

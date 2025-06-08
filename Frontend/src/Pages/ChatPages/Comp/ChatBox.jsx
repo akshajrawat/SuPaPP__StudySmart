@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import ChatTop from "./ChatTop";
 import { FaLink } from "react-icons/fa";
 import { IoSend } from "react-icons/io5";
@@ -10,21 +10,19 @@ import {
   setMesasges,
 } from "../../../Store/Slice/chatSlice";
 import { getSocketMessage } from "../../../Lib/socket";
+import RerenderedMessage from "./RerenderMessage";
 
 const ChatBox = () => {
   const dispatch = useDispatch();
   const chat = useSelector((state) => state.chat);
 
-  // message skeleton
   const [message, setMessage] = useState({
     text: "",
     media: "",
   });
-
   const [imageSending, setImageSending] = useState(false);
   const [previewUrl, setPreviewUrl] = useState(null);
 
-  // getting message
   useEffect(() => {
     const cleanup = getSocketMessage((message) => {
       dispatch(setMesasges(message));
@@ -36,10 +34,18 @@ const ChatBox = () => {
     };
   }, [chat.selected?.id]);
 
-  // refrence to the file input
-  const fileInputRef = useRef(null);
+  useEffect(() => {
+    if (messageContainerRef.current) {
+      messageContainerRef.current.scrollTo({
+        top: messageContainerRef.current.scrollHeight,
+        behavior: "smooth",
+      });
+    }
+  }, [chat.message]);
 
-  // handle change when some file is selected
+  const fileInputRef = useRef(null);
+  const messageContainerRef = useRef(null);
+
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -52,7 +58,6 @@ const ChatBox = () => {
     }));
   };
 
-  // Handle the text change
   const handleTextChange = (e) => {
     setMessage((prev) => ({
       ...prev,
@@ -60,7 +65,6 @@ const ChatBox = () => {
     }));
   };
 
-  // handle the submition of the message
   const handleSubmit = async (e) => {
     e.preventDefault();
     setPreviewUrl(null);
@@ -83,81 +87,36 @@ const ChatBox = () => {
     });
   };
 
+  const rerenderedMessage = useMemo(() => {
+    return chat.message?.map((item, index) => {
+      if (!item) return null;
+      const isReceiver = item.senderId === chat.selected?._id;
+      return (
+        <RerenderedMessage key={index} item={item} isReceiver={isReceiver} />
+      );
+    });
+  }, [chat.message, chat.selected?._id]);
+
   return (
     <div className="flex flex-col h-screen w-full bg-white text-black dark:bg-[#0a081f] dark:text-white transition-colors duration-300">
       {/* Top bar */}
       <ChatTop />
 
       {/* Chat container */}
-      <div className="flex-1 px-4 py-3 overflow-y-scroll scrollbar-thin scrollbar-thumb-[#cfcfcf] dark:scrollbar-thumb-[#3d3b63] scrollbar-track-transparent">
+      <div
+        ref={messageContainerRef}
+        className="flex-1 px-4 py-3 overflow-y-scroll scrollbar-thin scrollbar-thumb-[#cfcfcf] dark:scrollbar-thumb-[#3d3b63] scrollbar-track-transparent"
+      >
         <div className="flex flex-col gap-3">
-          {chat.message?.map((item, index) => {
-            if (!item) return null;
-            if (item.senderId === chat.selected?._id) {
-              return (
-                <div
-                  key={index}
-                  className="self-start max-w-[70%] lg:max-w-[50%]"
-                >
-                  {item.media && (
-                    <div className="w-[200px] h-[200px] overflow-hidden rounded-xl mt-2">
-                      <img
-                        src={item.media}
-                        alt="Chat media"
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                  )}
-                  {item.text && (
-                    <p
-                      className="bg-[#5C6AC4] mt-4 px-3 py-2 rounded-2xl relative
-            after:h-0 after:w-0 after:border-b-[8px] after:border-r-[10px] after:border-t-[8px]
-            after:border-b-transparent after:border-r-[#5C6AC4] after:border-t-transparent
-            after:absolute after:left-0 after:-translate-x-2 after:translate-y-1"
-                    >
-                      {item.text}
-                    </p>
-                  )}
-                </div>
-              );
-            } else {
-              return (
-                <div
-                  key={index}
-                  className="self-end max-w-[70%] lg:max-w-[50%]"
-                >
-                  {item.media && (
-                    <div className="w-[200px] h-[200px] overflow-hidden rounded-xl mt-2">
-                      <img
-                        src={item.media}
-                        alt="Chat media"
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                  )}
-                  {item.text && (
-                    <p
-                      className="bg-[#3E3B5B] mt-4 px-3 py-2 rounded-2xl relative
-            after:h-0 after:w-0 after:border-b-[8px] after:border-l-[10px] after:border-t-[8px]
-            after:border-b-transparent after:border-l-[#3E3B5B] after:border-t-transparent
-            after:absolute after:right-0 after:translate-x-2 after:translate-y-1"
-                    >
-                      {item.text}
-                    </p>
-                  )}
-                </div>
-              );
-            }
-          })}
-
+          {rerenderedMessage}
           {/* skeleton */}
           {imageSending && (
             <div
               role="status"
-              class="flex items-center justify-center h-56 max-w-sm bg-gray-300 rounded-lg animate-pulse dark:bg-gray-700 self-end w-[300px] mt-3"
+              className="flex items-center justify-center h-56 max-w-sm bg-gray-300 rounded-lg animate-pulse dark:bg-gray-700 self-end w-[300px] mt-3"
             >
               <svg
-                class="w-10 h-10 text-gray-200 dark:text-gray-600"
+                className="w-10 h-10 text-gray-200 dark:text-gray-600"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="currentColor"
@@ -165,38 +124,37 @@ const ChatBox = () => {
               >
                 <path d="M18 0H2a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-5.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm4.376 10.481A1 1 0 0 1 16 15H4a1 1 0 0 1-.895-1.447l3.5-7A1 1 0 0 1 7.468 6a.965.965 0 0 1 .9.5l2.775 4.757 1.546-1.887a1 1 0 0 1 1.618.1l2.541 4a1 1 0 0 1 .028 1.011Z" />
               </svg>
-              <span class="sr-only">Loading...</span>
+              <span className="sr-only">Loading...</span>
             </div>
           )}
         </div>
       </div>
 
       {/* Message input area */}
+      {previewUrl && (
+        <div className="w-[100px] h-[100px] mb-2 relative">
+          <img
+            src={previewUrl}
+            alt=""
+            className="object-cover w-full h-full rounded"
+          />
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              setPreviewUrl(null);
+              setMessage((prev) => ({ ...prev, media: null }));
+            }}
+            className="absolute top-0 left-0 bg-[#848484] backdrop-blur-2xl p-1 rounded-full text-white"
+          >
+            <RxCross1 />
+          </button>
+        </div>
+      )}
+
       <form
         onSubmit={handleSubmit}
-        className="w-full px-4 py-2.5 border-t border-gray-300 dark:border-[#29274a]"
+        className="w-full px-4 py-2.5 border-t border-gray-300 dark:border-[#29274a] transition-colors duration-300"
       >
-        {/* image preview */}
-        {previewUrl && (
-          <div className="w-[100px] h-[100px] mb-2 relative">
-            <img
-              src={previewUrl}
-              alt=""
-              className="object-cover w-full h-full"
-            />
-            <button
-              onClick={(e) => {
-                e.preventDefault();
-                setPreviewUrl(null);
-                setMessage((prev) => ({ ...prev, media: null }));
-              }}
-              className="absolute top-0 left-0 bg-[#848484] backdrop:blur-2xl p-1 rounded-full"
-            >
-              <RxCross1 />
-            </button>
-          </div>
-        )}
-
         <div className="flex items-center w-full bg-gray-100 dark:bg-[#19173a] rounded-full px-4 py-2 shadow-md transition-colors duration-300">
           <input
             type="file"
@@ -212,7 +170,7 @@ const ChatBox = () => {
               e.preventDefault();
               fileInputRef.current.click();
             }}
-            className="text-gray-500 dark:text-[#8d8ea1] text-xl mr-2 cursor-pointer hover:text-black dark:hover:text-white transition"
+            className="text-gray-500 dark:text-[#8d8ea1] text-xl mr-2 cursor-pointer hover:text-black dark:hover:text-white transition-colors duration-300"
           >
             <FaLink />
           </button>
@@ -227,7 +185,7 @@ const ChatBox = () => {
           />
           <button
             type="submit"
-            className="text-gray-500 dark:text-[#8d8ea1] text-2xl ml-2 cursor-pointer hover:text-black dark:hover:text-white transition"
+            className="text-gray-500 dark:text-[#8d8ea1] text-2xl ml-2 cursor-pointer hover:text-black dark:hover:text-white transition-colors duration-300"
           >
             <IoSend />
           </button>

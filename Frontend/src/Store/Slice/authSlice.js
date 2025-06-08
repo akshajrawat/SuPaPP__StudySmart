@@ -49,7 +49,7 @@ export const authChecking = createAsyncThunk(
       }
     } catch (error) {
       const message = error.response?.data?.message || error.message;
-      toast.error(message);
+      console.error(message);
       return thunkAPI.rejectWithValue(message);
     }
   }
@@ -73,7 +73,6 @@ export const loginUser = createAsyncThunk(
     }
   }
 );
-
 
 // initial state
 
