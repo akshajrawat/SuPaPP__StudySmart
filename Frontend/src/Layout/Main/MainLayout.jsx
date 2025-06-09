@@ -4,6 +4,16 @@ import { Outlet } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { socketConnect } from "../../Lib/socket";
 import { setOnlineUsers } from "../../Store/Slice/chatSlice";
+import Navbar from "../../Components/Navbar/Navbar";
+
+const navbarLinks = [
+  { name: "Home", link: "/SuPaPP" },
+  { name: "Chat", link: "/SuPaPP/chat" },
+  { name: "Explore", link: "/SuPaPP/explore" },
+  { name: "Profile", link: "/SuPaPP/profile" },
+  { name: "Settings", link: "/SuPaPP/settings" },
+  { name: "Logout", action: "logout" }, // Use this to dispatch logout
+];
 
 const MainLayout = () => {
   const auth = useSelector((state) => state.auth);
@@ -20,6 +30,7 @@ const MainLayout = () => {
 
   return (
     <div className="max-w-screen min-h-screen dark:bg-[#0a081f]">
+      <Navbar links={navbarLinks} />
       <main className="">
         <Outlet />
       </main>

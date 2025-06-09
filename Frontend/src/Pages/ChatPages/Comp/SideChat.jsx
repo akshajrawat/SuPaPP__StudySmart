@@ -14,7 +14,7 @@ const SideChat = () => {
   }, []);
 
   return (
-    <div className="h-full w-full bg-white dark:bg-[#0a081f] text-black dark:text-white transition-colors duration-300">
+    <div className="h-[calc(100vh-80px)] w-full bg-white dark:bg-[#0a081f] text-black dark:text-white transition-colors duration-300">
       {/* Search bar */}
       <div className="flex items-center justify-center h-[13%] px-4 py-3 border-b border-gray-300 dark:border-[#29274a]">
         <div className="flex items-center w-full bg-gray-100 dark:bg-[#19173a] rounded-full px-4 py-2 shadow-inner">

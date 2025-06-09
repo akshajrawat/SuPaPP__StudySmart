@@ -6,19 +6,9 @@ import { IoClose } from "react-icons/io5";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 
-const navLinks = [
-  { name: "Home", link: "#Home" },
-  { name: "About", link: "#About" },
-  { name: "Features", link: "#Features" },
-  { name: "FAQs", link: "#Faqs" },
-  { name: "Contact", link: "#Contact" },
-];
-
 const Navbar = ({ links }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isDark, setIsDark] = useState(false);
-
-  const displayLinks = links ? links : navLinks;
 
   useEffect(() => {
     const theme = localStorage.getItem("theme");
@@ -46,7 +36,7 @@ const Navbar = ({ links }) => {
   return (
     <>
       {/* This is the navbar start*/}
-      <nav className="w-full h-[56px] flex justify-between items-center px-7 py-8 md:p-4 lg:p-10 bg-white dark:bg-[#0a081f] z-10 sticky top-0">
+      <nav className="w-full h-[56px] flex justify-between items-center px-7 py-8 md:p-4 lg:p-10 bg-white dark:bg-[#0a081f] z-10 sticky top-0 border-b border-[#3d3b63b0]">
         {/* Logo section start */}
         <Link to={"/"}>
           <h1 className="flex items-end gap-2">
@@ -63,7 +53,7 @@ const Navbar = ({ links }) => {
 
         <div className="hidden lg:flex w-[50%] h-[100%] font-bold text-lg text-[#727382]">
           <ul className="w-full h-full flex justify-between items-center ">
-            {displayLinks.map((item, index) => {
+            {links.map((item, index) => {
               return (
                 <li
                   onClick={(e) => {
@@ -122,7 +112,7 @@ const Navbar = ({ links }) => {
           <IoClose className="text-2xl mr-3 text-[#727382]" />
         </div>
         <ul className=" flex flex-col h-[252px] w-full px-9 mt-5 text-[#727382]  font-semibold gap-4 ">
-          {displayLinks.map((item, index) => {
+          {links.map((item, index) => {
             return (
               <li
                 key={index}

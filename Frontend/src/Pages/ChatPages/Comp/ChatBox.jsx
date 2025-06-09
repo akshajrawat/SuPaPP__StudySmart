@@ -98,7 +98,7 @@ const ChatBox = () => {
   }, [chat.message, chat.selected?._id]);
 
   return (
-    <div className="flex flex-col h-screen w-full bg-white text-black dark:bg-[#0a081f] dark:text-white transition-colors duration-300">
+    <div className="flex flex-col h-[calc(100vh-80px)] w-full bg-white text-black dark:bg-[#0a081f] dark:text-white transition-colors duration-300">
       {/* Top bar */}
       <ChatTop />
 
