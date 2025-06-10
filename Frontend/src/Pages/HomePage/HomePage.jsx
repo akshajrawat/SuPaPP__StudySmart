@@ -12,6 +12,7 @@ const cardDetails = [
         autoplay
       />
     ),
+    link: "/",
   },
   {
     name: "Ecommerce ",
@@ -22,6 +23,7 @@ const cardDetails = [
         autoplay
       />
     ),
+    link: "/",
   },
   {
     name: "Chat ",
@@ -32,6 +34,7 @@ const cardDetails = [
         autoplay
       />
     ),
+    link: "/SuPaPP/chat",
   },
 ];
 
@@ -39,17 +42,22 @@ const HomePage = () => {
   return (
     <div className="text-white min-h-[calc(100vh-80.8px)] w-full flex flex-col justify-start items-center pt-5">
       {/* heading */}
-      <h1 className="text-4xl font-medium text-shadow-2xs text-shadow-gray-50 w-full flex justify-center gap-x-4 flex-wrap">
+      <h1 className="text-4xl font-bold w-full flex justify-center gap-x-4 flex-wrap lg:mt-4 lg:text-5xl">
         <p className="text-[#4fd1d9]">Create. </p>
         <p>Connect. </p>
         <p className="text-[#4fd1d9]">Sell. </p>
         <p>Support.</p>
       </h1>
       <div className=" w-full flex justify-center items-center p-2">
-        <div className="bg-[#0d0446bf] h-full w-[90%] flex flex-wrap justify-center items-center gap-3 py-5 rounded-4xl mt-4">
+        <div className="bg-[#0d0446bf] h-full w-[90%] flex flex-wrap justify-center items-center gap-5 py-5 rounded-4xl mt-4 lg:py-8 lg:gap-20 lg:w-[70%] lg:mt-8">
           {cardDetails.map((item, index) => {
             return (
-              <Cards key={index} name={item.name} animation={item.component} />
+              <Cards
+                key={index}
+                name={item.name}
+                animation={item.component}
+                link={item.link}
+              />
             );
           })}
         </div>
