@@ -9,9 +9,9 @@ import Navbar from "../../Components/Navbar/Navbar";
 const navbarLinks = [
   { name: "Home", link: "/SuPaPP" },
   { name: "Chat", link: "/SuPaPP/chat" },
-  { name: "Explore", link: "/SuPaPP/explore" },
+  { name: "Crypto", link: "/SuPaPP/wallet" },
+  { name: "Shopping", link: "/SuPaPP/chat" },
   { name: "Profile", link: "/SuPaPP/profile" },
-  { name: "Settings", link: "/SuPaPP/settings" },
   { name: "Logout", action: "logout" }, // Use this to dispatch logout
 ];
 
