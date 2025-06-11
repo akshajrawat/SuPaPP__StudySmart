@@ -65,7 +65,7 @@ const Navbar = ({ links }) => {
                   key={index}
                   className="w-full flex justify-center items-center h-9 p-3 hover:text-black dark:hover:text-white"
                 >
-                  <Link to={item.link}>{item.name}</Link>
+                  <Link className="whitespace-nowrap" to={item.link}>{item.name}</Link>
                 </li>
               );
             })}

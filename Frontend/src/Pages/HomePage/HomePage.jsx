@@ -3,7 +3,7 @@ import Cards from "./comps/Cards";
 
 const cardDetails = [
   {
-    name: "Crypto Wallet",
+    name: "Crypto & Wallet",
     animationUrl:
       "https://lottie.host/6738d52a-a3a5-49bf-8145-f5848a11b29a/ufF4w4dZRl.lottie",
     to: "/Supapp/wallet",

@@ -9,6 +9,7 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const authRoute = require("./Routes/authRoutes");
 const chatRoute = require("./Routes/chatRoutes");
+const cryptoRoutes = require("./Routes/cryptoRoutes");
 const errorHandler = require("./Middleware/errorHandler");
 const { app, server } = require("./lib/socket");
 
@@ -29,6 +30,7 @@ app.use(cookieParser());
 app.use(express.json());
 app.use("/SuPaPP/auth", authRoute);
 app.use("/SuPaPP/chat", chatRoute);
+app.use("/SuPaPP/crypto", cryptoRoutes);
 app.use(errorHandler);
 
 // Running port
