@@ -36,7 +36,7 @@ const Navbar = ({ links }) => {
   return (
     <>
       {/* This is the navbar start*/}
-      <nav className="w-full h-[56px] flex justify-between items-center px-7 py-8 md:p-4 lg:p-10 bg-white dark:bg-[#0a081f] z-10 sticky top-0 border-b border-[#3d3b63b0]">
+      <nav className="max-w-full h-[56px] flex justify-between items-center px-7 py-8 md:p-4 lg:p-10 bg-white dark:bg-[#0a081f] z-10 sticky top-0 border-b border-[#3d3b63b0]">
         {/* Logo section start */}
         <Link to={"/"}>
           <h1 className="flex items-end gap-2">
@@ -51,8 +51,8 @@ const Navbar = ({ links }) => {
 
         {/* Navbar main start */}
 
-        <div className="hidden lg:flex w-[50%] h-[100%] font-bold text-lg text-[#727382]">
-          <ul className="w-full h-full flex justify-between items-center ">
+        <div className="hidden lg:flex h-[100%] font-bold text-lg text-[#727382]">
+          <ul className="w-full h-full flex justify-between gap-2 items-center ">
             {links.map((item, index) => {
               return (
                 <li

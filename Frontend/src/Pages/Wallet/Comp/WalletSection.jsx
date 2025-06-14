@@ -16,19 +16,19 @@ const walletActions = [
 
 const WalletSection = () => {
   return (
-    <div className="border-r-2 border-[#ffffff23] min-h-[calc(100vh-80.8px)] w-[30%] flex flex-col items-center gap-3 p-4 text-shadow-md text-shadow-[#00000041]">
+    <div className="border-r-2 border-[#ffffff23] h-full w-full flex flex-col items-center gap-3 p-4 text-shadow-md text-shadow-[#00000041]">
       {/* heading */}
       <h1 className="text-4xl font-bold text-[#b6acf2bf]"> Payment </h1>
 
       {/* wallet box */}
-      <div className=" w-full h-[50vh]  ">
+      <div className=" w-full h-[50%] flex flex-col overflow-hidden">
         <h2 className="text-3xl font-medium text-white w-full h-[10%] ml-2">
           {" "}
           Wallet{" "}
         </h2>
-        <div className="min-h-[80%] w-full  bg-[#b6acf2bf] rounded-2xl p-4 mt-1 shadow-md shadow-[#00000041]">
+        <div className="min-h-[80%] w-full  bg-[#b6acf2bf] rounded-2xl py-6 px-1 mt-1 shadow-md shadow-[#00000041]">
           {/* money */}
-          <div className="text-6xl font-medium text-white h-[130px] flex justify-center items-center border-b-2 border-[#ffffff6d]">
+          <div className="text-6xl font-medium text-white h-[35%] flex justify-center items-center border-b-2 border-[#ffffff6d]">
             0.00$
           </div>
 
@@ -51,6 +51,27 @@ const WalletSection = () => {
             </button>
           </div>
         </div>
+      </div>
+
+      {/* transaction history box */}
+
+      <div className="h-[50%] over w-full bg-green-400 rounded-2xl flex flex-col">
+        <p>ashcashgdas</p>
+        <p>ashcashgdas</p>
+        <p>ashcashgdas</p>
+        <p>ashcashgdas</p>
+        <p>ashcashgdas</p>
+        <p>ashcashgdas</p>
+        <p>ashcashgdas</p>
+        <p>ashcashgdas</p>
+        <p>ashcashgdas</p>
+        <p>ashcashgdas</p>
+        <p>ashcashgdas</p>
+        <p>ashcashgdas</p>
+        <p>ashcashgdas</p>
+        <p>ashcashgdas</p>
+        <p>ashcashgdas</p>
+        <p>ashcashgdas</p>
       </div>
     </div>
   );

@@ -4,12 +4,16 @@ import CryptoSection from "./Comp/CryptoSection";
 
 const Wallet = () => {
   return (
-    <div className="flex">
+    <div className="flex w-full">
       {/* wallet section */}
-      <WalletSection />
+      <div className="w-[30%] min-h-[calc(100vh-80.8px)]">
+        <WalletSection />
+      </div>
 
       {/* crypto activity section */}
-      <CryptoSection />
+      <div className="w-[70%] min-h-[calc(100vh-80.8px)]">
+        <CryptoSection />
+      </div>
     </div>
   );
 };

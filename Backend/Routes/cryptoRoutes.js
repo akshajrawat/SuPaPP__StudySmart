@@ -4,9 +4,12 @@ const router = express.Router();
 
 // controller import
 const { getTopCrypto } = require("../Controllers/cryptoController");
+const tokenHandler = require("../Middleware/tokenHandler");
 
 // routes
-router.get("/top", getTopCrypto);
+
+// Routes :- /SuPaPP/crypto/top
+router.get("/top", tokenHandler, getTopCrypto);
 router.get("/:id/price", () => {});
 router.get("/:id/history", () => {});
 router.get("/search/:query", () => {});
