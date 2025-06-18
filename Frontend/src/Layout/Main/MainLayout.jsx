@@ -10,7 +10,7 @@ const navbarLinks = [
   { name: "Home", link: "/SuPaPP" },
   { name: "Chat", link: "/SuPaPP/chat" },
   { name: "Crypto & Wallet", link: "/SuPaPP/wallet" },
-  { name: "Shopping", link: "/SuPaPP/chat" },
+  { name: "Shopping", link: "/SuPaPP/ecommerce" },
   { name: "Profile", link: "/SuPaPP/profile" },
   { name: "Logout", action: "logout" }, // Use this to dispatch logout
 ];

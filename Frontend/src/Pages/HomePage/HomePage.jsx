@@ -12,7 +12,7 @@ const cardDetails = [
     name: "Ecommerce",
     animationUrl:
       "https://lottie.host/c4e230f6-5a8f-49f7-8044-f19eecefecbf/qwP0aR1eV5.lottie",
-    to: "/",
+    to: "/SupApp/ecommerce",
   },
   {
     name: "Chat",

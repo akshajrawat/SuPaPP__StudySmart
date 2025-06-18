@@ -11,6 +11,7 @@ import LandingLayout from "../Layout/Landing/LandingLayout";
 import MainLayout from "../Layout/Main/MainLayout";
 import HomePage from "../Pages/HomePage/HomePage";
 import Wallet from "../Pages/Wallet/Wallet";
+import EcommerceHome from "../Pages/EcommercePages/EcommerceHome/EcommerceHome";
 
 const AppRoutes = () => {
   return (
@@ -28,6 +29,7 @@ const AppRoutes = () => {
           <Route index element={<HomePage />}></Route>
           <Route path="chat" element={<Chat />}></Route>
           <Route path="wallet" element={<Wallet />}></Route>
+          <Route path="ecommerce" element={<EcommerceHome />}></Route>
         </Route>
 
         {/* Render auth layout when in "/auth" path */}
