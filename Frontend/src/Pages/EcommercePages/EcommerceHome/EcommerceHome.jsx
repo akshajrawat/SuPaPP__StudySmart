@@ -1,43 +1,43 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchProducts } from "../../../Store/Slice/shopSlice";
-import CategoryCarousel from "./Comp/CategoryCarousel";
-import EcomCard from "./Comp/EcomCard";
+import {
+  clearSearch,
+  fetchProducts,
+  searchProduct,
+} from "../../../Store/Slice/shopSlice";
+import CategorySection from "./Sections/CategorySection";
+import TopSellingSection from "./Sections/TopSellingSection";
+import BestDealSection from "./Sections/BestDealSection";
+import SearchCard from "./Comp/SearchCard";
 
 const EcommerceHome = () => {
+  // state for search query
+  const [query, setQuery] = useState("");
   const dispatch = useDispatch();
   const shop = useSelector((state) => state.shop);
-  const products = shop.products;
+
   // fetching products from backend
   useEffect(() => {
     dispatch(fetchProducts());
   }, []);
 
-  // category selection
-  const uniqueCategoryProducts = useMemo(() => {
-    const result = [];
-    const seen = new Set();
-    for (const product of products) {
-      if (!seen.has(product.category)) {
-        result.push(product);
-        seen.add(product.category);
+  // for search quert
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (query.trim() === "") {
+        dispatch(clearSearch());
+      } else {
+        dispatch(searchProduct(query));
       }
-    }
-    return result;
-  }, [products]);
+    }, 300);
 
-  // highest rated
-  const topRatedProducts = useMemo(() => {
-    const top = products.filter((product) => product.rating > 4.8);
-    return top;
-  }, [products]);
+    return () => clearTimeout(timer);
+  }, [query, dispatch]);
 
-  // highest Discount
-  const highDiscountProducts = useMemo(() => {
-    const top = products.filter((product) => product.discountPercentage > 17);
-    return top;
-  }, [products]);
+  const handleChange = (e) => {
+    setQuery(e.target.value);
+  };
 
   return (
     <div className=" max-w-full h-[calc(100vh-64.8px)] flex flex-col gap-6 p-3 overflow-scroll">
@@ -47,57 +47,53 @@ const EcommerceHome = () => {
           <FaSearch className="text-gray-500 dark:text-[#8d8ea1] text-lg mr-2" />
           <input
             type="text"
+            value={query}
+            onChange={handleChange}
             placeholder="Search"
             className="bg-transparent w-full text-sm text-black dark:text-white placeholder:text-gray-500 dark:placeholder:text-[#8d8ea1] outline-none"
           />
         </div>
       </div>
 
-      {/* category section */}
-      <div className=" h-[20%] flex flex-col gap-4">
-        <div className="flex justify-between items-center h-[10%]">
-          <h2 className="text-white text-xl font-semibold "> Categories </h2>
-        </div>
+      {/* toggle between searchBar filled and not filled */}
 
-        {/* category showcase */}
-        <CategoryCarousel products={uniqueCategoryProducts} />
-      </div>
-
-      {/* Top selling */}
-      <div className="h-[50%] flex flex-col gap-3 ">
-        <div className="flex justify-between items-center h-[10%]">
-          <h2 className="text-white text-xl font-semibold "> Top Selling </h2>
+      {shop.isLoading ? (
+        <div className="flex justify-center items-start flex-row gap-2 h-[100vh] pt-55">
+          <div className="w-4 h-4 rounded-full bg-blue-700 animate-bounce [animation-delay:.7s]"></div>
+          <div className="w-4 h-4 rounded-full bg-blue-700 animate-bounce [animation-delay:.3s]"></div>
+          <div className="w-4 h-4 rounded-full bg-blue-700 animate-bounce [animation-delay:.7s]"></div>
         </div>
-
-        {/* top selling showcase */}
-        <div className=" h-[90%] flex gap-3 overflow-x-scroll justify-start ">
-          {topRatedProducts.map((item) => {
-            return (
-              <div key={item.id} className="shrink-0">
-                {" "}
-                <EcomCard item={item}  />{" "}
-              </div>
-            );
-          })}
+      ) : query.trim() !== "" && shop.searchResult.length === 0 ? (
+        <div className="flex flex-col items-center justify-center h-[60vh] text-center text-white bg-[#19173a] rounded-xl shadow-md px-6">
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/2748/2748558.png"
+            alt="No Results"
+            className="w-28 h-28 mb-4 opacity-80"
+          />
+          <h2 className="text-2xl font-semibold mb-2">No Products Found</h2>
+          <p className="text-sm text-gray-400 max-w-sm">
+            We couldn’t find any products matching your search. Try different
+            keywords or browse from our categories.
+          </p>
         </div>
-      </div>
+      ) : shop.searchResult.length > 0 ? (
+        shop.searchResult.map((item) => {
+          return (
+            <SearchCard item={item} isLoading={shop.isLoading} key={item.id} />
+          );
+        })
+      ) : (
+        <>
+          {/* category section */}
+          <CategorySection />
 
-      {/* best deals */}
-      <div className="h-[50%] flex flex-col gap-3 ">
-        <div className="flex justify-between items-center h-[10%]">
-          <h2 className="text-white text-xl font-semibold "> Best Deals </h2>
-        </div>
+          {/* Top selling section */}
+          <TopSellingSection />
 
-        {/* top selling showcase */}
-        <div className=" h-[90%] flex gap-3 overflow-x-scroll justify-start ">
-          {highDiscountProducts.map((item) => {
-            return <div key={item.id} className="shrink-0">
-                {" "}
-                <EcomCard item={item}  />{" "}
-              </div>
-          })}
-        </div>
-      </div>
+          {/* best deals */}
+          <BestDealSection />
+        </>
+      )}
     </div>
   );
 };
