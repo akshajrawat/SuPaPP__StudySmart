@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Outlet, useLocation, Navigate } from "react-router-dom";
 import { authChecking, authenticate } from "../Store/Slice/authSlice";
 import { useEffect } from "react";
+import Buffer from "../Components/Ui/Buffer";
 
 const ProtectedRoutes = () => {
   const dispatch = useDispatch();
@@ -17,13 +18,7 @@ const ProtectedRoutes = () => {
   const isAuth = auth.isAuthenticated;
 
   if (auth.loading) {
-    return (
-      <div className="flex justify-center items-center flex-row gap-2 h-[100vh]">
-        <div className="w-4 h-4 rounded-full bg-blue-700 animate-bounce [animation-delay:.7s]"></div>
-        <div className="w-4 h-4 rounded-full bg-blue-700 animate-bounce [animation-delay:.3s]"></div>
-        <div className="w-4 h-4 rounded-full bg-blue-700 animate-bounce [animation-delay:.7s]"></div>
-      </div>
-    );
+    return <Buffer className="mt-45"/>;
   }
 
   if (location.pathname.startsWith("/auth")) {

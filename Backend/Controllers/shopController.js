@@ -1,41 +1,76 @@
 // basic imports
 const asyncHandler = require("express-async-handler");
-const axios = require("axios");
+const User = require("../Models/userModel");
+const Store = require("../Models/storeModel");
+
 // controllers
 
-// title: Get all the products
-// Path: /SuPaPP/shop/products
+// title: Upgrade user role to seller
+// Path :- /SuPaPP/shop/upgrade-role-seller
 // Access: @PRIVATE
-const getProducts = asyncHandler(async (req, res) => {
-  const response = await axios.get("https://dummyjson.com/products?limit=100");
-  res.status(200).json(response.data);
+const roleUpgradeSeller = asyncHandler(async (req, res) => {
+  const { id } = req.user;
+
+  // checks whether the user is present or not
+  const user = await User.findById(id).select("-password");
+  if (!user) {
+    res.status(404);
+    throw new Error("No user found");
+  }
+
+  // checks if the user is already a seller
+  if (user.role === "seller") {
+    return res.status(200).json({ message: "User is already a seller" });
+  }
+
+  user.role = "seller";
+  await user.save();
+
+  res.status(200).json({ message: "Role changed to Seller" });
 });
 
-// title: Search a particular product with a word
-// Path: /SuPaPP/shop/searchProduct/:search
+// title: Create a store
+// Path :- /SuPaPP/shop/create-store
 // Access: @PRIVATE
-const searchProducts = asyncHandler(async (req, res) => {
-  const { search } = req.params;
-  const response = await axios.get(
-    `https://dummyjson.com/products/search?q=${encodeURIComponent(search)}`
-  );
-  res.status(200).json(response.data.products);
-});
+const createStore = asyncHandler(async (req, res) => {
+  const { logo, banner, description, name } = req.body;
+  const { id } = req.user;
 
-// title: Search a particular product with a id
-// Path: /SuPaPP/shop/product/:id
-// Access: @PRIVATE
-const getProduct = asyncHandler(async (req, res) => {
-  const { id } = req.params;
-  const response = await axios.get(
-    `https://dummyjson.com/products/${encodeURIComponent(id)}`
-  );
-  res.status(200).json(response.data);
+  // validates the user and his role
+  const user = await User.findById(id).select("-password");
+  if (!user || user.role != "seller") {
+    res.status(404);
+    throw new Error("User is not valid");
+  }
+
+  // check if the store already exist
+  const existingStore = await Store.findOne({ owner: user._id });
+  if (existingStore) {
+    res.status(409);
+    throw new Error("Store already exists");
+  }
+
+  // validates the name and description provided
+  if (!name?.trim() || !description?.trim()) {
+    res.status(400);
+    throw new Error("All fields are mandatory");
+  }
+
+  const newStore = await Store.create({
+    name,
+    description,
+    banner,
+    logo,
+    owner: user._id,
+  });
+
+  res
+    .status(201)
+    .json({ message: "Store has been sucessfully created", store: newStore });
 });
 
 // exports
 module.exports = {
-  getProducts,
-  searchProducts,
-  getProduct,
+  roleUpgradeSeller,
+  createStore,
 };

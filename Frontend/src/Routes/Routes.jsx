@@ -12,7 +12,6 @@ import MainLayout from "../Layout/Main/MainLayout";
 import HomePage from "../Pages/HomePage/HomePage";
 import Wallet from "../Pages/Wallet/Wallet";
 import EcommerceHome from "../Pages/EcommercePages/EcommerceHome/EcommerceHome";
-import ProductView from "../Pages/EcommercePages/EcommerceHome/Sections/ProductView";
 
 const AppRoutes = () => {
   return (
@@ -21,7 +20,7 @@ const AppRoutes = () => {
 
       <Route element={<LandingLayout />}>
         <Route path="/" element={<Landing />} />
-      </Route>   
+      </Route>
 
       {/* protected Routes */}
       <Route element={<ProtectedRoutes />}>
@@ -31,7 +30,6 @@ const AppRoutes = () => {
           <Route path="chat" element={<Chat />} />
           <Route path="wallet" element={<Wallet />} />
           <Route path="ecommerce" element={<EcommerceHome />} />
-          <Route path="product/:id" element={<ProductView />} />
         </Route>
 
         {/* Render auth layout when in "/auth" path */}

@@ -61,9 +61,13 @@ export const getProduct = createAsyncThunk("shop/getProduct", async (id) => {
 
 // state management
 const initialState = {
+
+  // state
   products: [],
   searchResult: [],
   currentProduct: [],
+
+  // loading
   isLoadingProduct: false,
   isLoading: false,
   noProductFound: false,

@@ -1,22 +1,24 @@
-// basic imports
+// Basic setup
 const express = require("express");
-const tokenHandler = require("../Middleware/tokenHandler");
-const route = express.Router();
+const router = express.Router();
 
-// controller imports
+// controllers import
 const {
-  getProducts,
-  searchProducts,
-  getProduct,
+  roleUpgradeSeller,
+  createStore,
 } = require("../Controllers/shopController");
+const tokenHandler = require("../Middleware/tokenHandler");
+const sellerHandler = require("../Middleware/sellerRoleHandler");
 
-// /SuPaPP/shop/products/products
-route.get("/products", tokenHandler, getProducts);
+// Path :- /SuPaPP/shop/upgrade-role-seller
+router.put(
+  "/upgrade-role-seller",
+  tokenHandler,
+  sellerHandler,
+  roleUpgradeSeller
+);
 
-// /SuPaPP/shop/searchProduct/:search
-route.get("/searchProduct/:search", tokenHandler, searchProducts);
+// Path :- /SuPaPP/shop/create-store
+router.post("/create-store", tokenHandler, sellerHandler, createStore);
 
-// /SuPaPP/shop/product/:id
-route.get("/product/:id", tokenHandler, getProduct);
-
-module.exports = route;
+module.exports = router;

@@ -1,7 +1,10 @@
+// basic imports
+const asyncHandler = require("express-async-handler");
 const jwt = require("jsonwebtoken");
 const User = require("../Models/userModel");
 
-const tokenHandler = async (req, res, next) => {
+// middleware
+const tokenHandler = asyncHandler(async (req, res, next) => {
   const token = req.cookies.token;
 
   if (!token) {
@@ -31,6 +34,6 @@ const tokenHandler = async (req, res, next) => {
   } catch (error) {
     res.status(401).json({ message: "Invailid or expired token" });
   }
-};
+});
 
 module.exports = tokenHandler;

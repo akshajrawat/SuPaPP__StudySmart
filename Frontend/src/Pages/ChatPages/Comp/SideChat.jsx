@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
-import { FaSearch } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { getUsers, setSelectedUser } from "../../../Store/Slice/chatSlice";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { MdGroupAdd } from "react-icons/md";
 import { IoSettings } from "react-icons/io5";
+import SearchBar from "../../../Components/Ui/SearchBar";
 
 const SideChat = () => {
   const dispatch = useDispatch();
@@ -16,16 +16,7 @@ const SideChat = () => {
   return (
     <div className="h-[calc(100vh-80px)] w-full bg-white dark:bg-[#0a081f] text-black dark:text-white transition-colors duration-300">
       {/* Search bar */}
-      <div className="flex items-center justify-center h-[13%] px-4 py-3 border-b border-gray-300 dark:border-[#29274a]">
-        <div className="flex items-center w-full bg-gray-100 dark:bg-[#19173a] rounded-full px-4 py-2 shadow-inner">
-          <FaSearch className="text-gray-500 dark:text-[#8d8ea1] text-lg mr-2" />
-          <input
-            type="text"
-            placeholder="Search users..."
-            className="bg-transparent w-full text-sm text-black dark:text-white placeholder:text-gray-500 dark:placeholder:text-[#8d8ea1] outline-none"
-          />
-        </div>
-      </div>
+      <SearchBar />
 
       {/* User list */}
       <div className="h-[79%] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 dark:scrollbar-thumb-[#3d3b63] scrollbar-track-transparent">

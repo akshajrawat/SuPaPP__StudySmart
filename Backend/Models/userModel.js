@@ -36,6 +36,11 @@ const userModel = new Schema({
     default: "https://api.dicebear.com/7.x/thumbs/svg?seed=defaultUser",
   },
 
+  store: {
+    type: mongoose.Schema.ObjectId,
+    ref: "Store",
+  },
+
   otp: {
     code: String,
     expiresAt: Date,
