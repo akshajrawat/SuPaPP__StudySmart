@@ -4,7 +4,7 @@ import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 
 const Cards = ({ name, animationUrl, to }) => {
   return (
-    <div className="h-[300px] w-[250px] bg-[#9e92eb] flex flex-col rounded-2xl shadow-md shadow-[#00000041] gap-2 justify-start items-center">
+    <div className="h-[400px] w-[350px] bg-[#9e92eb] flex flex-col rounded-2xl shadow-md shadow-[#00000041] gap-2 justify-start items-center">
       <div className="h-[80%] w-full rounded-t-4xl">
         <DotLottieReact
           src={animationUrl}

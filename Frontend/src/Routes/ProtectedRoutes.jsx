@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Outlet, useLocation, Navigate } from "react-router-dom";
-import { authChecking, authenticate } from "../Store/Slice/authSlice";
+import { authChecking } from "../Store/Slice/authSlice";
 import { useEffect } from "react";
 import Buffer from "../Components/Ui/Buffer";
 
@@ -18,7 +18,7 @@ const ProtectedRoutes = () => {
   const isAuth = auth.isAuthenticated;
 
   if (auth.loading) {
-    return <Buffer className="mt-45"/>;
+    return <Buffer className="mt-45" />;
   }
 
   if (location.pathname.startsWith("/auth")) {

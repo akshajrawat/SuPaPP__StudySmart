@@ -13,12 +13,9 @@ const links = [
 
 const LandingLayout = () => {
   return (
-    <div
-      id="Home"
-      className="relative min-h-[100vh] max-w-* dark:bg-[#0a081f] md:px-7 xl:px-40 "
-    >
+    <div id="Home" className="relative min-h-[100vh] max-w-* bg-[#F5F7F9]">
       <Navbar links={links} />
-      <main className="xl:px-5 overflow-hidden">
+      <main className=" overflow-hidden">
         <Outlet />
       </main>
       <Footer />

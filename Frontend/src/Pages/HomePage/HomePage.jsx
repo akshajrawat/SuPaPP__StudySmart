@@ -24,9 +24,9 @@ const cardDetails = [
 
 const HomePage = () => {
   return (
-    <div className="text-white min-h-[calc(100vh-80.8px)] w-full flex flex-col justify-start items-center pt-5 ">
+    <div className="text-white h-[calc(100vh-80.8px)] w-full flex flex-col justify-start items-center pt-5 ">
       {/* heading section */}
-      <h1 className="text-4xl font-bold w-full flex justify-center gap-x-4 flex-wrap md:mt-10 lg:text-5xl text-shadow-md text-shadow-[#00000041]">
+      <h1 className="text-4xl font-bold w-full flex justify-center items-center gap-x-4 flex-wrap lg:text-6xl text-shadow-md text-shadow-[#00000041] h-[15%]">
         <p className="text-[#9e92eb]">Create. </p>
         <p className="text-black dark:text-white">Connect. </p>
         <p className="text-[#9e92eb]">Sell. </p>
@@ -34,8 +34,8 @@ const HomePage = () => {
       </h1>
 
       {/* options section */}
-      <div className=" w-full flex justify-center items-center p-2">
-        <div className="bg-[#b6acf2bf] h-full w-[90%] flex flex-wrap justify-center items-center gap-5 py-5 rounded-4xl mt-4 lg:py-8 lg:gap-10 2xl:w-[70%] 2xl:gap-20 md:mt-12 shadow-md shadow-[#00000041]">
+      <div className=" w-full flex justify-center items-center p-2 h-[85%] ">
+        <div className="bg-[#b7acf2a1] h-[90%] w-[90%] flex flex-wrap justify-center items-center gap-5 rounded-4xl lg:py-8 lg:gap-10  2xl:gap-20  shadow-md shadow-[#00000041]">
           {cardDetails.map((item, index) => {
             return (
               <Cards
