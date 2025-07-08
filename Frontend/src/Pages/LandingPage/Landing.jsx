@@ -1,70 +1,79 @@
 import React from "react";
-import { FaStar } from "react-icons/fa";
-import { SlSpeedometer } from "react-icons/sl";
-import { VscProject } from "react-icons/vsc";
-import study from "../../Assets/Icon/study.jpg"
+import Home from "./Sections/Home";
+import ServiceCards from "./Comps/ServiceCards";
+import {
+  FaRegCalendarAlt,
+  FaTasks,
+  FaBookOpen,
+  FaClock,
+  FaLightbulb,
+  FaChartLine,
+} from "react-icons/fa";
+
+const studyServices = [
+  {
+    icon: <FaRegCalendarAlt />,
+    title: "Study Planner",
+    desc: "Plan your subjects, goals, and study sessions in one place.",
+  },
+  {
+    icon: <FaTasks />,
+    title: "Task Management",
+    desc: "Track assignments, daily tasks, and deadlines with ease.",
+  },
+  {
+    icon: <FaBookOpen />,
+    title: "Smart Notes",
+    desc: "Organize, access, and revise your notes anytime, anywhere.",
+  },
+  {
+    icon: <FaClock />,
+    title: "Focus Timer",
+    desc: "Use Pomodoro-based sessions to stay productive and avoid burnout.",
+  },
+  {
+    icon: <FaLightbulb />,
+    title: "AI Doubt Solver",
+    desc: "Get instant help and explanations with our built-in AI assistant.",
+  },
+  {
+    icon: <FaChartLine />,
+    title: "Progress Tracker",
+    desc: "Visualize your learning progress and stay on top of your goals.",
+  },
+];
 
 const Landing = () => {
   return (
-    <div className="w-full h-[calc(100vh-67px)]">
-      {/* home section*/}
-      <div className="w-full h-full flex flex-col justify-start items-center gap-3 relative">
-        <h1 className="text-5xl w-[50%] text-center font-medium text-[#153F45] pt-20">
-          {" "}
-          The ultimate platform for students who want to win{" "}
-        </h1>
-        <p className="w-full flex justify-center items-center text-xl text-[#153F45]">
-          Everything you need to ace your semester in one app
-        </p>
-        <div className="w-full flex justify-center items-center gap-4 mt-6">
-          <button className="flex justify-center items-center text-white bg-[#0C363C] w-[130px] h-[45px] rounded-full text-lg shadow-md font-medium">
-            GetStarted
-          </button>
-          <button className="flex justify-center items-center bg-white text-[#0C363C] w-[130px] h-[45px] rounded-full text-lg shadow-md font-medium">
-            Explore
-          </button>
-        </div>
-        <div className="flex w-full mx-auto justify-center items-center pt-4">
-          <FaStar className="text-yellow-500 text-xl" />
-          <FaStar className="text-yellow-500 text-xl" />
-          <FaStar className="text-yellow-500 text-xl" />
-          <FaStar className="text-yellow-500 text-xl" />
-          <FaStar className="text-yellow-500 text-xl" />
-          <p className="ml-2 text-xl flex justify-center items-center font-semibold mt-1 text-[#0C363C]">
-            5.0
+    <div>
+      {/* Home Section */}
+      <Home />
+
+      {/* Service section */}
+      <div className="w-full min-h-[100vh] bg-[#0C363C] p-6">
+        {/* heading */}
+        <div className=" flex flex-col justify-start items-center gap-3">
+          <h1 className="text-2xl w-full text-center font-medium text-[#F5F7F9] pt-10">
+            {" "}
+            Where focus meets functionality for smarter learning{" "}
+          </h1>
+          <p className=" flex justify-center items-center text-[#F5F7F9] text-center">
+            Everything you need to ace your semester in one app
           </p>
         </div>
 
         {/* cards */}
-        <div className="bg-[#0c363c] h-[350px] w-[280px] absolute bottom-5 left-10 rounded-2xl shadow-2xl shadow-[#00000089] overflow-hidden">
-          <img className="w-full h-full object-cover" src={study} alt="" />
-        </div>
-        <div className="bg-[#0c363c] h-[260px] w-[200px] absolute bottom-5 left-90 rounded-2xl shadow-2xl shadow-[#00000089] flex flex-col justify-start pt-15 items-center gap-2 text-white">
-          <h3 className="text-2xl font-bold"> 100+ </h3>
-          <p className="text-center text-xl w-[60%]">
-            {" "}
-            users already love the experience
-          </p>
-        </div>
-        <div className=" h-[200px] w-[320px] absolute bottom-5 rounded-2xl shadow-2xl shadow-[#00000089] flex flex-col justify-end items-start gap-5 pl-4 pb-4">
-          <div className="text-4xl">
-            <VscProject />
-          </div>
-          <p className="text-left w-[80%] text-xl">
-            Enhance productivity through smarter study systems
-          </p>
-        </div>
-        <div className="bg-[#E2FFC8] h-[260px] w-[180px] absolute bottom-5 right-90 rounded-2xl shadow-2xl shadow-[#00000089] flex flex-col justify-start pt-15 items-center gap-2">
-          <h3 className="text-2xl font-bold">1000s</h3>
-          <p className="text-center w-[50%]"> of Notes Shared and Counting</p>
-        </div>
-        <div className="bg-[#0c363c] h-[350px] w-[280px] absolute bottom-5 right-10 rounded-2xl shadow-2xl shadow-[#00000089] text-white flex flex-col justify-end items-start gap-5 pl-4 pb-4">
-          <div className="text-4xl">
-            <SlSpeedometer />
-          </div>
-          <p className="text-left w-[80%] text-xl">
-            Enhance productivity through smarter study systems
-          </p>
+        <div className="w-full flex justify-center items-center flex-wrap gap-x-10 gap-y-6 pt-10">
+          {studyServices.map((item, index) => {
+            return (
+              <ServiceCards
+                key={index}
+                icon={item.icon}
+                topic={item.title}
+                desc={item.desc}
+              />
+            );
+          })}
         </div>
       </div>
     </div>
