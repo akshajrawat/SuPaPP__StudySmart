@@ -1,122 +1,101 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
-
-import toast from "react-hot-toast";
-import { LoadingSpinner } from "../../Components/Ui/Messages";
-import { loginUser } from "../../Store/Slice/authSlice";
+import React from "react";
+import { Link } from "react-router-dom";
+import study from "../../Assets/Icon/study3.jpg";
+import { FcGoogle } from "react-icons/fc";
 
 const Login = () => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const auth = useSelector((state) => state.auth);
-  const [user, setUser] = useState({
-    email: "",
-    password: "",
-  });
-
-  const handleChange = (e) => {
-    setUser((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
-  };
-
-  // useeffect
-  useEffect(() => {
-    if (auth.isAuthenticate) {
-      navigate("/SuPaPP");
-    }
-  }, [auth.isAuthenticate]);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    // throws error if any of the field is missing
-    if (!user.email || !user.password) {
-      toast.error("All fields are mandatory");
-      return;
-    }
-
-    // email validation
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(user.email)) {
-      toast.error("Email is not valid");
-      return;
-    }
-
-    // sending post request
-    dispatch(loginUser(user));
-    setUser({ email: "", password: "" });
-  };
-
   return (
-    <div className="min-h-[90vh] flex items-center justify-center bg-gray-100 dark:bg-[#0a081f] px-4">
-      <div className="w-full max-w-md bg-white dark:bg-[#1a1a2e] p-8 rounded-2xl shadow-xl">
-        <h2 className="text-2xl font-bold mb-6 text-center text-gray-800 dark:text-white">
-          Welcome Back
-        </h2>
+    // login page start
+    <div className="h-[calc(100vh-67px)] w-full flex justify-center items-center bg-[#f0f7fd]">
+      {/* login form */}
+      <form className="h-[90%] w-[70%] shadow-2xl rounded-xl overflow-hidden bg-[#E2FFC8] flex">
+        {/* img section */}
+        <div className="h-full w-[35%]">
+          <img className="w-full h-full object-cover" src={study} alt="study" />
+        </div>
 
-        <form onSubmit={handleSubmit} className="space-y-5">
-          {/* Email */}
-          <div>
-            <label
-              className="block text-gray-600 dark:text-gray-300 mb-1"
-              htmlFor="email"
-            >
-              Email
-            </label>
-            <input
-              type="text"
-              id="email"
-              name="email"
-              value={user.email}
-              onChange={handleChange}
-              placeholder="Enter email"
-              className="w-full px-4 py-2 rounded-lg border dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-[#0f0f1c] dark:text-white"
-            />
+        {/* login section */}
+        <div className="h-full w-[65%] flex flex-col justify-start items-center gap-3 pt-15">
+          <div className=" flex flex-col justify-center items-center">
+            <h3 className=" text-4xl font-bold text-[#0C363C]">
+              Welcome back to SuPaPP
+            </h3>
+            <p className="w-[60%] text-center font-semibold text-[#0c363c99]">
+              Master your academics effortlessly with our powerful all-in-one
+              study system.
+            </p>
           </div>
 
-          {/* Password */}
-          <div>
-            <label
-              className="block text-gray-600 dark:text-gray-300 mb-1"
-              htmlFor="password"
-            >
-              Password
-            </label>
-            <input
-              type="password"
-              id="password"
-              placeholder="Enter password"
-              name="password"
-              value={user.password}
-              onChange={handleChange}
-              className="w-full px-4 py-2 rounded-lg border dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-[#0f0f1c] dark:text-white"
-            />
+          {/* inputs */}
+          <div className="w-[50%] flex flex-col gap-2">
+            {/* email */}
+            <div className="border-2 border-[#0c363c42] focus-within:border-[#0C363C] w-full h-[50px] relative p-1 pb-3 rounded-xl">
+              <input
+                className="h-full w-full pt-7 pb-2 pl-1.5 border-none outline-none"
+                name="Email"
+                type="text"
+              />
+              <label
+                className="absolute top-0 left-2 text-[#0c363c99] font-semibold"
+                htmlFor="Email"
+              >
+                Email
+              </label>
+            </div>
+
+            {/* password */}
+            <div className="border-2 border-[#0c363c42] w-full h-[50px] relative p-1 pb-3 rounded-xl focus-within:border-[#0C363C]">
+              <input
+                className="h-full w-full pt-7 pb-2 pl-1.5 border-none outline-none"
+                name="Password"
+                type="text"
+              />
+              <label
+                className="absolute top-0 left-2 text-[#0c363c99] font-semibold"
+                htmlFor="Password"
+              >
+                Password
+              </label>
+            </div>
+            <div className="flex justify-between items-center">
+              <Link className="font-bold text-[#0C363C]">
+                {" "}
+                Forgot Password?{" "}
+              </Link>
+              <div className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  className="w-4 h-4 text-[#0C363C] focus:ring-[#0C363C] rounded"
+                />
+                <label htmlFor="remember" className="text-[#0C363C] font-bold">
+                  Remember Me
+                </label>
+              </div>
+            </div>
+            <button className="w-full py-2.5 bg-[#0C363C] text-white font-bold text-xl rounded-full">
+              Login
+            </button>
+
+            {/* seprtation */}
+            <div className="flex items-center w-full my-4">
+              <hr className="flex-grow border-t border-[#0C363C]" />
+              <span className="mx-4 text-[#0C363C] font-medium">OR</span>
+              <hr className="flex-grow border-t border-[#0C363C]" />
+            </div>
+
+            {/* google auth */}
+            <button className="w-full py-2.5 bg-[#0c363c42] font-semibold text-xl rounded-full flex justify-start items-center gap-8">
+              <FcGoogle className="text-4xl ml-5" />
+              Continue with Google
+            </button>
+
+            <div className="flex gap-3 mx-auto font-semibold">
+              <p className="text-[#0C363C]">Dont have an account?</p>
+              <Link className="text-blue-600"> Sign Up</Link>
+            </div>
           </div>
-
-          {/* Submit */}
-          <button
-            type="submit"
-            className="w-full bg-[#4fd1d9] hover:bg-[#417678] text-white font-semibold py-2 px-4 rounded-lg transition duration-200"
-          >
-            Login
-          </button>
-          {auth.loading && <LoadingSpinner />}
-        </form>
-
-        {/* Optional link */}
-        <p className="text-center mt-4 text-sm text-gray-600 dark:text-gray-400">
-          Don't have an account?{" "}
-          <Link
-            to="/auth/register"
-            className="text-[#4fd1d9] font-bold hover:underline"
-          >
-            Register
-          </Link>
-        </p>
-      </div>
+        </div>
+      </form>
     </div>
   );
 };

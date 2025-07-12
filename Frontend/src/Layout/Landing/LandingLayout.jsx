@@ -4,11 +4,11 @@ import Navbar from "../../Components/Navbar/Navbar";
 import Footer from "../../Components/Footer/Footer";
 
 const links = [
-  { name: "Home", link: "#Home" },
-  { name: "About", link: "#About" },
-  { name: "Features", link: "#Features" },
-  { name: "FAQs", link: "#Faqs" },
-  { name: "Contact", link: "#Contact" },
+  { id: 1, name: "Home", link: "#Home" },
+  { id: 2, name: "Service", link: "#Service" },
+  { id: 3, name: "About", link: "#About" },
+  { id: 4, name: "FAQs", link: "#Faqs" },
+  { id: 5, name: "Contact", link: "#Contact" },
 ];
 
 const LandingLayout = () => {

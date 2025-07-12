@@ -1,4 +1,5 @@
 import React from "react";
+import {Link } from "react-router-dom"
 import { FaStar } from "react-icons/fa";
 import { SlSpeedometer } from "react-icons/sl";
 import { VscProject } from "react-icons/vsc";
@@ -10,7 +11,7 @@ import { BsStars } from "react-icons/bs";
 
 const Home = () => {
   return (
-    <div className="w-full h-[calc(100vh-67px)] p-4">
+    <div id="Home" className="w-full h-[calc(100vh-67px)] p-4">
       {/* home section*/}
       <div className="w-full h-full flex flex-col justify-start items-center gap-3 relative">
         <h1 className="text-4xl w-full md:w-[80%] sm:text-5xl md:text-6xl text-center font-medium text-[#153F45] pt-20">
@@ -22,7 +23,7 @@ const Home = () => {
         </p>
         <div className="w-full flex justify-center items-center gap-4 mt-6">
           <button className="flex justify-center items-center text-white bg-[#0C363C] w-[130px] h-[45px] rounded-full text-lg shadow-md font-medium">
-            GetStarted
+            <Link to={"/auth/login"}>GetStarted</Link>
           </button>
           <button className="flex justify-center items-center bg-white text-[#0C363C] w-[130px] h-[45px] rounded-full text-lg shadow-md font-medium">
             Explore

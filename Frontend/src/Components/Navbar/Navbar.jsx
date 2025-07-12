@@ -2,10 +2,12 @@ import React from "react";
 import logo from "../../Assets/Icon/Logo.svg";
 import { GiHamburgerMenu } from "react-icons/gi";
 
-const Navbar = () => {
+const Navbar = ({links }) => {
   return (
     // navbar container
-    <div className="w-full h-[10vh] flex bg-white pt-2 justify-between">
+    <div
+      className={`w-full h-[10vh] flex bg-white pt-2 justify-between`}
+    >
       {/* logo container */}
       <div className="w-[35%] sm:w-[20%] h-full flex justify-center items-center gap-2">
         <div className="h-[40px]">
@@ -21,10 +23,13 @@ const Navbar = () => {
       {/* links */}
       <div className="w-[60%] md:flex h-full hidden">
         <ul className="w-full h-full flex justify-center items-center gap-13 text-lg font-semibold">
-          <li>Home</li>
-          <li>About </li>
-          <li> Services </li>
-          <li> Contact</li>
+          {links.map((item) => {
+            return (
+              <li key={item.id}>
+                <a href={item.link}>{item.name}</a>
+              </li>
+            );
+          })}
         </ul>
       </div>
 
@@ -36,7 +41,7 @@ const Navbar = () => {
 
         {/* hamburger on smaller screen */}
         <div className="md:hidden">
-          <GiHamburgerMenu className="text-2xl"/>
+          <GiHamburgerMenu className="text-2xl" />
         </div>
       </div>
     </div>
