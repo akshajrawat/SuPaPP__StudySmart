@@ -80,7 +80,10 @@ const initialState = {
   user: null,
   isAuthenticated: false,
   isRegistering: false,
-  loading: true,
+  loading: {
+    register: false,
+    checking: true,
+  },
   socket: false,
 };
 
@@ -103,15 +106,15 @@ export const authSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(registerUser.pending, (state) => {
-        state.loading = true;
+        state.loading.register = true;
       })
       .addCase(registerUser.fulfilled, (state, action) => {
-        state.loading = false;
+        state.loading.register = false;
         state.isRegistering = true;
         state.user = action.payload.user;
       })
       .addCase(registerUser.rejected, (state) => {
-        state.loading = false;
+        state.loading.register = false;
       })
       .addCase(verifyOtp.pending, (state) => {
         state.loading = true;
@@ -125,15 +128,15 @@ export const authSlice = createSlice({
         state.loading = false;
       })
       .addCase(authChecking.pending, (state) => {
-        state.loading = true;
+        state.loading.checking = true;
       })
       .addCase(authChecking.fulfilled, (state, action) => {
-        state.loading = false;
+        state.loading.checking = false;
         state.isAuthenticated = true;
         state.user = action.payload;
       })
       .addCase(authChecking.rejected, (state) => {
-        state.loading = false;
+        state.loading.checking = false;
       })
       .addCase(loginUser.pending, (state) => {
         state.loading = true;

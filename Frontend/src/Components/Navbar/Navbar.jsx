@@ -1,13 +1,13 @@
 import React from "react";
 import logo from "../../Assets/Icon/Logo.svg";
 import { GiHamburgerMenu } from "react-icons/gi";
+import { Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
-const Navbar = ({links }) => {
+const Navbar = ({ links = [] }) => {
   return (
     // navbar container
-    <div
-      className={`w-full h-[10vh] flex bg-white pt-2 justify-between`}
-    >
+    <div className={`w-full h-[10vh] flex bg-white pt-2 justify-between`}>
       {/* logo container */}
       <div className="w-[35%] sm:w-[20%] h-full flex justify-center items-center gap-2">
         <div className="h-[40px]">
@@ -24,11 +24,20 @@ const Navbar = ({links }) => {
       <div className="w-[60%] md:flex h-full hidden">
         <ul className="w-full h-full flex justify-center items-center gap-13 text-lg font-semibold">
           {links.map((item) => {
-            return (
-              <li key={item.id}>
-                <a href={item.link}>{item.name}</a>
-              </li>
-            );
+            const location = useLocation();
+            if (location.pathname === "/") {
+              return (
+                <li key={item.id}>
+                  <a href={item.link}>{item.name}</a>
+                </li>
+              );
+            } else {
+              return (
+                <li key={item.id}>
+                  <Link to={item.link}>{item.name}</Link>
+                </li>
+              );
+            }
           })}
         </ul>
       </div>
@@ -36,7 +45,7 @@ const Navbar = ({links }) => {
       {/* SignUp */}
       <div className="w-[43%] sm:w-[30%] md:w-[15%] h-full flex justify-around items-center pr-2">
         <button className="text-white bg-[#0C363C] px-6 py-2 rounded-full text-lg">
-          SignUp
+          <Link to={"/auth/register"}> SignUp</Link>
         </button>
 
         {/* hamburger on smaller screen */}

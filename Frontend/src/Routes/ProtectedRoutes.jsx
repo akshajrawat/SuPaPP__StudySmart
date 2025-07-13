@@ -17,7 +17,7 @@ const ProtectedRoutes = () => {
 
   const isAuth = auth.isAuthenticated;
 
-  if (auth.loading) {
+  if (auth.loading.checking) {
     return <Buffer className="mt-45" />;
   }
 

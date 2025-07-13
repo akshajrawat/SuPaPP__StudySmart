@@ -3,17 +3,15 @@ import React from "react";
 import { Outlet } from "react-router-dom";
 import Navbar from "../../Components/Navbar/Navbar";
 
-const links = [
-  { name: "Home", link: "/" },
-  { name: "Login", link: "/auth/login" },
+const navbarLinks = [
   { name: "Register", link: "/auth/register" },
-  { name: "FAQs", link: "#Faqs" },
+  { name: "Login", link: "/auth/login" },
 ];
 
 const AuthLayout = () => {
   return (
     <div className="max-w-screen min-h-screen dark:bg-[#0a081f]">
-      <Navbar links={links} />
+      <Navbar links={navbarLinks} />
       <main className="">
         <Outlet />
       </main>

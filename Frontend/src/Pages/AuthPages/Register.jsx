@@ -1,150 +1,172 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
-import { LoadingSpinner } from "../../Components/Ui/Messages";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { loaderStop, registerUser } from "../../Store/Slice/authSlice";
+import study from "../../Assets/Icon/study3.jpg";
+import { FcGoogle } from "react-icons/fc";
+import { registerUser } from "../../Store/Slice/authSlice";
 import toast from "react-hot-toast";
+import { LoadingSpinner } from "../../Components/Ui/Messages";
 
-const Register = () => {
-  // defining
-  const navigate = useNavigate();
+const Login = () => {
+  const { loading } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-  const auth = useSelector((state) => state.auth);
+  const navigate = useNavigate();
   const [user, setUser] = useState({
     username: "",
     email: "",
     password: "",
   });
 
-  // useeffect
-  useEffect(() => {
-    if (auth.isRegistering) {
-      navigate("/auth/otp");
-    }
-  }, [auth.isRegistering, navigate]);
-
-  // funtion which handle change of input
+  // handle input change
   const handleChange = (e) => {
-    setUser((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
+    setUser({ ...user, [e.target.name]: e.target.value });
   };
 
-  // handling the submition of the form
-
+  // handle submit of form
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // throws error if any of the field is missing
     if (!user.username || !user.email || !user.password) {
-      dispatch(loaderStop());
       toast.error("All fields are mandatory");
       return;
     }
-
-    // email validation
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(user.email)) {
-      dispatch(loaderStop());
-      toast.error("Email is not valid");
-      return;
+    try {
+      await dispatch(registerUser(user)).unwrap();
+      navigate("/auth/otp");
+    } catch (error) {
+      console.error("Registration failed", error);
     }
-
-    // sending post request
-    dispatch(registerUser(user));
-
-    // end
-    setUser({ username: "", email: "", password: "" });
   };
 
   return (
-    <div className="min-h-[90vh] flex items-center justify-center bg-gray-100 dark:bg-[#0a081f] px-4">
-      <div className="w-full max-w-md bg-white dark:bg-[#1a1a2e] p-8 rounded-2xl shadow-xl">
-        <h2 className="text-2xl font-bold mb-6 text-center text-gray-800 dark:text-white">
-          Create an Account
-        </h2>
+    // register page start
+    <div className="h-[calc(100vh-67px)] w-full flex justify-center items-center bg-[#f0f7fd]">
+      {/* register form */}
+      <form
+        onSubmit={handleSubmit}
+        className="h-[90%] w-[70%] shadow-2xl rounded-xl overflow-hidden bg-[#E2FFC8] flex"
+      >
+        {/* img section */}
+        <div className="h-full w-[35%]">
+          <img className="w-full h-full object-cover" src={study} alt="study" />
+        </div>
 
-        <form onSubmit={handleSubmit} className="space-y-5">
-          {/* Username */}
-          <div>
-            <label
-              className="block text-gray-600 dark:text-gray-300 mb-1"
-              htmlFor="username"
-            >
-              Username
-            </label>
-            <input
-              type="text"
-              name="username"
-              placeholder="Enter username"
-              value={user.username}
-              onChange={handleChange}
-              className="w-full px-4 py-2 rounded-lg border dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-[#0f0f1c] dark:text-white"
-            />
+        {/* register section */}
+        <div className="h-full w-[65%] flex flex-col justify-start items-center gap-3 pt-10">
+          <div className=" flex flex-col justify-center items-center">
+            <h3 className=" text-4xl font-bold text-[#0C363C]">
+              Create your account
+            </h3>
+            <p className="w-[60%] text-center font-semibold text-[#0c363c99]">
+              Master your academics effortlessly with our powerful all-in-one
+              study system.
+            </p>
           </div>
 
-          {/* Email */}
-          <div>
-            <label
-              className="block text-gray-600 dark:text-gray-300 mb-1"
-              htmlFor="email"
+          {/* inputs */}
+          <div className="w-[50%] flex flex-col gap-2">
+            {/* username */}
+            <div className="border-2 border-[#0c363c42] focus-within:border-[#0C363C] w-full h-[50px] relative p-1 pb-3 rounded-xl">
+              <input
+                className="h-full w-full pt-7 pb-2 pl-1.5 border-none outline-none"
+                name="username"
+                type="text"
+                value={user.username}
+                onChange={handleChange}
+              />
+              <label
+                className="absolute top-0 left-2 text-[#0c363c99] font-semibold"
+                htmlFor="Name"
+              >
+                Username
+              </label>
+            </div>
+
+            {/* email */}
+            <div className="border-2 border-[#0c363c42] focus-within:border-[#0C363C] w-full h-[50px] relative p-1 pb-3 rounded-xl">
+              <input
+                className="h-full w-full pt-7 pb-2 pl-1.5 border-none outline-none"
+                name="email"
+                type="text"
+                value={user.email}
+                onChange={handleChange}
+              />
+              <label
+                className="absolute top-0 left-2 text-[#0c363c99] font-semibold"
+                htmlFor="Email"
+              >
+                Email
+              </label>
+            </div>
+
+            {/* password */}
+            <div className="border-2 border-[#0c363c42] w-full h-[50px] relative p-1 pb-3 rounded-xl focus-within:border-[#0C363C]">
+              <input
+                className="h-full w-full pt-7 pb-2 pl-1.5 border-none outline-none"
+                name="password"
+                type="text"
+                value={user.password}
+                onChange={handleChange}
+              />
+              <label
+                className="absolute top-0 left-2 text-[#0c363c99] font-semibold"
+                htmlFor="Password"
+              >
+                Password
+              </label>
+            </div>
+            <div className="flex justify-between items-center">
+              <Link className="font-bold text-[#0C363C]">
+                {" "}
+                Forgot Password?{" "}
+              </Link>
+              <div className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  className="w-4 h-4 text-[#0C363C] focus:ring-[#0C363C] rounded"
+                />
+                <label htmlFor="remember" className="text-[#0C363C] font-bold">
+                  Remember Me
+                </label>
+              </div>
+            </div>
+
+            {/* Submit */}
+            <button
+              type="Submit"
+              className="w-full py-2.5 bg-[#0C363C] text-white font-bold text-xl rounded-full"
             >
-              Email
-            </label>
-            <input
-              type="text"
-              name="email"
-              placeholder="Enter email"
-              value={user.email}
-              onChange={handleChange}
-              className="w-full px-4 py-2 rounded-lg border dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-[#0f0f1c] dark:text-white"
-            />
+              Register
+            </button>
+
+            {/* loading */}
+            {loading.register && <LoadingSpinner />}
+
+            {/* seprtation */}
+            <div className="flex items-center w-full my-4">
+              <hr className="flex-grow border-t border-[#0C363C]" />
+              <span className="mx-4 text-[#0C363C] font-medium">OR</span>
+              <hr className="flex-grow border-t border-[#0C363C]" />
+            </div>
+
+            {/* google auth */}
+            <button className="w-full py-2.5 bg-[#0c363c42] font-semibold text-xl rounded-full flex justify-start items-center gap-8">
+              <FcGoogle className="text-4xl ml-5" />
+              Continue with Google
+            </button>
+
+            <div className="flex gap-3 mx-auto font-semibold">
+              <p className="text-[#0C363C]">Already have an account?</p>
+              <Link to={"/auth/login"} className="text-blue-600">
+                {" "}
+                Log In
+              </Link>
+            </div>
           </div>
-
-          {/* Password */}
-          <div>
-            <label
-              className="block text-gray-600 dark:text-gray-300 mb-1"
-              htmlFor="password"
-            >
-              Password
-            </label>
-            <input
-              type="password"
-              name="password"
-              placeholder="Enter password"
-              value={user.password}
-              onChange={handleChange}
-              className="w-full px-4 py-2 rounded-lg border dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-[#0f0f1c] dark:text-white"
-            />
-          </div>
-
-          {/* Submit */}
-          <button
-            type="submit"
-            className="w-full bg-[#4fd1d9] hover:bg-[#417678] text-white font-semibold py-2 px-4 rounded-lg transition duration-200"
-          >
-            Register
-          </button>
-          {auth.loading && <LoadingSpinner />}
-        </form>
-
-        {/* Optional link */}
-        <p className="text-center mt-4 text-sm text-gray-600 dark:text-gray-400">
-          Already have an account?{" "}
-          <Link
-            to="/auth/login"
-            className="text-[#4fd1d9] font-bold hover:underline"
-          >
-            Login
-          </Link>
-        </p>
-      </div>
+        </div>
+      </form>
     </div>
   );
 };
 
-export default Register;
+export default Login;
