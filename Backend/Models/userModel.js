@@ -40,11 +40,6 @@ const userModel = new Schema({
     type: mongoose.Schema.ObjectId,
     ref: "Store",
   },
-
-  otp: {
-    code: String,
-    expiresAt: Date,
-  },
 });
 
 const User = model("User", userModel);

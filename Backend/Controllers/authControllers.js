@@ -1,6 +1,7 @@
 // Basic imports
 const asyncHandler = require("express-async-handler");
 const User = require("../Models/userModel");
+const Otp = require("../Models/otpVerificationModel");
 const bcrypt = require("bcrypt");
 const sendOtp = require("../Utils/sendOtp");
 const sendEmail = require("../Utils/sendEmail");
@@ -29,6 +30,9 @@ const registerUser = asyncHandler(async (req, res) => {
     throw new Error("User already exist");
   }
 
+  // Clean up previous unverified OTP entry
+  await Otp.deleteOne({ email });
+
   // hashing of password using bycript
   const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -42,7 +46,7 @@ const registerUser = asyncHandler(async (req, res) => {
   const expiresAt = new Date(Date.now() + 5 * 60 * 1000);
 
   // create new user
-  const newUser = await User.create({
+  const newUser = await Otp.create({
     username,
     email,
     password: hashedPassword,
@@ -135,7 +139,7 @@ const verifyOtp = asyncHandler(async (req, res) => {
   }
 
   // User Exist???
-  const user = await User.findOne({ email }).select("-password");
+  const user = await Otp.findOne({ email }).select("-password");
   if (!user) {
     res.status(400);
     throw new Error("No account exist from this email");
@@ -146,6 +150,8 @@ const verifyOtp = asyncHandler(async (req, res) => {
 
   // Check if the otp is expired
   if (Date.now() > otpInfo.expiresAt) {
+    // Clean up the OTP record
+    await Otp.deleteOne({ email });
     res.status(400);
     throw new Error("Otp has been expired.");
   }
@@ -158,16 +164,22 @@ const verifyOtp = asyncHandler(async (req, res) => {
   }
 
   // sending final msg and modifying user
-  user.otp = null;
-  user.isVerified = true;
-  await user.save();
+  const newUser = await User.create({
+    username: user.username,
+    email: user.email,
+    password: user.password,
+    isVerified: true,
+  });
+
+  // Clean up the OTP record
+  await Otp.deleteOne({ email });
 
   // generate token
   const token = generateToken({
-    id: user._id,
-    username: user.username,
+    id: newUser._id,
+    username: newUser.username,
     email: email,
-    role: user.role,
+    role: newUser.role,
   });
   res.cookie("token", token, {
     httpOnly: true,

@@ -83,6 +83,7 @@ const initialState = {
   loading: {
     register: false,
     checking: true,
+    otp: false,
   },
   socket: false,
 };
@@ -117,15 +118,15 @@ export const authSlice = createSlice({
         state.loading.register = false;
       })
       .addCase(verifyOtp.pending, (state) => {
-        state.loading = true;
+        state.loading.otp = true;
       })
       .addCase(verifyOtp.fulfilled, (state) => {
-        state.loading = false;
+        state.loading.otp = false;
         state.isAuthenticated = true;
         state.isRegistering = false;
       })
       .addCase(verifyOtp.rejected, (state) => {
-        state.loading = false;
+        state.loading.otp = false;
       })
       .addCase(authChecking.pending, (state) => {
         state.loading.checking = true;

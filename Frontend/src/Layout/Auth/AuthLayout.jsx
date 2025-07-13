@@ -4,6 +4,7 @@ import { Outlet } from "react-router-dom";
 import Navbar from "../../Components/Navbar/Navbar";
 
 const navbarLinks = [
+  { name: "Home", link: "/" },
   { name: "Register", link: "/auth/register" },
   { name: "Login", link: "/auth/login" },
 ];
