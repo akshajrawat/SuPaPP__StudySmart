@@ -26,6 +26,11 @@ const userModel = new Schema({
     default: false,
   },
 
+  authProvider: {
+    type: String,
+    default: "manual",
+  },
+
   role: {
     type: String,
     default: "User",

@@ -81,7 +81,7 @@ const Otp = () => {
 
     const submit = {
       email: user.email,
-      otp: parseInt(finalOtp, 10),
+      otp: finalOtp,
     };
 
     try {

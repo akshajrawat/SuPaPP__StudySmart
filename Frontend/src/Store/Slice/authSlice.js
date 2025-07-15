@@ -84,6 +84,7 @@ const initialState = {
     register: false,
     checking: true,
     otp: false,
+    login: false,
   },
   socket: false,
 };
@@ -140,15 +141,15 @@ export const authSlice = createSlice({
         state.loading.checking = false;
       })
       .addCase(loginUser.pending, (state) => {
-        state.loading = true;
+        state.loading.login = true;
       })
       .addCase(loginUser.fulfilled, (state, action) => {
-        state.loading = false;
+        state.loading.login = false;
         state.isAuthenticated = true;
         state.user = action.payload;
       })
       .addCase(loginUser.rejected, (state) => {
-        state.loading = false;
+        state.loading.login = false;
         state.isAuthenticated = false;
       });
   },

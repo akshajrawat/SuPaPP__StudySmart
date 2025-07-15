@@ -1,14 +1,52 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import study from "../../Assets/Icon/study3.jpg";
 import { FcGoogle } from "react-icons/fc";
+import { useDispatch, useSelector } from "react-redux";
+import { loginUser } from "../../Store/Slice/authSlice";
+import toast from "react-hot-toast";
 
 const Login = () => {
+  const dispatch = useDispatch();
+  const { loading } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
+  
+  // state for user
+  const [user, setUser] = useState({
+    email: "",
+    password: "",
+  });
+
+  // handling the submition
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!user.email || !user.password) {
+      toast.error("All fields are mandatory");
+      return;
+    }
+
+    try {
+      await dispatch(loginUser(user)).unwrap();
+      navigate("/Supapp");
+    } catch (error) {
+      console.error("Login failed", error);
+    }
+  };
+
+  // handling update of user
+  const handleChange = (e) => {
+    setUser({ ...user, [e.target.name]: e.target.value });
+  };
+
   return (
     // login page start
     <div className="h-[calc(100vh-67px)] w-full flex justify-center items-center bg-[#f0f7fd]">
       {/* login form */}
-      <form className="h-[90%] w-[70%] shadow-2xl rounded-xl overflow-hidden bg-[#E2FFC8] flex">
+      <form
+        onSubmit={handleSubmit}
+        className="h-[90%] w-[70%] shadow-2xl rounded-xl overflow-hidden bg-[#E2FFC8] flex"
+      >
         {/* img section */}
         <div className="h-full w-[35%]">
           <img className="w-full h-full object-cover" src={study} alt="study" />
@@ -32,7 +70,9 @@ const Login = () => {
             <div className="border-2 border-[#0c363c42] focus-within:border-[#0C363C] w-full h-[50px] relative p-1 pb-3 rounded-xl">
               <input
                 className="h-full w-full pt-7 pb-2 pl-1.5 border-none outline-none"
-                name="Email"
+                name="email"
+                value={user.email}
+                onChange={handleChange}
                 type="text"
               />
               <label
@@ -47,7 +87,9 @@ const Login = () => {
             <div className="border-2 border-[#0c363c42] w-full h-[50px] relative p-1 pb-3 rounded-xl focus-within:border-[#0C363C]">
               <input
                 className="h-full w-full pt-7 pb-2 pl-1.5 border-none outline-none"
-                name="Password"
+                name="password"
+                value={user.password}
+                onChange={handleChange}
                 type="text"
               />
               <label
@@ -91,7 +133,10 @@ const Login = () => {
 
             <div className="flex gap-3 mx-auto font-semibold">
               <p className="text-[#0C363C]">Dont have an account?</p>
-              <Link to={"/auth/register"} className="text-blue-600"> Sign Up</Link>
+              <Link to={"/auth/register"} className="text-blue-600">
+                {" "}
+                Sign Up
+              </Link>
             </div>
           </div>
         </div>

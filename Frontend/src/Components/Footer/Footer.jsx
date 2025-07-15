@@ -20,7 +20,7 @@ const socialLinks = [
 const Footer = () => {
   return (
     // footer start
-    <footer className=" bg-black w-full border-t border-[#727382] text-white">
+    <footer className=" bg-black w-full border-t border-[#72738275] text-white">
       {/* Introduction column */}
       <div className="flex flex-col gap-4 mt-4 px-5 pb-3">
         <div className="flex items-end gap-2">
@@ -47,7 +47,7 @@ const Footer = () => {
       {/* Introduction column */}
 
       {/* copyright column */}
-      <div className="flex justify-center items-center text-sm font-semibold  border-t border-[#727382] p-3">
+      <div className="flex justify-center items-center text-sm font-semibold  border-t border-[#72738267] p-3">
         Copyright 202 - All Rights Reserved
       </div>
     </footer>

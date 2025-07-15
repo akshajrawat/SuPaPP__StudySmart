@@ -6,6 +6,8 @@ const bcrypt = require("bcrypt");
 const sendOtp = require("../Utils/sendOtp");
 const sendEmail = require("../Utils/sendEmail");
 const { generateToken } = require("../Utils/tokenGenerator");
+const { OAuth2Client } = require("google-auth-library");
+const client = new OAuth2Client(process.env.GOOGLE_AUTH_CLIENT_ID);
 
 // Controllers
 
@@ -63,6 +65,51 @@ const registerUser = asyncHandler(async (req, res) => {
       username: newUser.username,
       email: newUser.email,
     },
+  });
+});
+
+// title: Register user
+// Path: /SuPaPP/auth/register
+// Access: @PUBLIC
+const googleAuth = asyncHandler(async (req, res) => {
+  const { credential } = req.body;
+
+  const ticket = await client.verifyIdToken({
+    idToken: credential,
+    audience: process.env.GOOGLE_AUTH_CLIENT_ID,
+  });
+
+  const payload = ticket.getPayload();
+  const { email, name } = payload;
+
+  let user = await User.findOne({ email });
+
+  if (!user) {
+    user = await User.create({
+      username: name,
+      email,
+      password: null, // Optional: mark this as Google-auth
+      authProvider: "google",
+      isVerified: true,
+    });
+  }
+
+  if (user.authProvider === "manual") {
+    res.status(400);
+    throw new Error("Account already exist. Please use password.");
+  }
+
+  const token = generateToken({
+    id: user._id,
+    username: user.username,
+    email: email,
+    role: user.role,
+  });
+
+  res.cookie("token", token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production", // only true in production
+    sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
   });
 });
 
@@ -139,7 +186,7 @@ const verifyOtp = asyncHandler(async (req, res) => {
   }
 
   // User Exist???
-  const user = await Otp.findOne({ email }).select("-password");
+  const user = await Otp.findOne({ email });
   if (!user) {
     res.status(400);
     throw new Error("No account exist from this email");
@@ -243,4 +290,5 @@ module.exports = {
   contactMe,
   verifyToken,
   getUsers,
+  googleAuth,
 };

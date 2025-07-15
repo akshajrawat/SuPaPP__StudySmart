@@ -11,6 +11,7 @@ const {
   contactMe,
   verifyToken,
   getUsers,
+  googleAuth,
 } = require("../Controllers/authControllers");
 const tokenHandler = require("../Middleware/tokenHandler");
 
@@ -19,8 +20,11 @@ const tokenHandler = require("../Middleware/tokenHandler");
 // Path :- /SuPaPP/auth/register
 router.post("/register", registerUser);
 
-// Path :- /SuPaPP/auth/register
+// Path :- /SuPaPP/auth/login
 router.post("/login", loginUser);
+
+// Path :- /SuPaPP/auth/googleAuth
+router.post("/login", googleAuth);
 
 // Path :- /SuPaPP/auth/verify-otp
 router.post("/verify-otp", verifyOtp);
