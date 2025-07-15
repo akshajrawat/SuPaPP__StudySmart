@@ -1,90 +1,95 @@
-# 🌟 SuPapp - The Ultimate Super App
+# 📚 SuPapp – The Student Super App
 
-**SuPapp** is a full-stack super app built to combine essential digital experiences—like social media, eCommerce, and payments—into a single, seamless platform. It is **actively under development**, with both backend and frontend being expanded continuously.
+**SuPapp** is a full-stack study-focused super app designed to empower students with AI-generated study materials, real-time peer communication, and a platform to share & monetize their own notes. Built with a modern tech stack, SuPapp aims to centralize learning, collaboration, and sharing into one seamless experience.
+
+> 🚧 This project is actively under development.
 
 ---
 
 ## 🚀 Tech Stack
 
-### 🔧 Backend
-
+### 🛠️ Backend
 - **Node.js** + **Express.js**
 - **MongoDB** + **Mongoose**
-- **Authentication**: JWT with OTP-based email verification
-- **Security**: Password & OTP hashing using `bcrypt`
-- **Email Services**: Nodemailer for sending OTP and contact messages
-- **Middleware**: Centralized error handling and protected routes
+- **Authentication**: JWT, OTP-based email verification, Google Auth
+- **Security**: Hashed passwords & OTPs with `bcrypt`
+- **Email Services**: Nodemailer for contact forms & OTP delivery
+- **Middleware**: Protected routes, error handling
 
 ### 💻 Frontend
-
-- **React.js**
-- **Tailwind CSS**: Fully responsive and theme-supportive (Dark/Light mode)
-- **Framer Motion** + **Lottie**: For smooth animations
+- **React.js** + **Redux Toolkit**
+- **Tailwind CSS**: Fully responsive, mobile-first UI
+- **Framer Motion** + **Lottie**: Modern animations and transitions
+- **React Router DOM**: Client-side routing
 
 ---
 
-## 📲 Key Features Implemented
+## ✨ Core Features
 
 ### ✅ Authentication
+- Register via email & OTP (expires in 5 minutes)
+- Secure login with hashed password
+- Google OAuth login support
+- JWT-based session tokens (stored in cookies)
 
-- Register new users with email & OTP
-- OTP expires in 5 minutes (hashed + verified)
-- Login with hashed password
-- Automatic JWT token generation and storage in cookies
-- Token verification endpoint
+### ✅ AI Study Tools (coming soon)
+- Generate study notes, summaries, and answers
+- Topic-based input using GPT-powered backend
+- Responsive UI for focused reading
 
-### ✅ Chat
+### ✅ Student Chat System
+- Chat one-on-one with other verified users
+- Message storing by sender and receiver
+- Mobile-friendly chat view with back navigation
+- Future support for group chats & file sharing
 
-- Real-time-ready chat schema (senderId ↔ receiverId)
-- Fetch two-way conversation sorted by time
-- Uploads optional media with text
-- Basic chat UI with responsive image fallback and mobile back-navigation
-
-### ✅ User Management
-
-- Fetch all users (excluding current user) for chat
-- Auto-create shop or profile logic ready for future eCommerce
+### ✅ Sell Your Notes
+- Students can upload & list their handwritten/typed notes
+- Basic seller dashboard in progress
+- Multi-role support (seller/student)
+- Clean note browsing UI for buyers
 
 ### ✅ Contact Support
-
-- Contact form sends emails directly to admin (with user’s name, email, and message)
-
----
-
-## 🔐 API Routes
-
-### Auth
-
-| Method | Endpoint                  | Description                |
-| ------ | ------------------------- | -------------------------- |
-| POST   | `/SuPaPP/auth/register`   | Register user + send OTP   |
-| POST   | `/SuPaPP/auth/login`      | Login and get auth token   |
-| POST   | `/SuPaPP/auth/verify-otp` | Verify OTP                 |
-| POST   | `/SuPaPP/auth/contact`    | Send contact form to admin |
-| GET    | `/SuPaPP/verify-token`    | Verify token (protected)   |
-
-### Users
-
-| Method | Endpoint        | Description                       |
-| ------ | --------------- | --------------------------------- |
-| GET    | `/SuPaPP/users` | Get all users except current user |
-
-### Chat
-
-| Method | Endpoint                       | Description              |
-| ------ | ------------------------------ | ------------------------ |
-| POST   | `/SuPaPP/chat/sendMessage/:id` | Send message to receiver |
-| GET    | `/SuPaPP/chat/messages/:id`    | Get all messages in chat |
+- Direct contact form to reach the admin via email
+- Name, email, and message validation
 
 ---
 
-## 🌈 UI Features
+## 🔐 API Endpoints
 
-- Responsive design with **mobile-first layouts**
-- Dark and light mode themes
-- Fallback message UI when no chat is selected
-- Back navigation arrow for small screens
-- Integrated design with **Framer Motion** and **Tailwind transitions**
+### 🔑 Auth Routes
+
+| Method | Endpoint                   | Description                          |
+|--------|----------------------------|--------------------------------------|
+| POST   | `/SuPaPP/auth/register`    | Register a new user + send OTP       |
+| POST   | `/SuPaPP/auth/login`       | Login with email + password          |
+| POST   | `/SuPaPP/auth/verify-otp`  | Verify OTP to activate account       |
+| POST   | `/SuPaPP/auth/google-auth` | Google OAuth Login                   |
+| POST   | `/SuPaPP/auth/contact`     | Send a contact form email            |
+| GET    | `/SuPaPP/auth/verify-token`| Verify token and return user info    |
+
+### 👥 User Routes
+
+| Method | Endpoint        | Description                         |
+|--------|-----------------|-------------------------------------|
+| GET    | `/SuPaPP/users` | Get all users (excluding current)   |
+
+### 💬 Chat Routes
+
+| Method | Endpoint                        | Description                      |
+|--------|---------------------------------|----------------------------------|
+| POST   | `/SuPaPP/chat/sendMessage/:id`  | Send message to another user     |
+| GET    | `/SuPaPP/chat/messages/:id`     | Fetch messages in a conversation |
+
+---
+
+## 🎨 UI Features
+
+- Minimalist design with green/white theme (`#0C363C`, `#E2FFC8`)
+- Fully responsive layout using **Tailwind CSS**
+- Animated sections with **Framer Motion**
+- OTP input, register/login UI with validation
+- Placeholder illustrations and icons using **Lottie**
 
 ---
 
@@ -96,4 +101,4 @@
 
 ---
 
-> ✅ More modules like social feed, eCommerce store, product listings, and payment gateway integrations coming soon. Stay tuned!
+> ⚙️ Upcoming: AI question generator, student groups, note ratings, dark mode, dashboard analytics, and more...
