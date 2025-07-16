@@ -6,8 +6,7 @@ const bcrypt = require("bcrypt");
 const sendOtp = require("../Utils/sendOtp");
 const sendEmail = require("../Utils/sendEmail");
 const { generateToken } = require("../Utils/tokenGenerator");
-const { OAuth2Client } = require("google-auth-library");
-const client = new OAuth2Client(process.env.GOOGLE_AUTH_CLIENT_ID);
+const axios = require("axios");
 
 // Controllers
 
@@ -68,19 +67,33 @@ const registerUser = asyncHandler(async (req, res) => {
   });
 });
 
-// title: Register user
-// Path: /SuPaPP/auth/register
+// title: Register or login user through google
+// Path :- /SuPaPP/auth/googleAuth
 // Access: @PUBLIC
 const googleAuth = asyncHandler(async (req, res) => {
   const { credential } = req.body;
 
-  const ticket = await client.verifyIdToken({
-    idToken: credential,
-    audience: process.env.GOOGLE_AUTH_CLIENT_ID,
-  });
+  console.log(credential);
+  if (!credential) {
+    res.status(400);
+    throw new Error("Google Credential not provided");
+  }
 
-  const payload = ticket.getPayload();
-  const { email, name } = payload;
+  const userRes = await axios.get(
+    "https://www.googleapis.com/oauth2/v3/userinfo",
+    {
+      headers: {
+        Authorization: `Bearer ${credential}`,
+      },
+    }
+  );
+
+  const { email, name } = userRes.data;
+
+  if (!email || !name) {
+    res.status(400);
+    throw new Error("Google user info missing");
+  }
 
   let user = await User.findOne({ email });
 
@@ -110,6 +123,18 @@ const googleAuth = asyncHandler(async (req, res) => {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production", // only true in production
     sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
+  });
+
+  res.status(200).json({
+    message: "Login Sucessfull",
+    user: {
+      id: user._id,
+      username: user.username,
+      email: email,
+      role: user.role,
+      profilePhoto: user.profilePhoto,
+      authProvider: user.authProvider,
+    },
   });
 });
 
@@ -166,6 +191,7 @@ const loginUser = asyncHandler(async (req, res) => {
       email: email,
       role: user.role,
       profilePhoto: user.profilePhoto,
+      authProvider: user.authProvider,
     },
   });
 });

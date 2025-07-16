@@ -4,9 +4,9 @@ import { Outlet } from "react-router-dom";
 import Navbar from "../../Components/Navbar/Navbar";
 
 const navbarLinks = [
-  { name: "Home", link: "/" },
-  { name: "Register", link: "/auth/register" },
-  { name: "Login", link: "/auth/login" },
+  { id: 1, name: "Home", link: "/" },
+  { id: 2, name: "Register", link: "/auth/register" },
+  { id: 3, name: "Login", link: "/auth/login" },
 ];
 
 const AuthLayout = () => {

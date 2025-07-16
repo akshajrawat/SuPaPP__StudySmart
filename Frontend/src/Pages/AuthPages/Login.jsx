@@ -5,12 +5,14 @@ import { FcGoogle } from "react-icons/fc";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../../Store/Slice/authSlice";
 import toast from "react-hot-toast";
+import useGoogleAuth from "../../Lib/googleAuth";
+import { LoadingSpinner } from "../../Components/Ui/Messages";
 
 const Login = () => {
   const dispatch = useDispatch();
   const { loading } = useSelector((state) => state.auth);
   const navigate = useNavigate();
-  
+
   // state for user
   const [user, setUser] = useState({
     email: "",
@@ -38,6 +40,9 @@ const Login = () => {
   const handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
+
+  // handle auth through google
+  const googleAuthHandler = useGoogleAuth();
 
   return (
     // login page start
@@ -118,6 +123,9 @@ const Login = () => {
               Login
             </button>
 
+            {/* loading */}
+            {loading.login && <LoadingSpinner />}
+
             {/* seprtation */}
             <div className="flex items-center w-full my-4">
               <hr className="flex-grow border-t border-[#0C363C]" />
@@ -126,7 +134,11 @@ const Login = () => {
             </div>
 
             {/* google auth */}
-            <button className="w-full py-2.5 bg-[#0c363c42] font-semibold text-xl rounded-full flex justify-start items-center gap-8">
+            <button
+              type="button"
+              onClick={googleAuthHandler}
+              className="w-full py-2.5 bg-[#0c363c42] font-semibold text-xl rounded-full flex justify-start items-center gap-8"
+            >
               <FcGoogle className="text-4xl ml-5" />
               Continue with Google
             </button>

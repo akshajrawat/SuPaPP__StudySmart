@@ -24,7 +24,7 @@ router.post("/register", registerUser);
 router.post("/login", loginUser);
 
 // Path :- /SuPaPP/auth/googleAuth
-router.post("/login", googleAuth);
+router.post("/googleAuth", googleAuth);
 
 // Path :- /SuPaPP/auth/verify-otp
 router.post("/verify-otp", verifyOtp);

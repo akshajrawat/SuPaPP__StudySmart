@@ -5,12 +5,17 @@ import App from "./App.jsx";
 import { BrowserRouter } from "react-router-dom";
 import { store } from "./Store/store.js";
 import { Provider } from "react-redux";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <Provider store={store}>
       <BrowserRouter>
-        <App />
+        <GoogleOAuthProvider
+          clientId={import.meta.env.VITE_GOOGLE_AUTH_CLIENT_ID}
+        >
+          <App />
+        </GoogleOAuthProvider>
       </BrowserRouter>
     </Provider>
   </React.StrictMode>

@@ -3,9 +3,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import study from "../../Assets/Icon/study3.jpg";
 import { FcGoogle } from "react-icons/fc";
-import { registerUser } from "../../Store/Slice/authSlice";
+import { googleLogin, registerUser } from "../../Store/Slice/authSlice";
 import toast from "react-hot-toast";
 import { LoadingSpinner } from "../../Components/Ui/Messages";
+import useGoogleAuth from "../../Lib/googleAuth";
 
 const Login = () => {
   const { loading } = useSelector((state) => state.auth);
@@ -37,6 +38,9 @@ const Login = () => {
       console.error("Registration failed", error);
     }
   };
+
+  // handle auth through google
+  const googleAuthHandler = useGoogleAuth();
 
   return (
     // register page start
@@ -115,11 +119,7 @@ const Login = () => {
                 Password
               </label>
             </div>
-            <div className="flex justify-between items-center">
-              <Link className="font-bold text-[#0C363C]">
-                {" "}
-                Forgot Password?{" "}
-              </Link>
+            <div className="flex justify-center items-center">
               <div className="flex items-center gap-2">
                 <input
                   type="checkbox"
@@ -150,7 +150,12 @@ const Login = () => {
             </div>
 
             {/* google auth */}
-            <button className="w-full py-2.5 bg-[#0c363c42] font-semibold text-xl rounded-full flex justify-start items-center gap-8">
+
+            <button
+              type="button"
+              onClick={googleAuthHandler}
+              className="w-full py-2.5 bg-[#0c363c42] font-semibold text-xl rounded-full flex justify-start items-center gap-8"
+            >
               <FcGoogle className="text-4xl ml-5" />
               Continue with Google
             </button>

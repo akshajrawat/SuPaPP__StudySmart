@@ -18,7 +18,7 @@ const userModel = new Schema({
 
   password: {
     type: String,
-    required: true,
+    default: null,
   },
 
   isVerified: {

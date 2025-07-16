@@ -74,6 +74,28 @@ export const loginUser = createAsyncThunk(
   }
 );
 
+export const googleLogin = createAsyncThunk(
+  "auth/googleLogin",
+  async (tokenResponse, thunkAPI) => {
+    try {
+      console.log(tokenResponse)
+      const response = await axiosInstance.post("/auth/googleAuth", {
+        credential: tokenResponse.credential || tokenResponse.access_token,
+      });
+      if (response.status === 200) {
+        toast.success(response.data.message);
+        return response.data.user;
+      } else {
+        toast.error("Failed");
+      }
+    } catch (error) {
+      const message = error.response?.data?.message || error.message;
+      toast.error(message);
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 // initial state
 
 const initialState = {
@@ -149,6 +171,18 @@ export const authSlice = createSlice({
         state.user = action.payload;
       })
       .addCase(loginUser.rejected, (state) => {
+        state.loading.login = false;
+        state.isAuthenticated = false;
+      })
+      .addCase(googleLogin.pending, (state) => {
+        state.loading.login = true;
+      })
+      .addCase(googleLogin.fulfilled, (state, action) => {
+        state.loading.login = false;
+        state.isAuthenticated = true;
+        state.user = action.payload;
+      })
+      .addCase(googleLogin.rejected, (state) => {
         state.loading.login = false;
         state.isAuthenticated = false;
       });

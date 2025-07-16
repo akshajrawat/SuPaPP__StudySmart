@@ -5,22 +5,22 @@ const SearchBar = ({
   query,
   onChange,
   placeholder = "Search...",
-  className = "",
+  className,
 }) => {
   return (
     <div
-      className={`flex items-center justify-center h-[13%] px-4 py-3 border-b border-gray-300 dark:border-[#29274a] ${className}`}
+      className={`${className} rounded-sm bg-white shadow-sm overflow-hidden flex`}
     >
-      <div className="flex items-center w-full bg-gray-100 dark:bg-[#19173a] rounded-full px-4 py-2 shadow-inner">
-        <FaSearch className="text-gray-500 dark:text-[#8d8ea1] text-lg mr-2" />
-        <input
-          type="text"
-          value={query}
-          onChange={(e) => onChange(e.target.value)}
-          placeholder={placeholder}
-          className="bg-transparent w-full text-sm text-black dark:text-white placeholder:text-gray-500 dark:placeholder:text-[#8d8ea1] outline-none"
-        />
+      {/* icon */}
+      <div className="h-full w-[15%] flex justify-center items-center">
+        <FaSearch className="text-xl text-gray-700" />
       </div>
+      {/* input */}
+      <input
+        className="w-[85%] h-full outline-none pr-5 text-black placeholder-gray-700 placeholder:font-medium"
+        type="text"
+        placeholder={placeholder}
+      />
     </div>
   );
 };

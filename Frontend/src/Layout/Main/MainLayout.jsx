@@ -5,20 +5,21 @@ import { useDispatch, useSelector } from "react-redux";
 import { socketConnect } from "../../Lib/socket";
 import { setOnlineUsers } from "../../Store/Slice/chatSlice";
 import Navbar from "../../Components/Navbar/Navbar";
+import { FiHome, FiMessageCircle, FiBook, FiInbox } from "react-icons/fi";
 
 const navbarLinks = [
-  { name: "Home", link: "/SuPaPP" },
-  { name: "Chat", link: "/SuPaPP/chat" },
-  { name: "Crypto & Wallet", link: "/SuPaPP/wallet" },
-  { name: "Shopping", link: "/SuPaPP/ecommerce" },
-  { name: "Profile", link: "/SuPaPP/profile" },
-  { name: "Logout", action: "logout" }, // Use this to dispatch logout
+  { id: 1, name: "Main", icon: <FiHome />, link: "/SuPaPP" },
+  { id: 2, name: "Questions", icon: <FiMessageCircle />, link: "/SuPaPP/chat" },
+  { id: 3, name: "Notes", icon: <FiBook />, link: "/SuPaPP/wallet" },
+  { id: 4, name: "Inbox", icon: <FiInbox />, link: "/SuPaPP/ecommerce" },
 ];
 
 const MainLayout = () => {
   const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   useEffect(() => {
+    if (!auth.user?.id) return;
+
     const cleanup = socketConnect(auth.user.id, (userIds) => {
       dispatch(setOnlineUsers(userIds));
     });
@@ -29,11 +30,11 @@ const MainLayout = () => {
   }, [auth.user?.id]);
 
   return (
-    <div className="max-w-screen min-h-screen dark:bg-[#0a081f]">
-      <Navbar links={navbarLinks} />
-      <main className="">
+    <div className="max-w-screen min-h-screen dark:bg-[#0a081f] cursor-pointer">
+      <Navbar links={navbarLinks} type={"main"} />
+      {/* <main className="">
         <Outlet />
-      </main>
+      </main> */}
     </div>
   );
 };
