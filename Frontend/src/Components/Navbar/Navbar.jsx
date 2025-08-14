@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import logo from "../../Assets/Icon/Logo.svg";
-import { GiHamburgerMenu } from "react-icons/gi";
+import { GiHamburgerMenu, GiHidden } from "react-icons/gi";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { LuPanelLeftClose } from "react-icons/lu";
@@ -8,25 +8,32 @@ import SearchBar from "../Ui/SearchBar";
 
 const Navbar = ({ links = [], type = "" }) => {
   const location = useLocation();
+  const [isOpen, setisOpen] = useState(true);
 
   return (
     // navbar container
     <div
       className={`${
         type === "main"
-          ? "bg-[#fbf9f7] h-[100vh] w-[20vw] flex-col border-r-2 border-[#dfdedeb7]"
+          ? `bg-[#fbf9f7] h-[100vh] flex-col border-r-2 border-[#dfdedeb7] ${
+              isOpen ? "w-[20vw]" : "w-[4vw]"
+            }`
           : "bg-white h-[10vh] w-full"
-      }   flex  pt-2 justify-between `}
+      }   flex  pt-2 justify-between transition-all ease-in-out duration-300`}
     >
       {/* logo container */}
       <div
         className={` ${
           type === "main"
-            ? "w-full h-[15vh] border-b-2 border-[#dfdedeb7] justify-between px-5"
+            ? "w-full h-[15vh] border-b-2 border-[#dfdedeb7] justify-between px-3"
             : "w-[35%] sm:w-[20%] h-full justify-center"
         }   flex  items-center `}
       >
-        <div className="flex justify-center items-center gap-1">
+        <div
+          className={`flex justify-center items-center gap-1 ${
+            isOpen ? "" : "hidden"
+          }`}
+        >
           <div className="h-[35px]">
             <img
               className="w-full h-full object-cover"
@@ -37,7 +44,10 @@ const Navbar = ({ links = [], type = "" }) => {
           <p className="text-xl font-semibold"> SuPaPP</p>
         </div>
         <LuPanelLeftClose
-          className={`${type === "main" ? "block text-2xl" : "hidden"}`}
+          onClick={() => setisOpen((prev) => !prev)}
+          className={`${type === "main" ? "block text-2xl" : "hidden"} ${
+            isOpen ? "" : "mx-auto"
+          }`}
         />
       </div>
 
@@ -49,7 +59,10 @@ const Navbar = ({ links = [], type = "" }) => {
             : "hidden"
         }   `}
       >
-        <SearchBar className={"w-[95%] h-[70%]"} />
+        <SearchBar
+          className={"w-[95%] h-[70%] "}
+          close={isOpen ? false : true}
+        />
       </div>
 
       {/* links */}
@@ -82,8 +95,20 @@ const Navbar = ({ links = [], type = "" }) => {
                   }`}
                   key={item.id}
                 >
-                  <span className="mb-1">{item.icon}</span>
-                  <Link to={item.link}>{item.name}</Link>
+                  <Link
+                    className="flex justify-center items-center gap-2"
+                    to={item.link}
+                  >
+                    {" "}
+                    <span className="mb-1 text-xl">{item.icon}</span>
+                    <p
+                      className={`${
+                        isOpen ? "" : "opacity-0 pointer-events-none"
+                      } transition-all ease-in-out`}
+                    >
+                      {item.name}
+                    </p>
+                  </Link>
                 </li>
               );
             }
