@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-import logo from "../../Assets/Icon/Logo.svg";
+
 import { GiHamburgerMenu, GiHidden } from "react-icons/gi";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { LuPanelLeftClose } from "react-icons/lu";
 import SearchBar from "../Ui/SearchBar";
+import Logo from "./Logo";
+import NavLink from "./NavLink";
 
 const Navbar = ({ links = [], type = "" }) => {
   const location = useLocation();
@@ -16,7 +18,9 @@ const Navbar = ({ links = [], type = "" }) => {
       className={`${
         type === "main"
           ? `bg-[#fbf9f7] h-[100vh] flex-col border-r-2 border-[#dfdedeb7] ${
-              isOpen ? "w-[20vw]" : "w-[4vw]"
+              isOpen
+                ? "w-[80vw] sm:w-[40vw] lg:w-[30vw] xl:w-[20vw]"
+                : "w-[15vw] sm:w-[10vw] md:w-[8vw] lg:w-[6vw] xl:w-[4vw]"
             }`
           : "bg-white h-[10vh] w-full"
       }   flex  pt-2 justify-between transition-all ease-in-out duration-300`}
@@ -29,26 +33,15 @@ const Navbar = ({ links = [], type = "" }) => {
             : "w-[35%] sm:w-[20%] h-full justify-center"
         }   flex  items-center `}
       >
-        <div
-          className={`flex justify-center items-center gap-1 ${
-            isOpen ? "" : "hidden"
-          }`}
-        >
-          <div className="h-[35px]">
-            <img
-              className="w-full h-full object-cover"
-              src={logo}
-              alt="supapp logo"
-            />
-          </div>
-          <p className="text-xl font-semibold"> SuPaPP</p>
-        </div>
-        <LuPanelLeftClose
-          onClick={() => setisOpen((prev) => !prev)}
+        <Logo isOpen={isOpen} />
+        <button
           className={`${type === "main" ? "block text-2xl" : "hidden"} ${
             isOpen ? "" : "mx-auto"
           }`}
-        />
+          aria-label="Toggle sidebar"
+        >
+          <LuPanelLeftClose onClick={() => setisOpen((prev) => !prev)} />
+        </button>
       </div>
 
       {/* Searchbar container */}
@@ -68,8 +61,10 @@ const Navbar = ({ links = [], type = "" }) => {
       {/* links */}
       <div
         className={`${
-          type === "main" ? "w-full flex-col h-[65vh]" : "w-[60%] h-full "
-        } md:flex hidden`}
+          type === "main"
+            ? "w-full flex-col h-[65vh]"
+            : "w-[60%] h-full md:flex hidden"
+        }  `}
       >
         <ul
           className={`${
@@ -81,35 +76,22 @@ const Navbar = ({ links = [], type = "" }) => {
           {links.map((item) => {
             if (location.pathname === "/") {
               return (
-                <li key={item.id}>
-                  <a href={item.link}>{item.name}</a>
-                </li>
+                <NavLink
+                  variant={"top"}
+                  item={item}
+                  isOpen={isOpen}
+                  type={type}
+                  key={item.id}
+                />
               );
             } else {
               return (
-                <li
-                  className={`${
-                    type === "main"
-                      ? "w-full h-[20%] flex items-center justify-start gap-2 px-3 rounded-sm hover:bg-[#f0eeed]"
-                      : ""
-                  }`}
+                <NavLink
+                  item={item}
+                  isOpen={isOpen}
+                  type={type}
                   key={item.id}
-                >
-                  <Link
-                    className="flex justify-center items-center gap-2"
-                    to={item.link}
-                  >
-                    {" "}
-                    <span className="mb-1 text-xl">{item.icon}</span>
-                    <p
-                      className={`${
-                        isOpen ? "" : "opacity-0 pointer-events-none"
-                      } transition-all ease-in-out`}
-                    >
-                      {item.name}
-                    </p>
-                  </Link>
-                </li>
+                />
               );
             }
           })}
@@ -127,7 +109,7 @@ const Navbar = ({ links = [], type = "" }) => {
         </button>
 
         {/* hamburger on smaller screen */}
-        <div className="md:hidden">
+        <div className={`md:hidden ${type === "main" ? "hidden" : ""}`}>
           <GiHamburgerMenu className="text-2xl" />
         </div>
       </div>
