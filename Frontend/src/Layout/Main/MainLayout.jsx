@@ -6,6 +6,7 @@ import { socketConnect } from "../../Lib/socket";
 import { setOnlineUsers } from "../../Store/Slice/chatSlice";
 import Navbar from "../../Components/Navbar/Navbar";
 import { FiHome, FiMessageCircle, FiBook, FiInbox } from "react-icons/fi";
+import PageNavbar from "../../Components/Navbar/PageNavbar";
 
 const navbarLinks = [
   { id: 1, name: "Main", icon: <FiHome />, link: "/SuPaPP" },
@@ -30,11 +31,12 @@ const MainLayout = () => {
   }, [auth.user?.id]);
 
   return (
-    <div className="max-w-screen min-h-screen dark:bg-[#0a081f] cursor-pointer">
+    <div className="max-w-screen min-h-screen dark:bg-[#0a081f] cursor-pointer flex">
       <Navbar links={navbarLinks} type={"main"} />
-      {/* <main className="">
+      <main className="flex-1">
+        <PageNavbar links={navbarLinks}/>
         <Outlet />
-      </main> */}
+      </main>
     </div>
   );
 };

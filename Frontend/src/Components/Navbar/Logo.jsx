@@ -1,7 +1,7 @@
 import React from "react";
 import logo from "../../Assets/Icon/Logo.svg";
 import { Link } from "react-router-dom";
-const Logo = ({ isOpen = true}) => {
+const Logo = ({ isOpen = true, title }) => {
   return (
     <Link
       to={"/"}
@@ -9,14 +9,17 @@ const Logo = ({ isOpen = true}) => {
         isOpen ? "" : "hidden"
       }`}
     >
-      <div className="h-[35px]">
-        <img
-          className="w-full h-full object-cover"
-          src={logo}
-          alt="supapp logo"
-        />
-      </div>
-      <p className="text-xl font-semibold"> SuPaPP</p>
+      {!title && (
+        <div className="h-[35px]">
+          <img
+            className="w-full h-full object-cover"
+            src={logo}
+            alt="supapp logo"
+          />
+        </div>
+      )}
+
+      <p className="text-xl font-semibold"> {title? title : "SuPaPP"}</p>
     </Link>
   );
 };

@@ -8,7 +8,7 @@ import SearchBar from "../Ui/SearchBar";
 import Logo from "./Logo";
 import NavLink from "./NavLink";
 
-const Navbar = ({ links = [], type = "" }) => {
+const Navbar = ({ links = [], type = "", search = true, title }) => {
   const location = useLocation();
   const [isOpen, setisOpen] = useState(true);
 
@@ -19,21 +19,21 @@ const Navbar = ({ links = [], type = "" }) => {
         type === "main"
           ? `bg-[#fbf9f7] h-[100vh] flex-col border-r-2 border-[#dfdedeb7] ${
               isOpen
-                ? "w-[80vw] sm:w-[40vw] lg:w-[30vw] xl:w-[20vw]"
+                ? "w-[50vw] sm:w-[40vw] lg:w-[30vw] xl:w-[20vw]"
                 : "w-[15vw] sm:w-[10vw] md:w-[8vw] lg:w-[6vw] xl:w-[4vw]"
             }`
           : "bg-white h-[10vh] w-full"
-      }   flex  pt-2 justify-between transition-all ease-in-out duration-300`}
+      }   flex  pt-2 justify-between transition-all ease-in-out duration-300 `}
     >
       {/* logo container */}
       <div
         className={` ${
           type === "main"
-            ? "w-full h-[15vh] border-b-2 border-[#dfdedeb7] justify-between px-3"
+            ? "w-full h-[8vh] border-b-2 border-[#dfdedeb7] justify-between px-3 flex-shrink-0"
             : "w-[35%] sm:w-[20%] h-full justify-center"
-        }   flex  items-center `}
+        }   flex  items-center`}
       >
-        <Logo isOpen={isOpen} />
+        <Logo isOpen={isOpen} title={title} />
         <button
           className={`${type === "main" ? "block text-2xl" : "hidden"} ${
             isOpen ? "" : "mx-auto"
@@ -45,18 +45,20 @@ const Navbar = ({ links = [], type = "" }) => {
       </div>
 
       {/* Searchbar container */}
-      <div
-        className={`${
-          type === "main"
-            ? "w-full h-[20vh] flex items-center justify-center"
-            : "hidden"
-        }   `}
-      >
-        <SearchBar
-          className={"w-[95%] h-[70%] "}
-          close={isOpen ? false : true}
-        />
-      </div>
+      {search && (
+        <div
+          className={`${
+            type === "main"
+              ? "w-full h-[20vh] flex items-center justify-center"
+              : "hidden"
+          }   `}
+        >
+          <SearchBar
+            className={"w-[95%] h-[70%] "}
+            close={isOpen ? false : true}
+          />
+        </div>
+      )}
 
       {/* links */}
       <div
