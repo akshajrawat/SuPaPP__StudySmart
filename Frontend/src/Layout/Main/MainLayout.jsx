@@ -8,13 +8,6 @@ import Navbar from "../../Components/Navbar/Navbar";
 import { FiHome, FiMessageCircle, FiBook, FiInbox } from "react-icons/fi";
 import PageNavbar from "../../Components/Navbar/PageNavbar";
 
-const navbarLinks = [
-  { id: 1, name: "Main", icon: <FiHome />, link: "/SuPaPP" },
-  { id: 2, name: "Questions", icon: <FiMessageCircle />, link: "/SuPaPP/chat" },
-  { id: 3, name: "Notes", icon: <FiBook />, link: "/SuPaPP/wallet" },
-  { id: 4, name: "Inbox", icon: <FiInbox />, link: "/SuPaPP/ecommerce" },
-];
-
 const MainLayout = () => {
   const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -31,10 +24,10 @@ const MainLayout = () => {
   }, [auth.user?.id]);
 
   return (
-    <div className="max-w-screen min-h-screen dark:bg-[#0a081f] cursor-pointer flex">
+    <div className="max-w-screen min-h-screen dark:bg-[#0a081f] cursor-pointer flex overflow-hidden">
       <Navbar links={navbarLinks} type={"main"} />
       <main className="flex-1">
-        <PageNavbar links={navbarLinks}/>
+        <PageNavbar links={navbarLinks} />
         <Outlet />
       </main>
     </div>

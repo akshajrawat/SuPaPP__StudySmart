@@ -29,7 +29,7 @@ const NavLink = ({ variant = "side", item, isOpen = true, type }) => {
           : ""
       }`}
     >
-      <Link className="flex justify-center items-center gap-2" to={item.link}>
+      <Link className="flex justify-start items-center gap-2 w-full h-full" to={item.link}>
         {" "}
         <span className="mb-1 text-xl">{item.icon}</span>
         <p

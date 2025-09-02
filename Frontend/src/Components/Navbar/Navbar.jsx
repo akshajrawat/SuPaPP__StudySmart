@@ -4,11 +4,19 @@ import { GiHamburgerMenu, GiHidden } from "react-icons/gi";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { LuPanelLeftClose } from "react-icons/lu";
+import { IoMdAddCircleOutline } from "react-icons/io";
 import SearchBar from "../Ui/SearchBar";
 import Logo from "./Logo";
 import NavLink from "./NavLink";
 
-const Navbar = ({ links = [], type = "", search = true, title }) => {
+const Navbar = ({
+  links = [],
+  type = "",
+  search = true,
+  title,
+  button = false,
+  className,
+}) => {
   const location = useLocation();
   const [isOpen, setisOpen] = useState(true);
 
@@ -17,7 +25,7 @@ const Navbar = ({ links = [], type = "", search = true, title }) => {
     <div
       className={`${
         type === "main"
-          ? `bg-[#fbf9f7] h-[100vh] flex-col border-r-2 border-[#dfdedeb7] ${
+          ? `bg-[#fbf9f7]  flex-col border-r-2 border-[#dfdedeb7] h-[100vh] ${className} ${
               isOpen
                 ? "w-[50vw] sm:w-[40vw] lg:w-[30vw] xl:w-[20vw]"
                 : "w-[15vw] sm:w-[10vw] md:w-[8vw] lg:w-[6vw] xl:w-[4vw]"
@@ -57,6 +65,19 @@ const Navbar = ({ links = [], type = "", search = true, title }) => {
             className={"w-[95%] h-[70%] "}
             close={isOpen ? false : true}
           />
+        </div>
+      )}
+
+      {/* create workshop */}
+      {button && (
+        <div className=" flex justify-center items-center p-2">
+          <button
+            className="bg-[#4fd1d9] w-full py-3 rounded-xl font-semibold text-lg
+          shadow-sm flex justify-center gap-4 items-center"
+          >
+            {button}
+            <IoMdAddCircleOutline className="text-2xl"/>
+          </button>
         </div>
       )}
 
