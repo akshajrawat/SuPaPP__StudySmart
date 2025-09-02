@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import SideChat from "./Comp/SideChat";
 import ChatBox from "./Comp/ChatBox";
 import { useSelector } from "react-redux";
-import NoChatSelected from "./Comp/NoChatSelected";
 
 const Chat = () => {
   const chat = useSelector((state) => state.chat);
@@ -39,7 +38,7 @@ const Chat = () => {
             !chat.selected && !isLargeScreen ? "hidden" : "block"
           }`}
         >
-          {chat.selected ? <ChatBox /> : <NoChatSelected />}
+          {chat.selected ? <ChatBox /> : ""}
         </main>
       )}
     </div>
