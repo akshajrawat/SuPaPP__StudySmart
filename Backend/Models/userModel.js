@@ -41,6 +41,11 @@ const userModel = new Schema({
     default: "https://api.dicebear.com/7.x/thumbs/svg?seed=defaultUser",
   },
 
+  
+
+
+  // to be reviwed 
+
   store: {
     type: mongoose.Schema.ObjectId,
     ref: "Store",
