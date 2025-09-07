@@ -15,6 +15,7 @@ const Navbar = ({
   search = true,
   title,
   button = false,
+  buttonOnClick = () => {},
   className,
 }) => {
   const location = useLocation();
@@ -76,6 +77,7 @@ const Navbar = ({
           } flex justify-center items-center w-full`}
         >
           <button
+            onClick={buttonOnClick}
             className={`${
               isOpen ? " gap-2" : ""
             } bg-[#641eef] border border-white font-semibold flex justify-center items-center w-[95%] py-2 rounded-sm`}
