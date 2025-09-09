@@ -44,40 +44,42 @@ const Faq = () => {
   return (
     <div
       id="Faqs"
-      className="min-h-screen w-full bg-black flex flex-col items-center gap-10 p-10"
+      className="min-h-screen w-full bg-black flex flex-col items-center gap-8 px-4 py-12 sm:px-6 md:px-12"
     >
       {/* Top section */}
-      <div className="flex flex-col gap-2 text-center">
-        <h3 className="text-5xl font-semibold text-white">
+      <div className="flex flex-col gap-3 text-center max-w-3xl">
+        <h3 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-white leading-snug">
           Frequently Asked Questions
         </h3>
-        <p className="text-2xl text-[#ffffffa1]">
+        <p className="text-lg sm:text-xl md:text-2xl text-[#ffffffa1]">
           We’ve gathered the top questions students usually ask — with answers!
         </p>
       </div>
 
       {/* FAQ section */}
-      <div className="w-full max-w-4xl flex flex-col gap-10 p-2">
+      <div className="w-full max-w-3xl md:max-w-4xl flex flex-col gap-6 md:gap-10 p-2">
         {highlights.map((item) => (
           <div
             key={item.id}
             onClick={() => handleClick(item.id)}
-            className="cursor-pointer border-t border-[#ffffff45] pt-6 px-2 transition-all duration-300"
+            className="cursor-pointer border-t border-[#ffffff45] pt-5 px-2 transition-all duration-300"
           >
             {/* Question Row */}
-            <div className="flex justify-between items-center px-3">
-              <div className="flex items-center gap-3 text-white">
-                <FaQuestion className="text-xl mt-1" />
-                <p className="text-xl font-semibold">{item.title}</p>
+            <div className="flex justify-between items-center px-2 sm:px-3">
+              <div className="flex items-center gap-2 sm:gap-3 text-white">
+                <FaQuestion className="text-base sm:text-lg md:text-xl mt-1" />
+                <p className="text-base sm:text-lg md:text-xl font-semibold">
+                  {item.title}
+                </p>
               </div>
-              <div className="text-white text-xl">
+              <div className="text-white text-lg sm:text-xl">
                 {activeId === item.id ? <FaMinus /> : <FaPlus />}
               </div>
             </div>
 
             {/* Answer (conditional) */}
             <div
-              className={`text-white text-lg mt-3 px-11 overflow-hidden transition-all duration-300 ease-in-out ${
+              className={`text-white text-sm sm:text-base md:text-lg mt-2 sm:mt-3 px-8 sm:px-11 overflow-hidden transition-all duration-300 ease-in-out ${
                 activeId === item.id
                   ? "max-h-40 opacity-100 translate-y-0"
                   : "max-h-0 opacity-0 -translate-y-2"

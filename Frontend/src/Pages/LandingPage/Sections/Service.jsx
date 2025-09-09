@@ -44,30 +44,28 @@ const studyServices = [
 
 const Service = () => {
   return (
-    <div id="Service" className="w-full min-h-[100vh] bg-[#0C363C] px-3">
+    <div id="Service" className="w-full min-h-screen bg-[#0C363C] px-4 py-12">
       {/* heading */}
-      <div className=" flex flex-col justify-start items-center gap-3">
-        <h1 className="text-4xl w-full text-center font-medium text-[#F5F7F9] pt-6">
-          {" "}
-          Where focus meets functionality for smarter learning{" "}
+      <div className="flex flex-col justify-start items-center gap-4 text-center max-w-3xl mx-auto">
+        <h1 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-[#F5F7F9]">
+          Where focus meets functionality for smarter learning
         </h1>
-        <p className=" flex justify-center items-center text-[#F5F7F9] text-center">
+        <p className="text-sm sm:text-base md:text-lg text-[#F5F7F9]/80">
           Everything you need to ace your semester in one app
         </p>
       </div>
 
       {/* cards */}
-      <div className="w-full flex justify-center items-center flex-wrap gap-x-10 gap-y-6 pt-10 ">
-        {studyServices.map((item, index) => {
-          return (
-            <ServiceCards
-              key={index}
-              icon={item.icon}
-              topic={item.title}
-              desc={item.desc}
-            />
-          );
-        })}
+      <div className="mt-12 flex flex-wrap justify-center gap-6 sm:gap-8">
+        {studyServices.map((item, index) => (
+          <ServiceCards
+            key={index}
+            icon={item.icon}
+            topic={item.title}
+            desc={item.desc}
+            className="w-full max-w-xs sm:max-w-sm"
+          />
+        ))}
       </div>
     </div>
   );

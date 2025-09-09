@@ -10,12 +10,11 @@ import Logo from "./Logo";
 import NavLink from "./NavLink";
 
 const Navbar = ({
+  // main(sidebar) , default : top (topAuth) 
+  type = "top",
   links = [],
-  type = "",
   search = true,
   title,
-  button = false,
-  buttonOnClick = () => {},
   className,
 }) => {
   const location = useLocation();
@@ -26,12 +25,12 @@ const Navbar = ({
     <div
       className={`${
         type === "main"
-          ? `bg-[#fbf9f7]  flex-col border-r-2 border-[#dfdedeb7] h-screen ${className} ${
+          ? `bg-[#fbf9f7]  flex-col border-r-2 border-[#dfdedeb7] ${className} ${
               isOpen
                 ? "w-[50vw] sm:w-[40vw] lg:w-[30vw] xl:w-[20vw]"
-                : "w-[15vw] sm:w-[10vw] md:w-[8vw] lg:w-[6vw] xl:w-[4vw]"
+                : `w-[15vw] sm:w-[10vw] md:w-[8vw] lg:w-[6vw] xl:w-[4vw]`
             }`
-          : "bg-white h-[10vh] w-full"
+          : " h-[10vh] w-full border-b-2 border-[#dfdedeb7] bg-[#fbf9f7]"
       }   flex  pt-2 justify-between transition-all ease-in-out duration-300 `}
     >
       {/* logo container */}
@@ -69,26 +68,6 @@ const Navbar = ({
         </div>
       )}
 
-      {/* create workshop */}
-      {button && (
-        <div
-          className={`${
-            isOpen ? "p-2" : "py-2"
-          } flex justify-center items-center w-full`}
-        >
-          <button
-            onClick={buttonOnClick}
-            className={`${
-              isOpen ? " gap-2" : ""
-            } bg-[#641eef] border border-white font-semibold flex justify-center items-center w-[95%] py-2 rounded-sm`}
-          >
-            <MdAddBox className="text-2xl text-[#ffffffb3]" />
-            <p className={`${isOpen ? "text-white mt-1" : "hidden"} `}>
-              {button}
-            </p>
-          </button>
-        </div>
-      )}
 
       {/* links */}
       <div

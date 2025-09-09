@@ -1,9 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
+import { useDispatch, useSelector } from "react-redux";
+import { createWorkshop } from "../../Store/Slice/workshopSlice";
+import { LoadingSpinner } from "../../Components/Ui/Messages";
+import toast from "react-hot-toast";
 
-const WorkspaceForm = ({ handleCancelClick }) => {
-  const handleCreateClick = () => {
-    // TODO: handle create logic here
+const WorkspaceForm = ({ handleCancelClick, setisCreatingWorkspace }) => {
+  const dispatch = useDispatch();
+  const { loading } = useSelector((state) => state.workshop);
+  const [workshop, setWorkshop] = useState({
+    title: "",
+    description: "",
+  });
+
+  // create new workspace
+  const handleCreateClick = async () => {
+    if (workshop.title.trim() !== "" && workshop.description.trim() !== "") {
+      await dispatch(createWorkshop(workshop)).unwrap();
+      setisCreatingWorkspace(false);
+    } else {
+      toast.error("All fields are mandatory");
+    }
+  };
+
+  const handleChange = (e) => {
+    setWorkshop((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
   };
 
   return (
@@ -21,6 +45,9 @@ const WorkspaceForm = ({ handleCancelClick }) => {
         <input
           type="text"
           placeholder="Title"
+          name="title"
+          value={workshop.title}
+          onChange={handleChange}
           className="w-full mb-4 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#641eef] transition"
         />
 
@@ -28,6 +55,9 @@ const WorkspaceForm = ({ handleCancelClick }) => {
         <input
           type="text"
           placeholder="Description"
+          name="description"
+          value={workshop.description}
+          onChange={handleChange}
           className="w-full mb-4 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#641eef] transition"
         />
 
@@ -38,6 +68,7 @@ const WorkspaceForm = ({ handleCancelClick }) => {
         >
           Create
         </button>
+        {loading.workshopCreating && <LoadingSpinner />}
       </div>
     </div>
   );

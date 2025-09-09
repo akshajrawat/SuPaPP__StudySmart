@@ -23,42 +23,48 @@ const studyBenefits = [
 
 const About = () => {
   return (
-    <div id="About" className="min-h-[100vh] w-full bg-white flex ">
-      <div className="min-h-[100vh] w-[45%] flex justify-center items-center ">
-        <div className="w-[90%] h-[80%] bg-[#00000017] rounded-2xl flex justify-center items-center relative">
-          <div className="w-[90%] h-[80%] rounded-2xl overflow-hidden">
+    <div
+      id="About"
+      className="min-h-screen w-full bg-white flex flex-col lg:flex-row"
+    >
+      {/* Left Image Section */}
+      <div className="w-full lg:w-[45%] flex justify-center items-center p-4">
+        <div className="w-full sm:w-[90%] lg:w-[90%] h-[300px] sm:h-[400px] lg:h-[80%] bg-[#00000017] rounded-2xl flex justify-center items-center relative">
+          <div className="w-[90%] h-[90%] rounded-2xl overflow-hidden">
             <img
               className="w-full h-full object-cover"
               src={study}
               alt="study"
             />
           </div>
-          <div className="h-[150px] w-[240px] xl:h-[200px] xl:w-[320px] absolute bg-white bottom-4 right-5 rounded-2xl shadow-2xl shadow-[#00000089] lg:flex flex-col justify-end items-start gap-3 pl-3 pb-1  z-100">
-            <div className="text-4xl">
+
+          {/* Floating Card */}
+          <div className="absolute bottom-4 right-4 bg-white rounded-2xl shadow-2xl shadow-[#00000089] flex flex-col justify-end items-start gap-3 p-3 h-[120px] w-[200px] sm:h-[150px] sm:w-[240px] xl:h-[200px] xl:w-[320px]">
+            <div className="text-2xl sm:text-3xl xl:text-4xl">
               <VscProject />
             </div>
-            <p className="text-left w-[80%] text-lg xl:text-xl">
+            <p className="text-left text-sm sm:text-base xl:text-xl font-medium">
               Enhance productivity through smarter study systems
             </p>
           </div>
         </div>
       </div>
-      <div className="min-h-[100vh] w-[55%] flex flex-col gap-8 justify-center items-center p-5">
-        <h2 className="text-5xl font-semibold ">
+
+      {/* Right Text Section */}
+      <div className="w-full lg:w-[55%] flex flex-col gap-6 lg:gap-8 justify-center items-center text-center lg:text-left p-6 lg:p-10">
+        <h2 className="text-2xl sm:text-3xl lg:text-5xl font-semibold">
           Key Benefits of Our App for Smarter Studying
         </h2>
-        <p className=" text-[#000000b4] font-semibold w-full">
+        <p className="text-[#000000b4] font-medium w-full max-w-2xl">
           Our app helps students boost productivity, stay focused, and achieve
           academic success — all in one platform.
         </p>
 
-        {/* options */}
-        <div className="flex flex-col gap-10 text-[#0C363C]">
-          {studyBenefits.map((item) => {
-            return (
-              <AboutCards key={item.id} title={item.title} desc={item.desc} />
-            );
-          })}
+        {/* Cards */}
+        <div className="flex flex-col gap-6 sm:gap-10 text-[#0C363C] w-full">
+          {studyBenefits.map((item) => (
+            <AboutCards key={item.id} title={item.title} desc={item.desc} />
+          ))}
         </div>
       </div>
     </div>

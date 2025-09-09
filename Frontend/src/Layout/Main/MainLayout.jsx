@@ -31,7 +31,9 @@ const MainLayout = () => {
   }, [auth.user?.id]);
 
   return (
-    <div className="max-w-screen min-h-screen dark:bg-[#0a081f] cursor-pointer flex overflow-hidden">
+    <div
+      className="max-w-screen min-h-screen dark:bg-[#0a081f] cursor-pointer overflow-hidden flex"
+    >
       <Navbar links={navbarLinks} type={"main"} />
       <main className="flex-1">
         <PageNavbar links={navbarLinks} />

@@ -25,18 +25,19 @@ const HomePage = () => {
       {isCreatingWorkspace && (
         <WorkspaceForm
           handleCancelClick={handleCancelClick}
+          setisCreatingWorkspace={setisCreatingWorkspace}
         />
       )}
-      <div className="h-[calc(100vh-9.2vh)] overflow-hidden flex relative">
-        <Navbar
-          type="main"
-          search={false}
-          title={"Workshop"}
-          button={"New WorkSpace"}
-          className={"absolute top-0 left-0 h-screen z-10"}
-          buttonOnClick={handleClick}
-        />
 
+      <div className="h-[calc(100vh-9.2vh)] overflow-hidden flex relative">
+        <div className={` ${isMobile ? "hidden" : ""}`}>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit
+          reprehenderit aperiam ipsa a sapiente, at inventore omnis, ducimus
+          magni recusandae animi harum nam? Distinctio blanditiis esse dolorum
+          quas fugit repellendus sed reiciendis consequatur nesciunt aliquam,
+          necessitatibus placeat debitis repellat, dolore sapiente. Dolorem
+          optio dolorum dolores?
+        </div>
         {isMobile ? <NoSelected /> : "hi"}
       </div>
     </>
