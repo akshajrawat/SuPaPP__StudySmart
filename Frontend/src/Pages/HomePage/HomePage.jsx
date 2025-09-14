@@ -22,14 +22,8 @@ const HomePage = () => {
 
   return (
     <>
-      {isCreatingWorkspace && (
-        <WorkspaceForm
-          handleCancelClick={handleCancelClick}
-          setisCreatingWorkspace={setisCreatingWorkspace}
-        />
-      )}
 
-      <div className="h-[calc(100vh-9.2vh)] overflow-hidden flex relative">
+      <div className="h-full overflow-hidden flex relative">
         <div className={` ${isMobile ? "hidden" : ""}`}>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit
           reprehenderit aperiam ipsa a sapiente, at inventore omnis, ducimus
@@ -38,7 +32,6 @@ const HomePage = () => {
           necessitatibus placeat debitis repellat, dolore sapiente. Dolorem
           optio dolorum dolores?
         </div>
-        {isMobile ? <NoSelected /> : "hi"}
       </div>
     </>
   );

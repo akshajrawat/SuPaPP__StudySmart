@@ -13,21 +13,17 @@ const Login = () => {
   const { loading } = useSelector((state) => state.auth);
   const navigate = useNavigate();
 
-  // state for user
   const [user, setUser] = useState({
     email: "",
     password: "",
   });
 
-  // handling the submition
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     if (!user.email || !user.password) {
       toast.error("All fields are mandatory");
       return;
     }
-
     try {
       await dispatch(loginUser(user)).unwrap();
       navigate("/Supapp");
@@ -36,78 +32,69 @@ const Login = () => {
     }
   };
 
-  // handling update of user
   const handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
-  // handle auth through google
   const googleAuthHandler = useGoogleAuth();
 
   return (
-    // login page start
-    <div className="h-[calc(100vh-67px)] w-full flex justify-center items-center bg-[#f0f7fd]">
-      {/* login form */}
+    <div className="min-h-[calc(100vh-67px)] w-full flex justify-center items-center bg-[#f0f7fd] p-4">
       <form
         onSubmit={handleSubmit}
-        className="h-[90%] w-[70%] shadow-2xl rounded-xl overflow-hidden bg-[#E2FFC8] flex"
+        className="w-full max-w-5xl shadow-2xl rounded-xl overflow-hidden bg-[#E2FFC8] flex flex-col lg:flex-row"
       >
-        {/* img section */}
-        <div className="h-full w-[35%]">
+        {/* Image Section */}
+        <div className="h-48 lg:h-auto w-full lg:w-[40%]">
           <img className="w-full h-full object-cover" src={study} alt="study" />
         </div>
 
-        {/* login section */}
-        <div className="h-full w-[65%] flex flex-col justify-start items-center gap-3 pt-15">
-          <div className=" flex flex-col justify-center items-center">
-            <h3 className=" text-4xl font-bold text-[#0C363C]">
+        {/* Login Section */}
+        <div className="flex-1 flex flex-col justify-start items-center gap-3 px-6 py-8">
+          <div className="flex flex-col justify-center items-center text-center">
+            <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#0C363C]">
               Welcome back to SuPaPP
             </h3>
-            <p className="w-[60%] text-center font-semibold text-[#0c363c99]">
+            <p className="mt-2 max-w-md text-sm sm:text-base font-semibold text-[#0c363c99]">
               Master your academics effortlessly with our powerful all-in-one
               study system.
             </p>
           </div>
 
-          {/* inputs */}
-          <div className="w-[50%] flex flex-col gap-2">
-            {/* email */}
-            <div className="border-2 border-[#0c363c42] focus-within:border-[#0C363C] w-full h-[50px] relative p-1 pb-3 rounded-xl">
+          {/* Inputs */}
+          <div className="w-full sm:w-[70%] lg:w-[60%] flex flex-col gap-3 mt-4">
+            {/* Email */}
+            <div className="border-2 border-[#0c363c42] focus-within:border-[#0C363C] w-full h-[55px] relative p-1 pb-3 rounded-xl">
               <input
-                className="h-full w-full pt-7 pb-2 pl-1.5 border-none outline-none"
+                className="h-full w-full pt-7 pb-2 pl-2 border-none outline-none bg-transparent"
                 name="email"
                 value={user.email}
                 onChange={handleChange}
-                type="text"
+                type="email"
               />
-              <label
-                className="absolute top-0 left-2 text-[#0c363c99] font-semibold"
-                htmlFor="Email"
-              >
+              <label className="absolute top-0 left-2 text-[#0c363c99] font-semibold">
                 Email
               </label>
             </div>
 
-            {/* password */}
-            <div className="border-2 border-[#0c363c42] w-full h-[50px] relative p-1 pb-3 rounded-xl focus-within:border-[#0C363C]">
+            {/* Password */}
+            <div className="border-2 border-[#0c363c42] w-full h-[55px] relative p-1 pb-3 rounded-xl focus-within:border-[#0C363C]">
               <input
-                className="h-full w-full pt-7 pb-2 pl-1.5 border-none outline-none"
+                className="h-full w-full pt-7 pb-2 pl-2 border-none outline-none bg-transparent"
                 name="password"
                 value={user.password}
                 onChange={handleChange}
-                type="text"
+                type="password"
               />
-              <label
-                className="absolute top-0 left-2 text-[#0c363c99] font-semibold"
-                htmlFor="Password"
-              >
+              <label className="absolute top-0 left-2 text-[#0c363c99] font-semibold">
                 Password
               </label>
             </div>
-            <div className="flex justify-between items-center">
-              <Link className="font-bold text-[#0C363C]">
-                {" "}
-                Forgot Password?{" "}
+
+            {/* Options */}
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+              <Link className="font-bold text-[#0C363C]" to="/auth/forgot">
+                Forgot Password?
               </Link>
               <div className="flex items-center gap-2">
                 <input
@@ -119,34 +106,38 @@ const Login = () => {
                 </label>
               </div>
             </div>
-            <button className="w-full py-2.5 bg-[#0C363C] text-white font-bold text-xl rounded-full">
+
+            {/* Login Button */}
+            <button className="w-full py-2.5 bg-[#0C363C] text-white font-bold text-lg sm:text-xl rounded-full">
               Login
             </button>
 
-            {/* loading */}
+            {/* Loading */}
             {loading.login && <LoadingSpinner />}
 
-            {/* seprtation */}
+            {/* Separation */}
             <div className="flex items-center w-full my-4">
               <hr className="flex-grow border-t border-[#0C363C]" />
               <span className="mx-4 text-[#0C363C] font-medium">OR</span>
               <hr className="flex-grow border-t border-[#0C363C]" />
             </div>
 
-            {/* google auth */}
+            {/* Google Auth */}
             <button
               type="button"
               onClick={googleAuthHandler}
-              className="w-full py-2.5 bg-[#0c363c42] font-semibold text-xl rounded-full flex justify-start items-center gap-8"
+              className="w-full py-2.5 bg-[#0c363c42] font-semibold text-lg sm:text-xl rounded-full flex items-center justify-center gap-3"
             >
-              <FcGoogle className="text-4xl ml-5" />
-              Continue with Google
+              <FcGoogle className="text-3xl sm:text-4xl" />
+              <span className="flex justify-center items-center sm:text-left">
+                Continue with Google
+              </span>
             </button>
 
-            <div className="flex gap-3 mx-auto font-semibold">
-              <p className="text-[#0C363C]">Dont have an account?</p>
-              <Link to={"/auth/register"} className="text-blue-600">
-                {" "}
+            {/* Register Link */}
+            <div className="flex flex-wrap justify-center gap-2 mt-3 font-semibold">
+              <p className="text-[#0C363C]">Don’t have an account?</p>
+              <Link to="/auth/register" className="text-blue-600">
                 Sign Up
               </Link>
             </div>

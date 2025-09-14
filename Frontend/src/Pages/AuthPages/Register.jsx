@@ -3,12 +3,12 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import study from "../../Assets/Icon/study3.jpg";
 import { FcGoogle } from "react-icons/fc";
-import { googleLogin, registerUser } from "../../Store/Slice/authSlice";
+import { registerUser } from "../../Store/Slice/authSlice";
 import toast from "react-hot-toast";
 import { LoadingSpinner } from "../../Components/Ui/Messages";
 import useGoogleAuth from "../../Lib/googleAuth";
 
-const Login = () => {
+const Register = () => {
   const { loading } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -18,12 +18,10 @@ const Login = () => {
     password: "",
   });
 
-  // handle input change
   const handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
-  // handle submit of form
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -39,86 +37,76 @@ const Login = () => {
     }
   };
 
-  // handle auth through google
   const googleAuthHandler = useGoogleAuth();
 
   return (
-    // register page start
-    <div className="h-[calc(100vh-67px)] w-full flex justify-center items-center bg-[#f0f7fd]">
-      {/* register form */}
+    <div className="min-h-[calc(100vh-67px)] w-full flex justify-center items-center bg-[#f0f7fd] p-4">
       <form
         onSubmit={handleSubmit}
-        className="h-[90%] w-[70%] shadow-2xl rounded-xl overflow-hidden bg-[#E2FFC8] flex"
+        className="w-full max-w-5xl shadow-2xl rounded-xl overflow-hidden bg-[#E2FFC8] flex flex-col lg:flex-row"
       >
-        {/* img section */}
-        <div className="h-full w-[35%]">
+        {/* Image Section */}
+        <div className="h-48 lg:h-auto w-full lg:w-[40%]">
           <img className="w-full h-full object-cover" src={study} alt="study" />
         </div>
 
-        {/* register section */}
-        <div className="h-full w-[65%] flex flex-col justify-start items-center gap-3 pt-10">
-          <div className=" flex flex-col justify-center items-center">
-            <h3 className=" text-4xl font-bold text-[#0C363C]">
+        {/* Register Section */}
+        <div className="flex-1 flex flex-col justify-start items-center gap-3 px-6 py-8">
+          <div className="flex flex-col justify-center items-center text-center">
+            <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#0C363C]">
               Create your account
             </h3>
-            <p className="w-[60%] text-center font-semibold text-[#0c363c99]">
+            <p className="mt-2 max-w-md text-sm sm:text-base font-semibold text-[#0c363c99]">
               Master your academics effortlessly with our powerful all-in-one
               study system.
             </p>
           </div>
 
-          {/* inputs */}
-          <div className="w-[50%] flex flex-col gap-2">
-            {/* username */}
-            <div className="border-2 border-[#0c363c42] focus-within:border-[#0C363C] w-full h-[50px] relative p-1 pb-3 rounded-xl">
+          {/* Inputs */}
+          <div className="w-full sm:w-[70%] lg:w-[60%] flex flex-col gap-3 mt-4">
+            {/* Username */}
+            <div className="border-2 border-[#0c363c42] focus-within:border-[#0C363C] w-full h-[55px] relative p-1 pb-3 rounded-xl">
               <input
-                className="h-full w-full pt-7 pb-2 pl-1.5 border-none outline-none"
+                className="h-full w-full pt-7 pb-2 pl-2 border-none outline-none bg-transparent"
                 name="username"
                 type="text"
                 value={user.username}
                 onChange={handleChange}
               />
-              <label
-                className="absolute top-0 left-2 text-[#0c363c99] font-semibold"
-                htmlFor="Name"
-              >
+              <label className="absolute top-0 left-2 text-[#0c363c99] font-semibold">
                 Username
               </label>
             </div>
 
-            {/* email */}
-            <div className="border-2 border-[#0c363c42] focus-within:border-[#0C363C] w-full h-[50px] relative p-1 pb-3 rounded-xl">
+            {/* Email */}
+            <div className="border-2 border-[#0c363c42] focus-within:border-[#0C363C] w-full h-[55px] relative p-1 pb-3 rounded-xl">
               <input
-                className="h-full w-full pt-7 pb-2 pl-1.5 border-none outline-none"
+                className="h-full w-full pt-7 pb-2 pl-2 border-none outline-none bg-transparent"
                 name="email"
-                type="text"
+                type="email"
                 value={user.email}
                 onChange={handleChange}
               />
-              <label
-                className="absolute top-0 left-2 text-[#0c363c99] font-semibold"
-                htmlFor="Email"
-              >
+              <label className="absolute top-0 left-2 text-[#0c363c99] font-semibold">
                 Email
               </label>
             </div>
 
-            {/* password */}
-            <div className="border-2 border-[#0c363c42] w-full h-[50px] relative p-1 pb-3 rounded-xl focus-within:border-[#0C363C]">
+            {/* Password */}
+            <div className="border-2 border-[#0c363c42] w-full h-[55px] relative p-1 pb-3 rounded-xl focus-within:border-[#0C363C]">
               <input
-                className="h-full w-full pt-7 pb-2 pl-1.5 border-none outline-none"
+                className="h-full w-full pt-7 pb-2 pl-2 border-none outline-none bg-transparent"
                 name="password"
-                type="text"
+                type="password"
                 value={user.password}
                 onChange={handleChange}
               />
-              <label
-                className="absolute top-0 left-2 text-[#0c363c99] font-semibold"
-                htmlFor="Password"
-              >
+              <label className="absolute top-0 left-2 text-[#0c363c99] font-semibold">
                 Password
               </label>
             </div>
+
+            {/* Remember Me */}
             <div className="flex justify-center items-center">
               <div className="flex items-center gap-2">
                 <input
@@ -133,37 +121,38 @@ const Login = () => {
 
             {/* Submit */}
             <button
-              type="Submit"
-              className="w-full py-2.5 bg-[#0C363C] text-white font-bold text-xl rounded-full"
+              type="submit"
+              className="w-full py-2.5 bg-[#0C363C] text-white font-bold text-lg sm:text-xl rounded-full"
             >
               Register
             </button>
 
-            {/* loading */}
+            {/* Loading */}
             {loading.register && <LoadingSpinner />}
 
-            {/* seprtation */}
+            {/* Separation */}
             <div className="flex items-center w-full my-4">
               <hr className="flex-grow border-t border-[#0C363C]" />
               <span className="mx-4 text-[#0C363C] font-medium">OR</span>
               <hr className="flex-grow border-t border-[#0C363C]" />
             </div>
 
-            {/* google auth */}
-
+            {/* Google Auth */}
             <button
               type="button"
               onClick={googleAuthHandler}
-              className="w-full py-2.5 bg-[#0c363c42] font-semibold text-xl rounded-full flex justify-start items-center gap-8"
+              className="w-full py-2.5 bg-[#0c363c42] font-semibold text-lg sm:text-xl rounded-full flex items-center justify-center gap-3"
             >
-              <FcGoogle className="text-4xl ml-5" />
-              Continue with Google
+              <FcGoogle className="text-3xl sm:text-4xl" />
+              <span className="flex justify-center items-center sm:text-left">
+                Continue with Google
+              </span>
             </button>
 
-            <div className="flex gap-3 mx-auto font-semibold">
+            {/* Login Redirect */}
+            <div className="flex flex-wrap justify-center gap-2 mt-3 font-semibold">
               <p className="text-[#0C363C]">Already have an account?</p>
-              <Link to={"/auth/login"} className="text-blue-600">
-                {" "}
+              <Link to="/auth/login" className="text-blue-600">
                 Log In
               </Link>
             </div>
@@ -174,4 +163,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;

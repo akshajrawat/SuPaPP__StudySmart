@@ -10,7 +10,7 @@ import Logo from "./Logo";
 import NavLink from "./NavLink";
 
 const Navbar = ({
-  // main(sidebar) , default : top (topAuth) 
+  // main(sidebar) , default : top (topAuth)
   type = "top",
   links = [],
   search = true,
@@ -25,19 +25,21 @@ const Navbar = ({
     <div
       className={`${
         type === "main"
-          ? `bg-[#fbf9f7]  flex-col border-r-2 border-[#dfdedeb7] ${className} ${
+          ? `  flex-col  flex-shrink-0 fixed z-100 ${
               isOpen
-                ? "w-[50vw] sm:w-[40vw] lg:w-[30vw] xl:w-[20vw]"
-                : `w-[15vw] sm:w-[10vw] md:w-[8vw] lg:w-[6vw] xl:w-[4vw]`
+                ? "w-[80vw] sm:w-[40vw] lg:w-[30vw] xl:w-[20vw] h-screen bg-[#fbf9f7] border-r-2  border-b-2 border-[#dfdedeb7]"
+                : `w-[15vw] sm:w-[10vw] md:w-[8vw] lg:w-[6vw] xl:w-[4vw] h-[8vh] border-none`
             }`
-          : " h-[10vh] w-full border-b-2 border-[#dfdedeb7] bg-[#fbf9f7]"
+          : " h-[10vh] w-full   bg-[#fbf9f7]"
       }   flex  pt-2 justify-between transition-all ease-in-out duration-300 `}
     >
       {/* logo container */}
       <div
         className={` ${
           type === "main"
-            ? "w-full h-[8vh] border-b-2 border-[#dfdedeb7] justify-between px-3 flex-shrink-0"
+            ? `w-full h-[8vh]  justify-between px-3 flex-shrink-0 ${
+                isOpen ? "border-b-2 border-[#dfdedeb7]" : ""
+              }`
             : "w-[35%] sm:w-[20%] h-full justify-center"
         }   flex  items-center`}
       >
@@ -57,7 +59,9 @@ const Navbar = ({
         <div
           className={`${
             type === "main"
-              ? "w-full h-[20vh] flex items-center justify-center"
+              ? `w-full h-[20vh] flex items-center justify-center ${
+                  isOpen ? "" : "hidden"
+                }`
               : "hidden"
           }   `}
         >
@@ -68,12 +72,11 @@ const Navbar = ({
         </div>
       )}
 
-
       {/* links */}
       <div
         className={`${
           type === "main"
-            ? "w-full flex-col h-[65vh]"
+            ? `w-full flex-col h-[65vh] ${isOpen ? "" : "hidden"}`
             : "w-[60%] h-full md:flex hidden"
         }  `}
       >
