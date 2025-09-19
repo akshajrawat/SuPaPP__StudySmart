@@ -1,15 +1,15 @@
 import Navbar from "@/Components/Navbar/Navbar";
-import { navLinks } from "@/data/NavLinks";
+import { dashboardLinks } from "@/data/DashboardLinks";
 import { Outlet } from "react-router-dom";
 
 const MainLayout = () => {
   return (
-    <div className="min-h-screen">
-      <Navbar navlinks={navLinks} />
-      <main>
+    <main className="min-h-screen">
+      <Navbar navlinks={dashboardLinks} type="dashboard"/>
+      <section>
         <Outlet />
-      </main>
-    </div>
+      </section>
+    </main>
   );
 };
 

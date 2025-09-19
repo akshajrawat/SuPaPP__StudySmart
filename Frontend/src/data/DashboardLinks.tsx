@@ -1,10 +1,10 @@
-import type { NavLinkType } from "@/Models/NavlinkModel";
 import Searchbar from "@/Components/Search/Searchbar";
 import Notification from "@/Components/Notification/Notification";
 import Settings from "@/Components/Settings/Settings";
 import Profile from "@/Components/Profile/Profile";
+import type { DashboardLinkType } from "@/Models/NavlinkModel";
 
-export const navLinks: NavLinkType[] = [
+export const dashboardLinks: DashboardLinkType[] = [
   {
     id: 1,
     name: "Search",
